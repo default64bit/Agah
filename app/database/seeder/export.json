@@ -1,0 +1,19 @@
+[
+    { "_id": "60f2bcc3bf9e531128a3bf63", "name": "general.login_into_organizations" },
+    { "_id": "60f2bcc3bf9e531128a3bf64", "name": "dashboard.view" },
+    { "_id": "60f2bcc3bf9e531128a3bf65", "name": "admins.view" },
+    { "_id": "60f2bcc3bf9e531128a3bf66", "name": "admins.add" },
+    { "_id": "60f2bcc3bf9e531128a3bf67", "name": "admins.edit" },
+    { "_id": "60f2bcc3bf9e531128a3bf68", "name": "admins.delete" },
+    { "_id": "60f2bcc3bf9e531128a3bf69", "name": "admin_roles.view" },
+    { "_id": "60f2bcc3bf9e531128a3bf6a", "name": "admin_roles.add" },
+    { "_id": "60f2bcc3bf9e531128a3bf6b", "name": "admin_roles.edit" },
+    { "_id": "60f2bcc3bf9e531128a3bf6c", "name": "admin_roles.delete" },
+    { "_id": "60f2bcc3bf9e531128a3bf6d", "name": "panel_settings.view" },
+    { "_id": "60f2bcc3bf9e531128a3bf6e", "name": "panel_settings.edit" },
+    { "_id": "60fbe2a46d1e112370b70c79", "name": "user_roles.view" },
+    { "_id": "60fbe2e26d1e112370b70c7a", "name": "user_roles.add" },
+    { "_id": "60fbe2fd6d1e112370b70c7b", "name": "user_roles.edit" },
+    { "_id": "60fbe3126d1e112370b70c7c", "name": "user_roles.delete" },
+    { "_id": "6102c4116d1e1123fca037e5", "name": "organizations.view" }
+]

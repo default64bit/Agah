@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "module": "commonjs",
+        "outDir": "./dist/express",
+        "baseUrl": "./app",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+
+        "moduleResolution": "node",
+		"downlevelIteration": true,
+		"skipLibCheck": true,
+		"removeComments": true,
+		"noEmitOnError": true,
+		"strict": false,
+		"alwaysStrict": false,
+		"noImplicitAny": false,
+
+        "target": "ES2017"
+    },
+    "include": [
+        "server.ts",
+        "app/**/*.ts"
+    ],
+    "exclude": ["node_modules", "dist", "__tests__"]
+}

@@ -1,0 +1,348 @@
+.dashboard_template{
+    width: 100%; height: 100%;
+    display: flex; flex-direction: row;
+    color: #fff; overflow-y: hidden;
+}
+.dashboard_bh{
+    width: calc(100% - 17rem);
+}
+
+/* Sidemenu ======================================================== */
+.dashboard_sidemenu{
+    display: flex; flex-direction: column; z-index: 11;
+    width: 17rem; height: 100vh; padding: .75rem;
+    background-color: #1a1a1a; transition: all .3s;
+    box-shadow: 5px 0px 10px rgba(0,0,0,.15);
+}
+.dashboard_sidemenu.min{ position: fixed; width: 5rem; }
+.dashboard_sidemenu.min:hover{ width: 17rem; }
+.dashboard_sidemenu.min + .dashboard_bh{ width: calc(100% - 5rem); margin-inline-start: 5rem; }
+.dashboard_sidemenu head{
+    display: flex; flex-direction: column;
+}
+.dashboard_sidemenu img{
+    width: 2.5rem; max-height: 2.5rem; object-fit: contain;
+}
+.dashboard_sidemenu.min:not(:hover) h2{display: none;}
+.dashboard_sidemenu .sidemenu_toggle{
+    width: 2rem; height: 2rem; margin-inline-start: auto;
+}
+
+.dashboard_sidemenu nav{
+    width: 100%; height: 100%; overflow: auto; overflow-x: hidden;
+    margin-top: 2rem; padding: .25rem;
+}
+.dashboard_sidemenu nav ul{
+    display: flex; flex-direction: column; gap: .25rem;
+}
+.dashboard_sidemenu nav li{ user-select: none; }
+.dashboard_sidemenu nav .nav_item{
+    display: flex; align-items: center; cursor: pointer;
+    padding: .5rem; gap: .5rem; border-radius: 5px;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.dashboard_sidemenu nav .nav_item:hover{
+    background-color: #343434;
+}
+.dashboard_sidemenu nav .nav_item.nav_active{
+    background-color: #343434; border-inline-start: .35rem solid #7C3AED; margin-inline-start: -.25rem;
+}
+.dashboard_sidemenu.min:not(:hover) nav > a{width: 100%;}
+.dashboard_sidemenu.min:not(:hover) nav .nav_item{justify-content: center;}
+.dashboard_sidemenu.min:not(:hover) nav .nav_item span{display: none;}
+.dashboard_sidemenu nav .nav_spacer{
+    width: 100%; border-bottom: 2px solid #464646;
+    margin: .25rem 0;
+}
+.dashboard_sidemenu nav .nav_header{
+    color: #9CA3AF; margin-bottom: .25rem; font-size: .9rem;
+    overflow: hidden; text-overflow: ellipsis;
+}
+.dashboard_sidemenu nav .nav_group{}
+.dashboard_sidemenu nav .nav_group.open{}
+.dashboard_sidemenu nav .nav_group ul{
+    height: 0px; overflow: hidden; transition: all .3s;
+    padding-inline-start: 1rem; margin: .25rem 0;
+    border-inline-start: 1px solid #555; margin-inline-start: 1rem;
+}
+.dashboard_sidemenu.min nav .nav_group ul{ position: relative; }
+.dashboard_sidemenu.min:not(:hover) nav .nav_group.open ul{
+    display: none;
+    margin-inline-start: 1rem;
+    background-color: #434343; padding-inline-start: 0;
+    padding: .5rem; align-items: flex-start;
+    border-radius: 5px;
+    z-index: 2;
+}
+.dashboard_sidemenu.min nav .nav_group.open ul span{ display: inline-block; }
+.dashboard_sidemenu nav .nav_group > .nav_item{ position: relative; }
+.dashboard_sidemenu nav .nav_group > .nav_item span{
+    white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
+}
+.dashboard_sidemenu nav .nav_group > .nav_item::after{
+    content: "\f0dd"; font-family: "Font Awesome 5 Pro"; transition: all .3s;
+    color: #A78BFA; margin-inline-start: auto; transform: rotate(90deg);
+}
+.dashboard_sidemenu.min:not(:hover) nav .nav_group > .nav_item::after{
+    display: none; position: absolute; margin-inline-start: 3.5rem;
+}
+.dashboard_sidemenu nav .nav_group.open > .nav_item::after{
+    transform: rotate(0deg);
+}
+/* Sidemenu ======================================================== */
+
+/* Header ======================================================== */
+.dashboard_header{
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: .5rem; flex-wrap: wrap;
+    width: 100%; height: 4.25rem; padding: 1rem;
+    box-shadow: 5px 0px 2px 2px #1a1a1a; z-index: 10;
+}
+.dashboard_header .dashboard_search{
+    width: 20%; min-width: 6rem;
+}
+
+.dashboard_header .header_info{ margin-inline-start: auto; }
+.dashboard_header .icon_head{
+    margin-inline-start: auto;
+    position: relative;
+}
+.dashboard_header .title_alt{
+    position: absolute; top: 2.5rem; opacity: .7;
+    display: none; padding: .25rem .75rem;
+    border-radius: 5px; background-color: #3a3a3a; color: white;
+}
+.dashboard_header .icon_head:hover .title_alt{ display: flex; }
+
+.dashboard_header .bop{
+    width: .7rem; height: .7rem;
+    border-radius: 50%;
+    position: absolute; top: 3px; left: 3px;
+}
+
+.dashboard_header .profile{
+    display: flex; flex-direction: column;
+    border-radius: 5px; transition: all .3s; cursor: pointer;
+}
+.dashboard_header .profile.open{
+    background-color: #343434; padding: .5rem;
+    box-shadow: 0px 5px 10px rgba(0,0,0,.15);
+}
+.dashboard_header .profile .avatar{
+    width: 2.25rem; height: 2.25rem; overflow: hidden;
+    border-radius: 50%; box-shadow: 0px 5px 10px rgba(0,0,0,.25);
+    border: 1px solid #464646;
+}
+.dashboard_header .profile .avatar img{
+    width: 2.25rem; height: 2.25rem; object-fit: cover;
+    border-radius: 50%;
+}
+.dashboard_header .profile h5{}
+.dashboard_header .profile small{}
+.dashboard_header .profile.open .text{display: flex;}
+
+.dashboard_header .profile > ul{
+    max-height: 0; width: 0; overflow: hidden; transition: all .3s;
+}
+.dashboard_header .profile.open > ul{
+    width: auto; margin-top: .5rem; max-height: 15rem; overflow: auto;
+}
+.dashboard_header .profile ul .nav_spacer{
+    width: 100%; border-bottom: 2px solid #464646;
+    margin: .5rem 0;
+}
+.dashboard_header .profile ul .nav_item{
+    display: flex; align-items: center; cursor: pointer;
+    padding: .5rem; gap: .5rem; border-radius: 5px;
+}
+.dashboard_header .profile ul .nav_item:hover{
+    background-color: #242424;
+}
+/* Header ======================================================== */
+
+/* Notification List ======================================================== */
+.notification_list{
+    position: absolute;
+    width: 25rem; height: 0; max-height: calc(100vh - 5rem);
+    overflow: hidden; z-index: 12;
+    border-radius: 5px; margin-inline-start: -7rem;
+    background-color: #343434; box-shadow: 0px 5px 15px rgba(0,0,0,.35);
+    transition: all .3s;
+}
+@media (min-width: 768px){
+    .notification_list{ margin-inline-start: -23rem; }
+}
+.notification_list.open{
+    height: 35rem;
+}
+
+.notification_list ul{
+    display: flex; flex-direction: column; gap: .5rem;
+    height: calc(100% - 6rem); overflow: auto;
+}
+.notification_list ul li{
+    position: relative;
+    display: flex; align-items: flex-start; justify-content: flex-start; gap: 1rem;
+    width: 100%; padding: 1rem; background-color: #3a3a3a;
+}
+.notification_list ul li .notif_icon{
+    border-width: 1px; border-style: solid; border-color: transparent; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    padding: .5rem; width: 3rem; height: 3rem;
+    box-shadow: inset 0px 0px 10px rgb(0, 0, 0, 35%);
+}
+.notification_list ul li .notif_info{
+    width: calc(100% - 7rem); flex-grow: 1;
+}
+/* Notification List ======================================================== */
+
+/* Message Board ======================================================== */
+.message_board{
+    position: fixed; top: 0; inset-inline-end: 0;
+    display: flex; flex-direction: column; z-index: 10;
+    width: 24rem; height: 100vh; padding: 1rem;
+    background-color: #1a1a1a; transition: all .3s;
+    box-shadow: 5px 0px 10px rgba(0,0,0,.15);
+    transform: translateX(24rem);
+    color: #fff;
+}
+[dir="rtl"] .message_board{ transform: translateX(-24rem); }
+.message_board.open{ transform: translateX(0); }
+
+.message_board .message_board_page{
+    display: flex; flex-direction: column;
+    width: 100%; height: calc(100% - 5rem);
+}
+
+.message_board ul[name="chat_ul"],.message_board ul[name="message_ul"],.message_board ul[name="people_ul"]{
+    display: flex; flex-direction: column; gap: 1rem;
+    height: 100%; overflow: auto; overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+.message_board ul[name="chat_ul"] li,.message_board ul[name="people_ul"] li{
+    position: relative; cursor: pointer;
+    display: flex; align-items: flex-start; justify-content: flex-start; gap: 1rem;
+    width: 100%; padding-bottom: 1rem;
+    border-bottom: 1px solid #3a3a3a;
+}
+.message_board .chat_avatar{
+    position: relative; border-radius: 50%;
+    border-width: 2px; border-style: solid;
+    display: flex; justify-content: center; align-items: center;
+    width: 3rem; height: 3rem;
+    box-shadow: inset 0px 0px 10px rgb(0, 0, 0, 35%);
+}
+.message_board .chat_avatar img{
+    width: 100%; height: 100%;
+    object-fit: cover; border-radius: 50%;
+}
+.message_board .chat_avatar i{
+    position: absolute; right: 0; top: 0;
+}
+
+.message_board ul[name="chat_ul"] li .chat_info{
+    width: calc(100% - 7rem); flex-grow: 1;
+}
+.message_board ul[name="chat_ul"] li .chat_info b{
+    white-space: nowrap; text-overflow: ellipsis;
+}
+
+.message_board ul[name="message_ul"] li{
+    display: flex; padding: 0 .25rem;
+}
+.message_board ul[name="message_ul"] li .message_bubble{
+    max-width: 80%; padding: .5rem;
+}
+.message_board ul[name="message_ul"] li .message_bubble.sent{
+    margin-left: auto; border-radius: 10px 10px 0 10px;
+    background-color: #4C1D95;
+}
+.message_board ul[name="message_ul"] li .message_bubble.received{
+    margin-right: auto; border-radius: 10px 10px 10px 0;
+    background-color: #464646;
+}
+
+.message_board .new_chat{
+    position: fixed; inset-inline-end: 1.5rem; bottom: 1.5rem;
+    color: #000; padding: 1rem;
+    border-radius: 50%;
+}
+
+/* Message Board ======================================================== */
+
+/* Body ======================================================== */
+.dashboard_body{
+    width: 100%; height: 100%; overflow: auto;
+    display: flex; flex-direction: column;
+    padding: 2rem; border-radius: 5px;
+}
+/* Body ======================================================== */
+
+/* Welcome Card ======================================================== */
+.welcome_card{
+    display: flex; flex-direction: column; flex-wrap: wrap;
+    padding: 1rem; gap: 1rem;
+    width: max-content; height: max-content; border-radius: 5px;
+}
+.welcome_card .image{
+    position: relative;
+    display: flex; justify-content: center; align-items: flex-end;
+    width: 100%; height: 10rem;
+}
+.welcome_card .image::before{
+    content: ""; position: absolute;
+    width: 10rem; height: 10rem; border-radius: 50%;
+    background-color: #A78BFA; opacity: .25;
+}
+.welcome_card .image img{
+    width: 8rem; object-fit: contain;
+}
+/* Welcome Card ======================================================== */
+
+/* Toast ======================================================== */
+.dashboard_toast{
+    position: absolute; top: 1.5rem; inset-inline-end: 1.5rem; z-index: 200;
+    background-color: #434343;
+    box-shadow: 0px 5px 10px rgba(0,0,0,.25);
+    display: flex; flex-direction: row; align-items: center; gap: 1.25rem;
+    border-inline-start-width: .5rem;
+    border-inline-start-style: solid;
+    border-radius: 5px;
+    padding: .5rem 0;
+    padding-inline-start: 1.25rem;
+    padding-inline-end: 2rem;
+}
+.dashboard_toast_close{
+    width: 1.5rem; height: 1.5rem;
+    position: absolute; top: .25rem; right: .25rem; padding: .25rem;
+}
+/* Toast ======================================================== */
+
+/* Loading ======================================================== */
+.loading{
+    display: flex; justify-content: center; align-items: center;
+    width: 100%; height: 100%;
+    z-index: 3; text-align: center;
+}
+.loading .fa-spin{ padding-top: 6px; }
+/* Loading ======================================================== */
+
+/* leaflet ================================================== */
+.leaflet-pane{ z-index: 4 !important; }
+.leaflet-top, .leaflet-bottom{ z-index: 4 !important; }
+.map_pin{
+    position: absolute; width: 2.5rem; top: 50%; left: 50%;
+    transform: translate(-50%,-50%); z-index: 5;
+    filter: drop-shadow(0px 0px 3px rgba(0,0,0,.1));
+}
+/* leaflet End ================================================== */
+
+.select_org{}
+.select_org > button.t_button span{
+    width: 7rem; overflow: hidden; text-overflow: ellipsis; text-align: start;
+}
+
+.img_enlarge:hover{
+    transition: all .3s;
+    transform: scale(2,2);
+}
