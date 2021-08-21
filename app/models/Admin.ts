@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongodb from "mongodb";
 import bcrypt from "bcrypt";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
@@ -41,7 +42,7 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 });
 
 export interface IAdmin {
-    _id: mongoose.Types.ObjectId;
+    _id: mongodb.ObjectId;
     image: string;
     name: string;
     family: string;

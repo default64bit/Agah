@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongodb from "mongodb";
 import AdminChatMessages, { IAdminChatMessages } from "./AdminChatMessages";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
@@ -19,9 +20,9 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 });
 
 export interface IAdminChat {
-    _id: mongoose.Types.ObjectId;
-    userOne: mongoose.Types.ObjectId;
-    userTwo: mongoose.Types.ObjectId;
+    _id: mongodb.ObjectId;
+    userOne: mongodb.ObjectId;
+    userTwo: mongodb.ObjectId;
     lastMessage: IAdminChatMessages;
     lastMessageDate: Date;
 }

@@ -4,14 +4,6 @@
             <b>Welcome Home, {{ adminInfo.name }}</b>
         </h1>
         <br>
-        <ul>
-            <li>user's count (active, deactive and banned)</li>
-            <li>organization count</li>
-            <li>storage occupied (for each organization)</li>
-            <li>logs (errors and warnings)</li>
-            <li>licence near expiration</li>
-            <li>new/unanswered tickets</li>
-        </ul>
     </div>
 </template>
 

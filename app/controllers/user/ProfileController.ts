@@ -5,8 +5,6 @@ import randStr from "../../helpers/randStr";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import User from "../../models/User";
 import Permission from "../../models/Permission";
-import Organization from "../../models/Organization";
-import UserOrganization from "../../models/UserOrganization";
 
 class ProfileController {
     public async getInfo(req: AuthenticatedRequest, res: Response) {
@@ -131,47 +129,6 @@ class ProfileController {
         if (error) return res.status(500).end();
 
         res.end();
-    }
-
-    public async getPermissions(req: AuthenticatedRequest, res: Response) {
-        let organization_id = mongoose.Types.ObjectId(req.query.id.toString());
-
-        let response = { role: "", permissions: [] };
-
-        const organization = await Organization.model.findOne({ _id: organization_id }).exec();
-        if (!organization) return res.json(response);
-
-        // if the user is owner give the full permission list
-        if (req.user._id.equals(organization.owner.toString())) {
-            const permissions = await Permission.model
-                .find({ type: { $in: ["UserOnly", "All"] } })
-                .select(["_id"])
-                .exec();
-            response.role = "Owner";
-            response.permissions = permissions.map((permission) => {
-                return permission.id;
-            });
-            return res.json(response);
-        }
-
-        // get the list of permissions of user in the organization
-        const user_organization = await UserOrganization.model
-            .findOne({
-                user: req.user._id,
-                organization: organization_id,
-            })
-            .populate({
-                path: "role",
-                select: ["name", "permissions"],
-            })
-            .exec();
-        if (user_organization) {
-            response.role = user_organization.role['name'];
-            response.permissions = user_organization.role['permissions'];
-            return res.json(response);
-        }
-
-        return res.json(response);
     }
 }
 

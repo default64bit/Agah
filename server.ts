@@ -47,7 +47,10 @@ expressApp.use(function(err, req, res, next) {
 
 // assign routes
 expressApp.use("/api/v1", require("./app/routes/index").default);
-expressApp.use("/sock/v1", require("./app/routes/sockets").default);
+
+expressApp.use("/sock/v1", require("./app/routes/adminSockets").default);
+expressApp.use("/sock/v2", require("./app/routes/userSockets").default);
+
 // expressApp.use("/seed", require("./app/database/seeder/seedPermissions").default);
 // expressApp.use("/seed", require("./app/database/seeder/seed").default);
 
@@ -70,6 +73,8 @@ expressApp.use("/sock/v1", require("./app/routes/sockets").default);
     expressApp.use("/js", express.static(path.join(__dirname, "dist", "vue", "client", "js")));
     expressApp.use("/css", express.static(path.join(__dirname, "dist", "vue", "client", "css")));
     expressApp.use("/fonts", express.static(path.join(__dirname, "dist", "vue", "client", "fonts")));
+    expressApp.use("/media", express.static(path.join(__dirname, "dist", "vue", "client", "media")));
+    expressApp.use("/audio", express.static(path.join(__dirname, "public", "audio")));
     expressApp.use("/favicon.ico", express.static(path.join(__dirname, "public", "favicon.ico")));
     expressApp.use("/fontawsome", express.static(path.join(__dirname, "public", "fontawsome")));
 

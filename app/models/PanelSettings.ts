@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongodb from "mongodb";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
     companyName: {
@@ -16,7 +17,7 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 });
 
 export interface IPanelSettings {
-    _id: mongoose.Types.ObjectId;
+    _id: mongodb.ObjectId;
     companyName: string;
     theme: string;
     locale: string;

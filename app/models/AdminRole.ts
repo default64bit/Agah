@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongodb from "mongodb";
 import { IPermission } from "./Permission";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
@@ -19,7 +20,7 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 });
 
 export interface IAdminRole {
-    _id: mongoose.Types.ObjectId;
+    _id: mongodb.ObjectId;
     name: string;
     permissions: Array<IPermission>;
     createdAt: Date;

@@ -3,7 +3,6 @@ import createRouter from "./router";
 import createStore from "./store";
 import App from "./components/App.vue";
 import "./assets/css/app.css";
-import "leaflet/dist/leaflet.css";
 
 export default (args) => {
     const isServer = typeof window === "undefined";

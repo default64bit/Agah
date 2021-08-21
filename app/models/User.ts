@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongodb from "mongodb";
 import bcrypt from "bcrypt";
 
 const _schema: mongoose.Schema = new mongoose.Schema(
@@ -57,7 +58,7 @@ _schema.virtual("organizations", {
 });
 
 export interface IUser {
-    _id: mongoose.Types.ObjectId;
+    _id: mongodb.ObjectId;
     image: string;
     name: string;
     family: string;

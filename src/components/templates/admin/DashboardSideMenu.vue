@@ -5,8 +5,8 @@
                 <div class="flex items-center justify-start gap-1 w-full">
                     <img src="../../../assets/images/settings.png" alt="" />
                     <h2 class="text-2xl">
-                        <b class="text-violet-400">Jasper</b>
-                        <b class="text-violet-100">Fix</b>
+                        <b class="text-violet-400">A</b>
+                        <b class="text-violet-100">gah</b>
                     </h2>
                 </div>
                 <button class="sidemenu_toggle t_button hover:bg-gray-700" @click="toggleSidemneu()">
@@ -62,69 +62,6 @@
                         </router-link>
                     </ul>
                 </li>
-                <router-link to="/admin/licence_keys" title="Licence Keys" v-if="checkPermissions(['admin.licence_keys.view'], adminInfo.permissions)">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/licence_keys']) }">
-                        <i class="fad fa-key-skeleton"></i>
-                        <span>Licence Keys</span>
-                    </li>
-                </router-link>
-
-                <hr class="nav_spacer" />
-
-                <li class="nav_header" v-if="checkPermissions(['users.view', 'admin.user_roles.view', 'user_teams.view'], adminInfo.permissions)">
-                    Customer Managment
-                </li>
-                <li
-                    class="nav_group"
-                    :class="{ open: openItem == 'CustomerManagment' }"
-                    @blur="navGroupBlur"
-                    tabindex1="0"
-                    v-if="checkPermissions(['admin.users.view', 'admin.user_roles.view'], adminInfo.permissions)"
-                >
-                    <div
-                        title="Customer Managment"
-                        class="nav_item"
-                        :class="{ nav_active: checkActive(['/admin/users_list', '/admin/user_roles']) }"
-                        @click="openGroup('CustomerManagment', $event)"
-                    >
-                        <i class="fad fa-user-friends"></i>
-                        <span>Customer Managment</span>
-                    </div>
-                    <ul ref="CustomerManagment" for="CustomerManagment">
-                        <router-link to="/admin/users_list" title="Users List" v-if="checkPermissions(['admin.users.view'], adminInfo.permissions)">
-                            <li class="nav_item" :class="{ nav_active: checkActive(['/admin/users_list']) }">
-                                <span>Users List</span>
-                            </li>
-                        </router-link>
-                        <router-link
-                            to="/admin/user_roles"
-                            title="User's Role Manager"
-                            v-if="checkPermissions(['admin.user_roles.view'], adminInfo.permissions)"
-                        >
-                            <li class="nav_item" :class="{ nav_active: checkActive(['/admin/user_roles']) }">
-                                <span>User Roles</span>
-                                <router-link
-                                    class="t_button p-1 text-violet-400 hover:bg-gray-800"
-                                    to="/admin/user_roles/add_role"
-                                    v-if="checkPermissions(['admin.user_roles.add'], adminInfo.permissions)"
-                                >
-                                    <i class="fas fa-plus"></i>
-                                </router-link>
-                            </li>
-                        </router-link>
-                        <router-link to="/admin/user_teams" title="User Teams" v-if="checkPermissions(['admin.user_teams.view'], adminInfo.permissions)">
-                            <li class="nav_item" :class="{ nav_active: checkActive(['/admin/user_teams']) }">
-                                <span>Teams</span>
-                            </li>
-                        </router-link>
-                    </ul>
-                </li>
-                <router-link to="/admin/organizations" title="Organizations" v-if="checkPermissions(['admin.organizations.view'], adminInfo.permissions)">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/organizations']) }">
-                        <i class="fad fa-building"></i>
-                        <span>Organizations</span>
-                    </li>
-                </router-link>
 
                 <hr class="nav_spacer" />
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const state = {
-    isLoggedIn: false,
+    isUserLoggedIn: false,
     userInfo: {
         id: "",
         avatar: "http://localhost:3000/img/avatars/admin.png",
@@ -10,22 +10,11 @@ const state = {
         email: "",
     },
     refreshOnLoad: false,
-
-    selectedOrganization: {
-        id: "",
-        name: "",
-        costUnit: "",
-    },
-    userRole: "",
-    userPermissions: [],
 };
 
 const getters = {
-    isLoggedIn: (state) => state.isLoggedIn,
+    isUserLoggedIn: (state) => state.isUserLoggedIn,
     userInfo: (state) => state.userInfo,
-    selectedOrganization: (state) => state.selectedOrganization,
-    userRole: (state) => state.userRole,
-    userPermissions: (state) => state.userPermissions,
 };
 
 const actions = {
@@ -42,17 +31,17 @@ const actions = {
                 if (!state.refreshOnLoad) {
                     axios
                         .post(`${Options.BaseUrl}/api/v1/user/auth/refresh`)
-                        .then(() => commit("setIsLoggedIn", true))
+                        .then(() => commit("setIsUserLoggedIn", true))
                         .catch((e) => {});
                     state.refreshOnLoad = true;
                 }
                 let interval = setInterval(() => {
                     axios
                         .post(`${Options.BaseUrl}/api/v1/user/auth/refresh`)
-                        .then(() => commit("setIsLoggedIn", true))
+                        .then(() => commit("setIsUserLoggedIn", true))
                         .catch((error) => {
                             clearInterval(interval);
-                            commit("setIsLoggedIn", false);
+                            commit("setIsUserLoggedIn", false);
                         });
                 }, 840000);
 
@@ -63,6 +52,21 @@ const actions = {
             .catch((error) => {
                 // console.log(error);
                 throw error.response;
+            });
+    },
+    async updateUserInfo({ commit }, Options) {
+        await axios
+            .put(`${Options.BaseUrl}/api/v1/user/info`, Options.data, {
+                headers: {
+                    "csrf-token": Options.csrfToken,
+                    "content-type": "application/json",
+                },
+            })
+            .then((response) => {
+                commit("setUserInfo", response.data);
+            })
+            .catch((error) => {
+                throw error;
             });
     },
 
@@ -96,47 +100,12 @@ const actions = {
                 throw error;
             });
     },
-
-    async updateUserInfo({ commit }, Options) {
-        await axios
-            .put(`${Options.BaseUrl}/api/v1/user/info`, Options.data, {
-                headers: {
-                    "csrf-token": Options.csrfToken,
-                    "content-type": "application/json",
-                },
-            })
-            .then((response) => {
-                commit("setUserInfo", response.data);
-            })
-            .catch((error) => {
-                throw error;
-            });
-    },
-
-    async selectOrganization({ commit }, Options) {
-        commit("setSelectedOrganization", Options.Org);
-
-        // update role & permissions
-        await axios
-            .get(`${Options.BaseUrl}/api/v1/user/permissions?id=${Options.Org.id}`)
-            .then((response) => {
-                commit("setUserRole", response.data.role);
-                commit("setUserPermissions", response.data.permissions);
-            })
-            .catch((error) => {
-                throw error;
-            });
-    },
 };
 
 const mutations = {
-    setIsLoggedIn: (state, value) => (state.isLoggedIn = !!value),
+    setIsUserLoggedIn: (state, value) => (state.isUserLoggedIn = !!value),
     setUserInfo: (state, data) => (state.userInfo = data.userInfo),
     setUserAvatar: (state, avatar) => (state.userInfo.avatar = avatar),
-
-    setSelectedOrganization: (state, org) => (state.selectedOrganization = org),
-    setUserRole: (state, role) => (state.userRole = role),
-    setUserPermissions: (state, permissions) => (state.userPermissions = permissions),
 };
 
 export default {

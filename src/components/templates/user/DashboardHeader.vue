@@ -1,6 +1,5 @@
 <template>
     <div class="dashboard_header flex-wrap-reverse md:flex-nowrap h-auto md:h-16">
-        <organization-selector></organization-selector>
         <div class="header_info flex flex-wrap-reverse md:flex-nowrap items-end md:items-start gap-2">
             <div class="flex flex-wrap items-center gap-1">
                 <div class="notifications">
@@ -11,7 +10,6 @@
                     </button>
                     <notification-list v-model:isOpen="isNotifListOpen" v-model:isThereNew="newNotif"></notification-list>
                 </div>
-                <invitation-list></invitation-list>
             </div>
             <div class="profile" :class="{ open: isProfileOpen }" @click="toggleProfile(true)" @blur="profileBlur" tabindex="0">
                 <div class="flex gap-2">
@@ -58,8 +56,6 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 
 import NotificationList from "./NotificationList";
-import InvitationList from "./InvitationList";
-import OrganizationSelector from "./OrganizationSelector";
 import Input from "../layouts/Input";
 
 export default {
@@ -68,8 +64,6 @@ export default {
     components: {
         "t-input": Input,
         "notification-list": NotificationList,
-        "invitation-list": InvitationList,
-        "organization-selector": OrganizationSelector,
     },
     data() {
         return {

@@ -14,6 +14,7 @@ export default () => {
                 component: () => import("./components/templates/user/Dashboard"),
                 children: [
                     { path: "", component: () => import("./components/pages/user/Home"), name: "Home" },
+                    { path: "room/:roomId?", component: () => import("./components/pages/user/Room"), name: "Room" },
                     {
                         path: "account-settings",
                         component: () => import("./components/templates/user/AccountSettings"),
@@ -24,11 +25,11 @@ export default () => {
                         ],
                     },
                     {
-                        path: "/panel-settings",
+                        path: "panel-settings",
                         component: () => import("./components/templates/user/PanelSettings"),
                         children: [
-                            { path: "language-and-region", component: () => import("./components/pages/user/panel_settings/LanguageAndRegion") },
-                            { path: "theme", component: () => import("./components/pages/user/panel_settings/Theme") },
+                            // { path: "language-and-region", component: () => import("./components/pages/user/panel_settings/LanguageAndRegion") },
+                            // { path: "theme", component: () => import("./components/pages/user/panel_settings/Theme") },
                         ],
                     },
                 ],

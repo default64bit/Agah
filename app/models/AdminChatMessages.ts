@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongodb from "mongodb";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
     sender: {
@@ -25,9 +26,9 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 });
 
 export interface IAdminChatMessages {
-    _id: mongoose.Types.ObjectId;
-    sender: mongoose.Types.ObjectId;
-    receiver: mongoose.Types.ObjectId;
+    _id: mongodb.ObjectId;
+    sender: mongodb.ObjectId;
+    receiver: mongodb.ObjectId;
     message: string;
     readAt: Date;
     createdAt: Date;

@@ -384,5 +384,21 @@ body{
 .fade-enter-active,.fade-leave-active{ transition: all .25s; }
 .fade-enter-to,.fade-leave-from{ opacity: 1; }
 
+@keyframes jiggle {
+    0% { transform: rotate(10deg) }
+    100% { transform: rotate(-10deg) }
+}
+.jiggle{
+    animation: jiggle ease-in-out .1s infinite;
+}
+
+@keyframes call_flash {
+    0% { box-shadow: inset 0px 0px 40px #2ee674; }
+    100% { box-shadow: inset 0px 0px 0px #2ee674; }
+}
+.call_flash{
+    animation: call_flash ease-in-out 1s infinite;
+}
+
 @tailwind components;
 @tailwind utilities;

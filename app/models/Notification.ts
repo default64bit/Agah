@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongodb from "mongodb";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
     template: {
@@ -28,10 +29,10 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 });
 
 export interface INotification {
-    _id: mongoose.Types.ObjectId;
+    _id: mongodb.ObjectId;
     template: string;
     modelType: string;
-    model: mongoose.Types.ObjectId;
+    model: mongodb.ObjectId;
     data: object;
     readAt: Date;
     createdAt: Date;
