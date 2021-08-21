@@ -33,7 +33,7 @@ expressApp.use(cookieParser());
 // set up passport strategies
 passportConfig();
 expressApp.use(passport.initialize());
-require('https').globalAgent.options.rejectUnauthorized = false; // TOOD : remove this for non-localhost
+require("https").globalAgent.options.rejectUnauthorized = false; // TOOD : remove this for non-localhost
 
 // csrf protection
 const csrfProtection = csurf({ cookie: true });
@@ -57,23 +57,34 @@ expressApp.use("/sock/v2", require("./app/routes/userSockets").default);
 // SSR setup ==================================================================
 {
     const { renderToString } = require("@vue/server-renderer");
+    // const file_manifest = require("../vue/client/file-manifest.json");
+    // const ssr_manifest = require("../vue/server/ssr-manifest.json");
     const file_manifest = require("./dist/vue/client/file-manifest.json");
     const ssr_manifest = require("./dist/vue/server/ssr-manifest.json");
-    
+
     const appPath = path.join(__dirname, "dist", "vue", "server", ssr_manifest["app.js"]);
+    // const appPath = path.join(__dirname, "..", "vue", "server", ssr_manifest["app.js"]);
     const createApp = require(appPath).default;
 
     // expressApp.use(file_manifest['precache-manifest.js'], express.static(path.join(__dirname, "dist", "vue", "client", file_manifest['precache-manifest.js'])));
     // expressApp.use("/service-worker.js", express.static(path.join(__dirname, "dist", "vue", "client", "service-worker.js")));
     // expressApp.use("/sw.js", express.static(path.join(__dirname, "dist", "vue", "client", "service-worker.js")));
+
+    // expressApp.use("/manifest.json", express.static(path.join(__dirname, "..", "vue", "client", "manifest.json")));
+    // expressApp.use("/img", express.static(path.join(__dirname, "..", "vue", "client", "img")));
+    // expressApp.use("/js", express.static(path.join(__dirname, "..", "vue", "client", "js")));
+    // expressApp.use("/css", express.static(path.join(__dirname, "..", "vue", "client", "css")));
+    // expressApp.use("/fonts", express.static(path.join(__dirname, "..", "vue", "client", "fonts")));
+    // expressApp.use("/media", express.static(path.join(__dirname, "..", "vue", "client", "media")));
     expressApp.use("/manifest.json", express.static(path.join(__dirname, "dist", "vue", "client", "manifest.json")));
     expressApp.use("/img", express.static(path.join(__dirname, "dist", "vue", "client", "img")));
-    expressApp.use("/img/avatars", express.static(path.join(__dirname, "public", "avatars")));
-    expressApp.use("/img/icons", express.static(path.join(__dirname, "public", "icons")));
     expressApp.use("/js", express.static(path.join(__dirname, "dist", "vue", "client", "js")));
     expressApp.use("/css", express.static(path.join(__dirname, "dist", "vue", "client", "css")));
     expressApp.use("/fonts", express.static(path.join(__dirname, "dist", "vue", "client", "fonts")));
     expressApp.use("/media", express.static(path.join(__dirname, "dist", "vue", "client", "media")));
+
+    expressApp.use("/img/avatars", express.static(path.join(__dirname, "public", "avatars")));
+    expressApp.use("/img/icons", express.static(path.join(__dirname, "public", "icons")));
     expressApp.use("/audio", express.static(path.join(__dirname, "public", "audio")));
     expressApp.use("/favicon.ico", express.static(path.join(__dirname, "public", "favicon.ico")));
     expressApp.use("/fontawsome", express.static(path.join(__dirname, "public", "fontawsome")));
@@ -85,6 +96,7 @@ expressApp.use("/sock/v2", require("./app/routes/userSockets").default);
         router.push(context.url);
         router.isReady().then(() => {
             renderToString(app, context).then((appContent) => {
+                // fs.readFile(path.join(__dirname, "..", "vue", "client", "index.html"), "utf-8", (err, html) => {
                 fs.readFile(path.join(__dirname, "dist", "vue", "client", "index.html"), "utf-8", (err, html) => {
                     if (err) {
                         console.error(err);

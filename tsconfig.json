@@ -3,7 +3,7 @@
         "sourceMap": true,
         "module": "commonjs",
         "outDir": "./dist/express",
-        "baseUrl": "./app",
+        "baseUrl": "./",
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
 
@@ -20,7 +20,8 @@
     },
     "include": [
         "server.ts",
-        "app/**/*.ts"
+        "app/**/*.ts",
+        "public/**/*.*"
     ],
     "exclude": ["node_modules", "dist", "__tests__"]
 }
