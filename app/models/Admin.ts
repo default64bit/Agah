@@ -19,6 +19,15 @@ const _schema: mongoose.Schema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    mobile: {
+        type: String,
+    },
+    socialMedias: [
+        new mongoose.Schema({
+            name: { type: String },
+            link: { type: String },
+        }),
+    ],
     password: {
         type: String,
         required: true,
@@ -47,11 +56,18 @@ export interface IAdmin {
     name: string;
     family: string;
     email: string;
+    mobile: string;
+    socialMedias: Array<ISocialMedia>;
     password: string;
     status: string;
     googleID: string;
     role: mongoose.Types.ObjectId;
     createdAt: Date;
+}
+export interface ISocialMedia {
+    _id: mongodb.ObjectId;
+    name: string;
+    link: string;
 }
 
 class Admin {

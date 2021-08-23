@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard_body">
         <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-white text-4xl"><b>Role Manager</b></h1>
+            <h1 class="text-4xl"><b>Role Manager</b></h1>
             <div class="flex items-center gap-2">
                 <router-link
                     to="/admin/role_manager/add_role"
@@ -42,10 +42,10 @@
                 </t-groupbutton>
             </div>
             <div class="flex justify-center items-center">
-                <button class="t_button t_button_min" :class="tableView == 'list' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'list'">
+                <button class="t_button p-2" :class="tableView == 'list' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'list'">
                     <i class="fas fa-th-list fa-lg"></i>
                 </button>
-                <button class="t_button t_button_min" :class="tableView == 'card' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'card'">
+                <button class="t_button p-2" :class="tableView == 'card' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'card'">
                     <i class="fas fa-th-large fa-lg"></i>
                 </button>
             </div>

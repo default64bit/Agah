@@ -1,7 +1,7 @@
 <template>
-    <div class="dashboard_body max-w-screen-xl mx-auto bg-truegray-800 shadow-2xl">
+    <div class="dashboard_body max-w-screen-xl mx-auto shadow-2xl">
         <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-white text-4xl"><b>Create New Role</b></h1>
+            <h1 class="text-4xl"><b>Create New Role</b></h1>
         </div>
         <hr class="my-4 border-gray-600 border-solid" />
 

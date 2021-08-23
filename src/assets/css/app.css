@@ -1,9 +1,11 @@
 @tailwind base;
 
+@import url('./color_palette.css');
+
 @font-face { font-family: 'Roboto'; src: url('../fonts/RobotoRegular.ttf') format('truetype'); }
 @font-face { font-family: 'Vazir'; src: url('../fonts/Vazir.ttf') format('truetype'); }
 
-*::-moz-selection{background: #8B5CF6; color: #FFFFF0;} *::selection{background: #8B5CF6; color: #FFFFF0};
+*::-moz-selection{background: var(--selection-bg-color); color: var(--selection-color);} *::selection{background: var(--selection-bg-color); color: var(--selection-color)};
 *::-webkit-scrollbar-track{background-color: transparent; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.01); border-radius: 10px;}
 *::-webkit-scrollbar{margin-inline-start: .25em; width: 6px; height: 6px; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.01); border-radius: 10px;}
 *::-webkit-scrollbar-track-piece{background-color: transparent; border-radius: 10px;}
@@ -16,7 +18,7 @@
 body{
     width: 100%; height: 100vh; overflow-x: hidden;
     display: flex; flex-direction: column;
-    background-color: #242424;
+    background-color: var(--body-bg-color);
     margin: 0; padding: 0;
 }
 #app{
@@ -41,14 +43,14 @@ body{
     display: flex; align-items: center; justify-content: center;
     gap: .25rem; font-size: 1rem;
     cursor: pointer; outline: 0;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 10px var(--button-shadow-color);
     border-radius: 5px; padding: .5rem;
     border: 2px solid transparent;
     transition: all 0.3s;
 }
 .t_button:disabled{ opacity: .4; cursor: not-allowed; }
 .t_button:hover{
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 5px 15px var(--button-hover-shadow-color);
 }
 .t_button > img{
     width: 1rem;
@@ -70,7 +72,7 @@ body{
 
 /* Input ======================================== */
 .t_input{
-    width: 100%; color: white;
+    width: 100%; color: var(--input-color);
     display: flex; flex-direction: column;
 }
 .t_input.sideway{
@@ -85,13 +87,13 @@ body{
 .t_input .input_group{
     width: 100%;
     display: flex; justify-content: flex-start; align-items: center; gap: .5rem;
-    padding: .35rem; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+    padding: .35rem; box-shadow: 0px 5px 15px var(--input-group-shadow-color);
     border-radius: 5px; border: 2px solid transparent;
     transition: all .25s ease-out;
 }
 .t_input .input_group.focus{
     /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25), 0px 0px 1px #a78bfa; */
-    border: 2px solid #C4B5FD;
+    border: 2px solid var(--input-group-focus-border-color);
 }
 .t_input .input_group.disabled{ opacity: .6; }
 .t_input .input_group input, .t_input .input_group textarea{
@@ -126,13 +128,13 @@ body{
 .t_card_footer{
     display: flex; margin-top: auto;
     width: 100%; padding: 1.5rem; border-radius: 0 0 5px 5px;
-    border-top: 1px solid #343434;
+    border-top: 1px solid var(--card-footer-border-top-color);
 }
 .t_card_loading{
     display: flex; justify-content: center; align-items: center;
     backdrop-filter: blur(3px);
     position: absolute; top: 0; bottom: 0; right: 0; left: 0;
-    z-index: 3; background-color: #24242477; text-align: center;
+    z-index: 3; background-color: var(--card-loading-bg-color); text-align: center;
 }
 .t_card_loading .fa-spin{ padding-top: 6px; }
 /* Alert ======================================== */
@@ -141,7 +143,7 @@ body{
 .t_loading{
     display: flex; justify-content: center; align-items: center;
     position: fixed; top: 0; bottom: 0; right: 0; left: 0;
-    z-index: 100; background-color: #24242477; text-align: center;
+    z-index: 100; background-color: var(--loading-bg-color); text-align: center;
 }
 .t_loading .fa-spin{ padding-top: 6px; }
 /* Loading ======================================== */
@@ -150,17 +152,17 @@ body{
 .t_tabs{
     display: flex; gap: 1.5rem;
     width: 100%; margin: 1.25rem 0;
-    border-bottom: 2px solid #434343;
+    border-bottom: 2px solid var(--tabs-border-bottom-color);
     overflow-x: auto; overflow-y: hidden;
 }
 .t_tabs a li{
-    color: #dadada; white-space: nowrap;
+    color: var(--tabs-li-color); white-space: nowrap;
 }
 .t_tabs a li:hover{
-    color: #C4B5FD;
+    color: var(--tabs-li-hover-color);
 }
 .t_tabs a.router-link-exact-active li{
-    color: #C4B5FD; border-bottom: 2px solid #8B5CF6;
+    color: var(--tabs-route-exact-active-color); border-bottom: 2px solid var(--tabs-route-exact-active-border-bottom-color);
 }
 /* Tabs ======================================== */
 
@@ -168,7 +170,7 @@ body{
 .t_table{
     position: relative;
     display: flex; flex-direction: column; gap: .5rem;
-    background-color: #343434; border-radius: 5px;
+    background-color: var(--table-bg-color); border-radius: 5px;
     width: 100%; height: 85%; padding: .5rem;
 }
 .t_table table{
@@ -181,8 +183,8 @@ body{
 }
 .t_table thead tr{}
 .t_table th{
-    position: sticky; top: 0;
-    color: #dadada; padding: .5rem;
+    position: sticky; top: 0; background-color: var(--table-th-bg-color);
+    color: var(--table-th-color); padding: .5rem;
 }
 .t_table th[sortable="true"]{ cursor: pointer; }
 .t_table tbody{
@@ -190,13 +192,13 @@ body{
 }
 .t_table tbody tr:hover{
     transition: all .2s;
-    background-color: #434343;
+    background-color: var(--table-tr-hover-bg-color);
 }
 .t_table td{
-    padding: .5rem; border-bottom: 1px solid #444;
+    padding: .5rem; border-bottom: 1px solid var(--table-td-border-bottom-color);
 }
 .t_table td .title{
-    display: none; font-size: .75rem; color: #bfc8ff;
+    display: none; font-size: .75rem; color: var(--table-title-color);
     margin-inline-end: .5rem;
 }
 
@@ -223,7 +225,7 @@ body{
 }
 .t_table table.card tbody tr{
     display: flex; flex-direction: column; overflow: initial;
-    border-radius: 5px; box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 5px; box-shadow: 0px 2px 15px var(--table-card-tr-shadow-color);
     padding: .5rem; margin: .25rem;
 }
 .t_table table.card tbody td{}
@@ -236,7 +238,7 @@ body{
 
 /* Select ======================================== */
 .t_select{
-    width: 100%; color: white;
+    width: 100%; color: var(--select-color);
     display: flex; flex-direction: column;
 }
 .t_select.sideway{
@@ -252,7 +254,7 @@ body{
     display: flex; flex-direction: column;
     max-height: 2rem; width: 100%; z-index: 2;
     position: relative; padding: .5rem;
-    background-color: #434343; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+    background-color: var(--select-input-bg-color); box-shadow: 0px 5px 15px var(--select-input-shadow-color);
     border-radius: 5px; transition: all .25s;   
 }
 .t_select.open .t_select_input{ z-index: 10; }
@@ -261,21 +263,21 @@ body{
 }
 .t_select .box::after{
     content: "\f0dd"; font-family: "Font Awesome 5 Pro"; font-size: 1rem;
-    color: #A78BFA; margin-inline-start: auto; margin-top: -6px;
+    color: var(--select-box-arrow-color); margin-inline-start: auto; margin-top: -6px;
 }
 .t_select .list{
-    background-color: #434343; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+    background-color: var(--select-list-bg-color); box-shadow: 0px 5px 15px var(--select-list-shadow-color);
     border-radius: 5px;
     position: absolute; top: 2.25rem; overflow: auto;
     width: inherit; min-width: max-content; max-height: 10rem; padding: .25rem;
 }
 .t_select .list li{ padding: .25rem; cursor: pointer; transition: all .1s; }
 .t_select .list li:hover{
-    background-color: #555;
+    background-color: var(--select-list-li-hover-bg-color);
 }
 .t_select .list li.selected{
-    background-color: #555;
-    box-shadow: inset 0px 0px 1px 1px #A78BFA;
+    background-color: var(--select-list-li-selected-bg-color);
+    box-shadow: inset 0px 0px 1px 1px var(--select-list-li-selected-shadow-color);
 }
 
 .t_search_select input{
@@ -297,7 +299,7 @@ body{
 .t_group_button .list{
     display: flex; flex-direction: column;
     border-radius: 5px; z-index: 2; position: absolute; margin-top: 2.5rem;
-    background-color: #434343; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+    background-color: var(--group-button-list-bg-color); box-shadow: 0px 5px 15px var(--group-button-list-shadow-color);
     width: max-content;
 }
 .t_group_button.open .list{ z-index: 10; }
@@ -307,16 +309,16 @@ body{
 .t_dialog{
     position: fixed; top: 0; right: 0; left: 0; bottom: 0;
     display: flex; justify-content: center; align-items: center; flex-direction: column;
-    z-index: 100; color: #fff; padding: 1rem;
+    z-index: 100; color: var(--dialog-color); padding: 1rem;
 }
 .t_dialog .backdrop{
     position: fixed; top: 0; right: 0; left: 0; bottom: 0;
-    backdrop-filter: blur(3px); background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(3px); background-color: var(--dialog-backdrop-bg-color);
 }
 .t_dialog > .box{
     min-width: 20rem; margin: 0 1rem;
     padding: 1rem; border-radius: 5px; z-index: 2;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 10px var(--dialog-box-shadow-color);
 }
 /* Dialog ======================================== */
 
@@ -349,7 +351,7 @@ body{
 }
 .t_progress_bar{}
 .t_progress_bar > div{
-    background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+    background: linear-gradient(135deg, var(--progress-bar-gradient-color-1) 0%, var(--progress-bar-gradient-color-2) 100%);
 	background-size: 200% 200%;
 	animation: progress_bar_gradient 2s ease infinite;
 }
@@ -357,6 +359,8 @@ body{
 
 /* Icon Flip ======================================== */
 [dir="rtl"] .fad, [dir="rtl"] .fal, [dir="rtl"] .far, [dir="rtl"] .fas{ transform: rotateY(180deg) !important; }
+[dir="rtl"] .fa-check, [dir="rtl"] .fa-check-square, [dir="rtl"] .fa-check-double{ transform: rotateY(0deg) !important; }
+[dir="rtl"] .fa-rotate-90{ transform: rotate(270deg) !important; }
 /* Icon Flip ======================================== */
 
 /* Animations ======================================== */
@@ -393,8 +397,8 @@ body{
 }
 
 @keyframes call_flash {
-    0% { box-shadow: inset 0px 0px 40px #2ee674; }
-    100% { box-shadow: inset 0px 0px 0px #2ee674; }
+    0% { box-shadow: inset 0px 0px 40px var(--call-flash-color); }
+    100% { box-shadow: inset 0px 0px 0px var(--call-flash-color); }
 }
 .call_flash{
     animation: call_flash ease-in-out 1s infinite;

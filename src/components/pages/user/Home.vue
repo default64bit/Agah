@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard_body">
         <div class="mb-8">
-            <h2 class="text-white text-4xl">
+            <h2 class="text-4xl">
                 <b>Welcome, {{ `${userInfo.name} ${userInfo.family}` }}</b>
             </h2>
         </div>

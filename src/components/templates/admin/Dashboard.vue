@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard_template" v-if="!loading">
+    <div class="dashboard_template" theme="dark" v-if="!loading">
         <dashboard-side-menu :loading="loading"></dashboard-side-menu>
         <div class="dashboard_bh flex flex-col h-full">
             <dashboard-header :loading="loading"></dashboard-header>

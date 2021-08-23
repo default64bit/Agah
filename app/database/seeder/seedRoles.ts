@@ -11,10 +11,16 @@ export default async () => {
             .exec();
 
         await AdminRole.model
-            .create({
-                name: "SuperAdmin",
-                permissions: permissions,
-            })
+            .insertMany([
+                {
+                    name: "SuperAdmin",
+                    permissions: permissions,
+                },
+                {
+                    name: "Consulter",
+                    permissions: permissions,
+                },
+            ])
             .then((doc) => {
                 console.log("Role Seed Successfully");
                 resolve(true);

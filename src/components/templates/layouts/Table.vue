@@ -25,7 +25,7 @@
                         <th
                             v-for="(value, name) in heads"
                             :key="name"
-                            class="bg-warmgray-700"
+                            class=""
                             :sortable="value.sortable"
                             @click="updateSort(value.sortable, name)"
                         >

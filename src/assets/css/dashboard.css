@@ -1,7 +1,7 @@
 .dashboard_template{
     width: 100%; height: 100%;
     display: flex; flex-direction: row;
-    color: #fff; overflow-y: hidden;
+    color: var(--dashboard-template-color); overflow-y: hidden;
 }
 .dashboard_bh{
     width: calc(100% - 17rem);
@@ -11,8 +11,8 @@
 .dashboard_sidemenu{
     display: flex; flex-direction: column; z-index: 11;
     width: 17rem; height: 100vh; padding: .75rem;
-    background-color: #1a1a1a; transition: all .3s;
-    box-shadow: 5px 0px 10px rgba(0,0,0,.15);
+    background-color: var(--dashboard-sidemenu-bg-color); transition: all .3s;
+    box-shadow: 5px 0px 10px var(--dashboard-sidemenu-shadow-color);
 }
 .dashboard_sidemenu.min{ position: fixed; width: 5rem; }
 .dashboard_sidemenu.min:hover{ width: 17rem; }
@@ -42,20 +42,20 @@
     overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
 }
 .dashboard_sidemenu nav .nav_item:hover{
-    background-color: #343434;
+    background-color: var(--dashboard-sidemenu-nav-item-hover-bg-color);
 }
 .dashboard_sidemenu nav .nav_item.nav_active{
-    background-color: #343434; border-inline-start: .35rem solid #7C3AED; margin-inline-start: -.25rem;
+    background-color: var(--dashboard-sidemenu-nav-item-active-bg-color); border-inline-start: .35rem solid var(--dashboard-sidemenu-nav-item-active-border-start-color); margin-inline-start: -.25rem;
 }
 .dashboard_sidemenu.min:not(:hover) nav > a{width: 100%;}
 .dashboard_sidemenu.min:not(:hover) nav .nav_item{justify-content: center;}
 .dashboard_sidemenu.min:not(:hover) nav .nav_item span{display: none;}
 .dashboard_sidemenu nav .nav_spacer{
-    width: 100%; border-bottom: 2px solid #464646;
+    width: 100%; border-bottom: 2px solid var(--dashboard-sidemenu-nav-spacer-border-bottom-color);
     margin: .25rem 0;
 }
 .dashboard_sidemenu nav .nav_header{
-    color: #9CA3AF; margin-bottom: .25rem; font-size: .9rem;
+    color: var(--dashboard-sidemenu-nav-header-color); margin-bottom: .25rem; font-size: .9rem;
     overflow: hidden; text-overflow: ellipsis;
 }
 .dashboard_sidemenu nav .nav_group{}
@@ -63,13 +63,13 @@
 .dashboard_sidemenu nav .nav_group ul{
     height: 0px; overflow: hidden; transition: all .3s;
     padding-inline-start: 1rem; margin: .25rem 0;
-    border-inline-start: 1px solid #555; margin-inline-start: 1rem;
+    border-inline-start: 1px solid var(--dashboard-sidemenu-nav-group-border-start-color); margin-inline-start: 1rem;
 }
 .dashboard_sidemenu.min nav .nav_group ul{ position: relative; }
 .dashboard_sidemenu.min:not(:hover) nav .nav_group.open ul{
     display: none;
     margin-inline-start: 1rem;
-    background-color: #434343; padding-inline-start: 0;
+    background-color: var(--dashboard-sidemenu-nav-group-open-bg-color); padding-inline-start: 0;
     padding: .5rem; align-items: flex-start;
     border-radius: 5px;
     z-index: 2;
@@ -81,7 +81,7 @@
 }
 .dashboard_sidemenu nav .nav_group > .nav_item::after{
     content: "\f0dd"; font-family: "Font Awesome 5 Pro"; transition: all .3s;
-    color: #A78BFA; margin-inline-start: auto; transform: rotate(90deg);
+    color: var(--dashboard-sidemenu-nav-group-after-color); margin-inline-start: auto; transform: rotate(90deg);
 }
 .dashboard_sidemenu.min:not(:hover) nav .nav_group > .nav_item::after{
     display: none; position: absolute; margin-inline-start: 3.5rem;
@@ -96,7 +96,7 @@
     display: flex; justify-content: space-between; align-items: flex-start;
     gap: .5rem; flex-wrap: wrap;
     width: 100%; height: 4.25rem; padding: 1rem;
-    box-shadow: 5px 0px 2px 2px #1a1a1a; z-index: 10;
+    box-shadow: 5px 0px 2px 2px var(--dashboard-header-shadow-color); z-index: 10;
 }
 .dashboard_header .dashboard_search{
     width: 20%; min-width: 6rem;
@@ -110,7 +110,7 @@
 .dashboard_header .title_alt{
     position: absolute; top: 2.5rem; opacity: .7;
     display: none; padding: .25rem .75rem;
-    border-radius: 5px; background-color: #3a3a3a; color: white;
+    border-radius: 5px; background-color: var(--dashboard-header-title-alt-color); color: white;
 }
 .dashboard_header .icon_head:hover .title_alt{ display: flex; }
 
@@ -125,13 +125,13 @@
     border-radius: 5px; transition: all .3s; cursor: pointer;
 }
 .dashboard_header .profile.open{
-    background-color: #343434; padding: .5rem;
-    box-shadow: 0px 5px 10px rgba(0,0,0,.15);
+    background-color: var(--dashboard-header-profile-open-bg-color); padding: .5rem;
+    box-shadow: 0px 5px 10px var(--dashboard-header-profile-open-shadow-color);
 }
 .dashboard_header .profile .avatar{
     width: 2.25rem; height: 2.25rem; overflow: hidden;
-    border-radius: 50%; box-shadow: 0px 5px 10px rgba(0,0,0,.25);
-    border: 1px solid #464646;
+    border-radius: 50%; box-shadow: 0px 5px 10px var(--dashboard-header-avatar-shadow-color);
+    border: 1px solid var(--dashboard-header-avatar-border-color);
 }
 .dashboard_header .profile .avatar img{
     width: 2.25rem; height: 2.25rem; object-fit: cover;
@@ -148,7 +148,7 @@
     width: auto; margin-top: .5rem; max-height: 15rem; overflow: auto;
 }
 .dashboard_header .profile ul .nav_spacer{
-    width: 100%; border-bottom: 2px solid #464646;
+    width: 100%; border-bottom: 2px solid var(--dashboard-header-profile-nav-spacer-border-color);
     margin: .5rem 0;
 }
 .dashboard_header .profile ul .nav_item{
@@ -156,7 +156,7 @@
     padding: .5rem; gap: .5rem; border-radius: 5px;
 }
 .dashboard_header .profile ul .nav_item:hover{
-    background-color: #242424;
+    background-color: var(--dashboard-header-profile-nav-item-hover-bg-color);
 }
 /* Header ======================================================== */
 
@@ -166,7 +166,7 @@
     width: 25rem; height: 0; max-height: calc(100vh - 5rem);
     overflow: hidden; z-index: 12;
     border-radius: 5px; margin-inline-start: -7rem;
-    background-color: #343434; box-shadow: 0px 5px 15px rgba(0,0,0,.35);
+    background-color: var(--notification-list-bg-color); box-shadow: 0px 5px 15px var(--notification-list-shadow-color);
     transition: all .3s;
 }
 @media (min-width: 768px){
@@ -183,13 +183,13 @@
 .notification_list ul li{
     position: relative;
     display: flex; align-items: flex-start; justify-content: flex-start; gap: 1rem;
-    width: 100%; padding: 1rem; background-color: #3a3a3a;
+    width: 100%; padding: 1rem; background-color: var(--notification-list-li-bg-color);
 }
 .notification_list ul li .notif_icon{
     border-width: 1px; border-style: solid; border-color: transparent; border-radius: 50%;
     display: flex; justify-content: center; align-items: center;
     padding: .5rem; width: 3rem; height: 3rem;
-    box-shadow: inset 0px 0px 10px rgb(0, 0, 0, 35%);
+    box-shadow: inset 0px 0px 10px var(--notification-list-li-notif-icon-shadow-color);
 }
 .notification_list ul li .notif_info{
     width: calc(100% - 7rem); flex-grow: 1;
@@ -201,10 +201,10 @@
     position: fixed; top: 0; inset-inline-end: 0;
     display: flex; flex-direction: column; z-index: 10;
     width: 24rem; height: 100vh; padding: 1rem;
-    background-color: #1a1a1a; transition: all .3s;
-    box-shadow: 5px 0px 10px rgba(0,0,0,.15);
+    background-color: var(--message-board-bg-color); transition: all .3s;
+    box-shadow: 5px 0px 10px var(--message-board-shadow-color);
     transform: translateX(24rem);
-    color: #fff;
+    color: var(--message-board-color);
 }
 [dir="rtl"] .message_board{ transform: translateX(-24rem); }
 .message_board.open{ transform: translateX(0); }
@@ -223,14 +223,14 @@
     position: relative; cursor: pointer;
     display: flex; align-items: flex-start; justify-content: flex-start; gap: 1rem;
     width: 100%; padding-bottom: 1rem;
-    border-bottom: 1px solid #3a3a3a;
+    border-bottom: 1px solid var(--message-board-chat-ul-border-color);
 }
 .message_board .chat_avatar{
     position: relative; border-radius: 50%;
     border-width: 2px; border-style: solid;
     display: flex; justify-content: center; align-items: center;
     width: 3rem; height: 3rem;
-    box-shadow: inset 0px 0px 10px rgb(0, 0, 0, 35%);
+    box-shadow: inset 0px 0px 10px var(--message-board-chat-avatar-shadow-color);
 }
 .message_board .chat_avatar img{
     width: 100%; height: 100%;
@@ -255,16 +255,16 @@
 }
 .message_board ul[name="message_ul"] li .message_bubble.sent{
     margin-left: auto; border-radius: 10px 10px 0 10px;
-    background-color: #4C1D95;
+    background-color: var(--message-board-message-bubble-sent-bg-color);
 }
 .message_board ul[name="message_ul"] li .message_bubble.received{
     margin-right: auto; border-radius: 10px 10px 10px 0;
-    background-color: #464646;
+    background-color: var(--message-board-message-bubble-received-bg-color);
 }
 
 .message_board .new_chat{
     position: fixed; inset-inline-end: 1.5rem; bottom: 1.5rem;
-    color: #000; padding: 1rem;
+    color: var(--message-board-new-chat-color); padding: 1rem;
     border-radius: 50%;
 }
 
@@ -275,6 +275,7 @@
     width: 100%; height: 100%; overflow: auto;
     display: flex; flex-direction: column;
     padding: 2rem; border-radius: 5px;
+    background-color: var(--dashboard-body-bg-color);
 }
 /* Body ======================================================== */
 
@@ -292,7 +293,7 @@
 .welcome_card .image::before{
     content: ""; position: absolute;
     width: 10rem; height: 10rem; border-radius: 50%;
-    background-color: #A78BFA; opacity: .25;
+    background-color: var(--welcome-card-image-before-bg-color); opacity: .25;
 }
 .welcome_card .image img{
     width: 8rem; object-fit: contain;
@@ -302,8 +303,8 @@
 /* Toast ======================================================== */
 .dashboard_toast{
     position: absolute; top: 1.5rem; inset-inline-end: 1.5rem; z-index: 200;
-    background-color: #434343;
-    box-shadow: 0px 5px 10px rgba(0,0,0,.25);
+    background-color: var(--dashboard-toast-bg-color);
+    box-shadow: 0px 5px 10px var(--dashboard-toast-shadow-color);
     display: flex; flex-direction: row; align-items: center; gap: 1.25rem;
     border-inline-start-width: .5rem;
     border-inline-start-style: solid;

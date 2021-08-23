@@ -63,6 +63,37 @@
                     </ul>
                 </li>
 
+                <router-link to="/admin/panel_settings" title="Panel Settings">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                        <i class="fad fa-cog"></i>
+                        <span>کاربران</span>
+                    </li>
+                </router-link>
+                <router-link to="/admin/panel_settings" title="Panel Settings">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                        <i class="fad fa-cog"></i>
+                        <span>مشاورین</span>
+                    </li>
+                </router-link>
+                <router-link to="/admin/panel_settings" title="Panel Settings">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                        <i class="fad fa-cog"></i>
+                        <span>مقاله ها</span>
+                    </li>
+                </router-link>
+                <router-link to="/admin/panel_settings" title="Panel Settings">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                        <i class="fad fa-cog"></i>
+                        <span>سوالات متداول</span>
+                    </li>
+                </router-link>
+                <router-link to="/admin/panel_settings" title="Panel Settings">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                        <i class="fad fa-cog"></i>
+                        <span>تراکنش های مالی</span>
+                    </li>
+                </router-link>
+
                 <hr class="nav_spacer" />
 
                 <li class="nav_header">Settings</li>

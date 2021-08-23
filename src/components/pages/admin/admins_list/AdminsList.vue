@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard_body">
         <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-white text-4xl"><b>Admins List</b></h1>
+            <h1 class="text-4xl"><b>Admins List</b></h1>
             <div class="flex items-center gap-2">
                 <button class="t_button t_button_min bg-gray-200 hover:bg-gray-300 text-black"><i class="fas fa-print"></i> Export</button>
                 <router-link
@@ -43,10 +43,10 @@
                 </t-groupbutton>
             </div>
             <div class="flex justify-center items-center">
-                <button class="t_button t_button_min" :class="tableView == 'list' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'list'">
+                <button class="t_button p-2" :class="tableView == 'list' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'list'">
                     <i class="fas fa-th-list fa-lg"></i>
                 </button>
-                <button class="t_button t_button_min" :class="tableView == 'card' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'card'">
+                <button class="t_button p-2" :class="tableView == 'card' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'card'">
                     <i class="fas fa-th-large fa-lg"></i>
                 </button>
             </div>

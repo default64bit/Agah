@@ -1,0 +1,217 @@
+:root {
+    --selection-bg-color: #8b5cf6;
+    --selection-color: #fffff0;
+
+    --body-bg-color: #242424;
+
+    --button-shadow-color: rgba(0, 0, 0, 0.25);
+    --button-hover-shadow-color: rgba(0, 0, 0, 0.35);
+
+    --input-color: #fff;
+    --input-group-shadow-color: rgba(0, 0, 0, 0.25);
+    --input-group-focus-border-color: #c4b5fd;
+
+    --card-footer-border-top-color: #343434;
+    --card-loading-bg-color: #24242477;
+
+    --loading-bg-color: #24242477;
+
+    --tabs-border-bottom-color: #434343;
+    --tabs-li-color: #dadada;
+    --tabs-li-hover-color: #c4b5fd;
+    --tabs-route-exact-active-color: #c4b5fd;
+    --tabs-route-exact-active-border-bottom-color: #8b5cf6;
+
+    --table-bg-color: #343434;
+    --table-th-bg-color: theme("colors.warmgray.700");
+    --table-th-color: #dadada;
+    --table-tr-hover-bg-color: #434343;
+    --table-td-border-bottom-color: #444;
+    --table-title-color: #bfc8ff;
+    --table-card-tr-shadow-color: rgba(0, 0, 0, 0.25);
+
+    --select-color: #fff;
+    --select-input-bg-color: #434343;
+    --select-input-shadow-color: rgba(0, 0, 0, 0.25);
+    --select-box-arrow-color: #a78bfa;
+    --select-list-bg-color: #434343;
+    --select-list-shadow-color: rgba(0, 0, 0, 0.25);
+    --select-list-li-hover-bg-color: #555;
+    --select-list-li-selected-bg-color: #555;
+    --select-list-li-selected-shadow-color: #a78bfa;
+
+    --group-button-list-bg-color: #434343;
+    --group-button-list-shadow-color: rgba(0, 0, 0, 0.25);
+
+    --dialog-color: #fff;
+    --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.25);
+    --dialog-box-shadow-color: rgba(0, 0, 0, 0.25);
+
+    --progress-bar-gradient-color-1: #8b5cf6;
+    --progress-bar-gradient-color-2: #c4b5fd;
+
+    --call-flash-color: #2ee674;
+
+    /* ======================================================= */
+
+    --dashboard-template-color: #fff;
+    --dashboard-sidemenu-bg-color: #1a1a1a;
+    --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.15);
+    --dashboard-sidemenu-nav-item-hover-bg-color: #343434;
+    --dashboard-sidemenu-nav-item-active-bg-color: #343434;
+    --dashboard-sidemenu-nav-item-active-border-start-color: #7c3aed;
+    --dashboard-sidemenu-nav-spacer-border-bottom-color: #464646;
+    --dashboard-sidemenu-nav-header-color: #9ca3af;
+    --dashboard-sidemenu-nav-group-border-start-color: #555;
+    --dashboard-sidemenu-nav-group-open-bg-color: #434343;
+    --dashboard-sidemenu-nav-group-after-color: #a78bfa;
+
+    --dashboard-header-shadow-color: #1a1a1a;
+    --dashboard-header-title-alt-color: #3a3a3a;
+    --dashboard-header-profile-open-bg-color: #343434;
+    --dashboard-header-profile-open-shadow-color: rgba(0, 0, 0, 0.15);
+    --dashboard-header-avatar-shadow-color: rgba(0, 0, 0, 0.25);
+    --dashboard-header-avatar-border-color: #464646;
+    --dashboard-header-profile-nav-spacer-border-color: #464646;
+    --dashboard-header-profile-nav-item-hover-bg-color: #242424;
+
+    --notification-list-bg-color: #343434;
+    --notification-list-shadow-color: rgba(0, 0, 0, 0.35);
+    --notification-list-li-bg-color: #3a3a3a;
+    --notification-list-li-notif-icon-shadow-color: rgb(0, 0, 0, 0.35);
+
+    --message-board-bg-color: #1a1a1a;
+    --message-board-shadow-color: rgba(0, 0, 0, 0.15);
+    --message-board-color: #fff;
+    --message-board-chat-ul-border-color: #3a3a3a;
+    --message-board-chat-avatar-shadow-color: rgb(0, 0, 0, 0.35);
+    --message-board-message-bubble-sent-bg-color: #4c1d95;
+    --message-board-message-bubble-received-bg-color: #464646;
+    --message-board-new-chat-color: #000;
+
+    --dashboard-body-bg-color: theme("colors.truegray.800");
+
+    --welcome-card-image-before-bg-color: #a78bfa;
+
+    --dashboard-toast-bg-color: #434343;
+    --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.25);
+
+    /* ======================================================= */
+
+    --auth-header-color: #fff;
+    --auth-header-hover-bg-color: #a78bfa;
+    --auth-header-hover-color: #242424;
+    --auth_box-bg-color: #343434;
+    --auth_box-shadow-color: rgba(0, 0, 0, 0.35);
+}
+
+[theme="dark"] {
+    /* default theme is dark */
+}
+
+[theme="light"] {
+    --selection-bg-color: #8b5cf6;
+    --selection-color: #fffff0;
+
+    --body-bg-color: #e4e4e4;
+
+    --button-shadow-color: rgba(0, 0, 0, 0.05);
+    --button-hover-shadow-color: rgba(0, 0, 0, 0.15);
+
+    --input-color: #000;
+    --input-group-shadow-color: rgba(0, 0, 0, 0.05);
+    --input-group-focus-border-color: #c4b5fd;
+
+    --card-footer-border-top-color: #c4c4c4;
+    --card-loading-bg-color: #e4e4e477;
+
+    --loading-bg-color: #e4e4e477;
+
+    --tabs-border-bottom-color: #c2c2c2;
+    --tabs-li-color: #2a2a2a;
+    --tabs-li-hover-color: #c4b5fd;
+    --tabs-route-exact-active-color: #c4b5fd;
+    --tabs-route-exact-active-border-bottom-color: #8b5cf6;
+
+    --table-bg-color: #efefef;
+    --table-th-bg-color: theme("colors.warmgray.300");
+    --table-th-color: #2a2a2a;
+    --table-tr-hover-bg-color: #e2e2e2;
+    --table-td-border-bottom-color: #ddd;
+    --table-title-color: #bfc8ff;
+    --table-card-tr-shadow-color: rgba(0, 0, 0, 0.05);
+
+    --select-color: #000;
+    --select-input-bg-color: #c2c2c2;
+    --select-input-shadow-color: rgba(0, 0, 0, 0.05);
+    --select-box-arrow-color: #a78bfa;
+    --select-list-bg-color: #f4f4f4;
+    --select-list-shadow-color: rgba(0, 0, 0, 0.05);
+    --select-list-li-hover-bg-color: #555;
+    --select-list-li-selected-bg-color: #555;
+    --select-list-li-selected-shadow-color: #a78bfa;
+
+    --group-button-list-bg-color: #c2c2c2;
+    --group-button-list-shadow-color: rgba(0, 0, 0, 0.05);
+
+    --dialog-color: #000;
+    --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.05);
+    --dialog-box-shadow-color: rgba(0, 0, 0, 0.05);
+
+    --progress-bar-gradient-color-1: #8b5cf6;
+    --progress-bar-gradient-color-2: #c4b5fd;
+
+    --call-flash-color: #2ee674;
+
+    /* ======================================================= */
+
+    --dashboard-template-color: #000;
+    --dashboard-sidemenu-bg-color: #fafafa;
+    --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.15);
+    --dashboard-sidemenu-nav-item-hover-bg-color: #e1e1e1;
+    --dashboard-sidemenu-nav-item-active-bg-color: #e1e1e1;
+    --dashboard-sidemenu-nav-item-active-border-start-color: #7c3aed;
+    --dashboard-sidemenu-nav-spacer-border-bottom-color: #a4a4a4;
+    --dashboard-sidemenu-nav-header-color: #9ca3af;
+    --dashboard-sidemenu-nav-group-border-start-color: #555;
+    --dashboard-sidemenu-nav-group-open-bg-color: #c2c2c2;
+    --dashboard-sidemenu-nav-group-after-color: #a78bfa;
+
+    --dashboard-header-shadow-color: #eaeaea;
+    --dashboard-header-title-alt-color: #3a3a3a;
+    --dashboard-header-profile-open-bg-color: #c4c4c4;
+    --dashboard-header-profile-open-shadow-color: rgba(0, 0, 0, 0.15);
+    --dashboard-header-avatar-shadow-color: rgba(0, 0, 0, 0.05);
+    --dashboard-header-avatar-border-color: #a4a4a4;
+    --dashboard-header-profile-nav-spacer-border-color: #a4a4a4;
+    --dashboard-header-profile-nav-item-hover-bg-color: #e4e4e4;
+
+    --notification-list-bg-color: #c4c4c4;
+    --notification-list-shadow-color: rgba(0, 0, 0, 0.15);
+    --notification-list-li-bg-color: #3a3a3a;
+    --notification-list-li-notif-icon-shadow-color: rgb(0, 0, 0, 0.15);
+
+    --message-board-bg-color: #eaeaea;
+    --message-board-shadow-color: rgba(0, 0, 0, 0.15);
+    --message-board-color: #000;
+    --message-board-chat-ul-border-color: #3a3a3a;
+    --message-board-chat-avatar-shadow-color: rgb(0, 0, 0, 0.15);
+    --message-board-message-bubble-sent-bg-color: #a78bfa;
+    --message-board-message-bubble-received-bg-color: #464646;
+    --message-board-new-chat-color: #000;
+
+    --dashboard-body-bg-color: theme("colors.truegray.200");
+
+    --welcome-card-image-before-bg-color: #a78bfa;
+
+    --dashboard-toast-bg-color: #c2c2c2;
+    --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.05);
+
+    /* ======================================================= */
+
+    --auth-header-color: #000;
+    --auth-header-hover-bg-color: #a78bfa;
+    --auth-header-hover-color: #e4e4e4;
+    --auth_box-bg-color: #c4c4c4;
+    --auth_box-shadow-color: rgba(0, 0, 0, 0.15);
+}
