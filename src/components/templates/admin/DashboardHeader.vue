@@ -7,15 +7,15 @@
         <div class="flex flex-wrap-reverse md:flex-nowrap items-end md:items-start gap-2">
             <div class="flex flex-wrap items-center gap-1">
                 <div class="messages">
-                    <button class="messages_toggle relative hover:bg-gray-700 t_button" @click="msgToggleClick()">
-                        <span class="bop bg-violet-400" v-if="newMsg"></span>
+                    <button class="messages_toggle relative hover:bg-gray-700 hover:text-bluegray-50 t_button" @click="msgToggleClick()">
+                        <span class="bop bg-primary-400" v-if="newMsg"></span>
                         <i class="far fa-comments-alt text-lg"></i>
                     </button>
                     <message-board v-model:isOpen="isMsgBoardOpen" v-model:isThereNew="newMsg"></message-board>
                 </div>
                 <div class="notifications">
-                    <button class="notification_toggle relative hover:bg-gray-700 t_button" @click="notifToggleClick()">
-                        <span class="bop bg-violet-400" v-if="newNotif"></span>
+                    <button class="notification_toggle relative hover:bg-gray-700 hover:text-bluegray-50 t_button" @click="notifToggleClick()">
+                        <span class="bop bg-primary-400" v-if="newNotif"></span>
                         <i class="far fa-inbox text-lg"></i>
                     </button>
                     <notification-list v-model:isOpen="isNotifListOpen" v-model:isThereNew="newNotif"></notification-list>

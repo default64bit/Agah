@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard_body" :class="{ call_flash: incomingCall }">
         <div>
-            <span>Your User Unique ID :</span> <b class="text-violet-200">{{ myUniqueId }}</b>
+            <span>Your User Unique ID :</span> <b class="text-primary-200">{{ myUniqueId }}</b>
         </div>
 
         <hr class="my-4 " />

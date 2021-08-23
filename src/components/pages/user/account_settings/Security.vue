@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col w-max max-w-full">
         <h3 class="text-xl">Reset Password</h3>
-        <t-card class="bg-truegray-700" :loading="updatingPassword">
+        <t-card class="" :loading="updatingPassword">
             <template v-slot:content>
                 <div class="t_card_body flex flex-col items-center gap-6">
                     <t-input
@@ -21,9 +21,9 @@
                         :error="newPasswordConfirmationError"
                     />
                 </div>
-                <div class="t_card_footer bg-warmgray-700">
+                <div class="t_card_footer">
                     <button
-                        class="t_button t_button_min bg-violet-500 hover:bg-violet-600 disabled:opacity-50"
+                        class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50"
                         :disabled="updatingPassword"
                         @click="resetPassword()"
                     >
@@ -37,7 +37,7 @@
         <hr class="my-2" />
 
         <h3 class="text-xl">Device Login Sessions</h3>
-        <t-card class="bg-truegray-700">
+        <t-card class="">
             <template v-slot:content>
                 <div class="t_card_body flex flex-col items-center gap-6">
                     Coming soon...

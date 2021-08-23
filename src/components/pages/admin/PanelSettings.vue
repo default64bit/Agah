@@ -3,12 +3,12 @@
         <div class="flex flex-wrap justify-between items-center gap-4">
             <h1 class="text-4xl"><b>Panel Settings</b></h1>
         </div>
-        <hr class="my-4 border-gray-600 border-solid" />
+        <hr class="my-4 border-solid" />
 
         <div class="flex flex-col h-full overflow-auto gap-2">
             <t-select
                 class="max-w-screen-sm"
-                inputClass="bg-gray-600 max-h-10 w-64"
+                inputClass="max-h-10 w-64"
                 placeholder="Language"
                 label="Admin Panel Language"
                 desc="This will change language of only admin panel"
@@ -22,11 +22,11 @@
                 </template>
             </t-select>
 
-            <hr class="my-4 border-gray-600 border-solid" />
+            <hr class="my-4 border-solid" />
 
             <t-select
                 class="max-w-screen-sm"
-                inputClass="bg-gray-600 max-h-10 w-64"
+                inputClass="max-h-10 w-64"
                 placeholder="Select a theme"
                 label="Admin Panel Theme"
                 :required="true"
@@ -40,9 +40,9 @@
             </t-select>
         </div>
 
-        <hr class="my-4 mt-auto border-gray-600 border-solid" />
+        <hr class="my-4 mt-auto border-solid" />
         <div class="flex flex-wrap items-center gap-4">
-            <button class="t_button t_button_min bg-violet-500 hover:bg-violet-600 disabled:opacity-50" :disabled="savingChanges" @click="saveChanges()">
+            <button class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 text-bluegray-50 disabled:opacity-50" :disabled="savingChanges" @click="saveChanges()">
                 <b v-if="!savingChanges">Save Changes</b>
                 <b v-else class="fad fa-spinner fa-spin text-xl"></b>
             </button>

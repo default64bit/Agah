@@ -4,24 +4,24 @@
             <h2 class="text-2xl">Notifications</h2>
             <router-link class="t_button p-1" to="/account-settings/notification"><i class="fad fa-cogs"></i></router-link>
         </div>
-        <hr class="mt-auto border-gray-600 border-solid" />
+        <hr class="mt-auto border-solid" />
         <ul ref="notif_ul">
             <transition-group name="slideright" appear>
                 <li v-for="(notif, i) in notifications" :key="i">
-                    <div class="notif_icon" :class="{ 'border-violet-500': !notif.readAt }"><i :class="notif.data.icon"></i></div>
+                    <div class="notif_icon" :class="{ 'border-primary-500': !notif.readAt }"><i :class="notif.data.icon"></i></div>
                     <a class="notif_info flex flex-col" :href="notif.data.link">
                         <b class="text-xl">{{ notif.data.title }}</b>
                         <p class="text-sm text-gray-200">{{ notif.data.message }}</p>
                         <div class="mt-2 text-xs text-gray-400">{{ new Date(notif.createdAt).toLocaleString("en") }}</div>
                     </a>
-                    <span class="t_button p-1 text-violet-400 rounded-full hover:bg-gray-600" @click="clear(notif._id, i)">
+                    <span class="t_button p-1 text-primary-400 rounded-full hover:bg-gray-600" @click="clear(notif._id, i)">
                         <i class="far fa-times"></i>
                     </span>
                 </li>
             </transition-group>
-            <i class="fad fa-spinner fa-spin my-4 text-violet-400 text-2xl" v-if="loading"></i>
+            <i class="fad fa-spinner fa-spin my-4 text-primary-400 text-2xl" v-if="loading"></i>
         </ul>
-        <hr class="mt-auto border-gray-600 border-solid" />
+        <hr class="mt-auto border-solid" />
         <div class="flex items-center justify-center">
             <button class="mx-auto text-sm py-1 text-gray-300" @click="clear()">Clear All</button>
         </div>

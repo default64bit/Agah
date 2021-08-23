@@ -1,15 +1,15 @@
 <template>
     <div class="t_input">
-        <label class="relative text-gray-100" v-if="label">
+        <label class="relative" v-if="label">
             <span>{{ label }}</span>
-            <i class="absolute text-violet-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
+            <i class="absolute text-primary-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
         </label>
         <div class="flex flex-col flex-grow">
-            <div class="input_group bg-gray-600" :class="{ focus: focus, disabled: disabled }">
+            <div class="input_group" :class="{ focus: focus, disabled: disabled }">
                 <i class="text-gray-400" :class="icon" v-if="icon"></i>
                 <input
                     dir="auto"
-                    class="text-white"
+                    class=""
                     :name="name"
                     :type="inputType"
                     :placeholder="placeholder"
@@ -23,7 +23,7 @@
                 />
                 <textarea
                     dir="auto"
-                    class="text-white"
+                    class=""
                     :name="name"
                     :placeholder="placeholder"
                     :disabled="disabled"
@@ -40,7 +40,7 @@
                     class="cursor-pointer text-gray-300 far fa-eye fa-sm"
                     :class="{ 'fa-eye-slash': inputType != 'password' }"
                 ></b>
-                <b v-if="isSearch && value" @click="clearInput()" class="cursor-pointer text-violet-300 far fa-times fa-sm"></b>
+                <b v-if="isSearch && value" @click="clearInput()" class="cursor-pointer text-primary-300 far fa-times fa-sm"></b>
                 <b v-if="!isPassword && !isSearch && postInputText" class="text-gray-300 text-sm">{{ postInputText }}</b>
             </div>
             <div class="desc text-gray-400 text-xs mt-2" v-if="desc">{{ desc }}</div>

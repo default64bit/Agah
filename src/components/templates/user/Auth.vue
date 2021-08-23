@@ -15,16 +15,16 @@
         </div>
     </transition>
 
-    <hr class="mt-auto mb-0 mx-auto w-11/12 border-solid border-gray-600" />
+    <hr class="mt-auto mb-0 mx-auto w-11/12 border-solid" />
     <div class="auth_footer justify-center md:justify-between">
         <div class="copyright flex gap-1">
             <i class="fal fa-copyright"></i>
             <span>2021 Jasper Fix</span>
         </div>
         <div class="flex flex-wrap items-center gap-6">
-            <a class="hover:text-violet-300" href="#terms-and-conditions">Terms</a>
-            <a class="hover:text-violet-300" href="#privacy-policy">Privacy Policy</a>
-            <a class="hover:text-violet-300" href="#support">Support</a>
+            <a class="hover:text-primary-300" href="#terms-and-conditions">Terms</a>
+            <a class="hover:text-primary-300" href="#privacy-policy">Privacy Policy</a>
+            <a class="hover:text-primary-300" href="#support">Support</a>
         </div>
     </div>
 </template>

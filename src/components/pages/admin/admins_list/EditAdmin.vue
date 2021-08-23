@@ -3,11 +3,11 @@
         <div class="flex flex-wrap justify-between items-center gap-4">
             <h1 class="text-4xl"><b>Update Admin</b></h1>
         </div>
-        <hr class="my-4 border-gray-600 border-solid" />
+        <hr class="my-4 border-solid" />
 
-        <div class="flex flex-col h-full overflow-auto gap-2 pb-4">
+        <div class="flex flex-col h-full overflow-auto gap-2 p-2">
             <h3 class="text-xl">Profile Picture</h3>
-            <t-card class="bg-truegray-700 max-w-screen-sm">
+            <t-card class="max-w-screen-sm">
                 <template v-slot:content>
                     <div class="t_card_body flex flex-col md:flex-row md:items-center gap-4">
                         <div class="w-24 h-24 rounded-full shadow-lg">
@@ -16,7 +16,7 @@
                         <div class="flex flex-col gap-4">
                             <div class="flex gap-4">
                                 <input class="hidden" type="file" accept=".jpg,.png,.gif" ref="avatarFile" @change="avatarFileChange()" />
-                                <button class="t_button t_button_min bg-gray-500 hover:bg-violet-400" @click="selectAvatar()">Update Picture</button>
+                                <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">Update Picture</button>
                                 <button
                                     class="t_button t_button_min bg-gray-500 hover:bg-gray-600"
                                     @click="avatarFileDelete()"
@@ -25,23 +25,23 @@
                                     <i class="text-red-400 text-lg fas fa-trash-alt"></i>
                                 </button>
                             </div>
-                            <span class="text-sm text-gray-300">Must be JPEG, PNG, or GIF and cannot exceed 2MB.</span>
+                            <span class="text-sm">Must be JPEG, PNG, or GIF and cannot exceed 2MB.</span>
                         </div>
                     </div>
                 </template>
             </t-card>
 
-            <hr class="my-4 border-gray-600 border-solid" />
+            <hr class="my-4 border-solid" />
 
             <div class="flex flex-col gap-4">
-                <t-input class="sideway max-w-screen-sm" type="text" label="First Name" :required="true" v-model:value="name" :error="nameError" />
-                <t-input class="sideway max-w-screen-sm" type="text" label="Last Name" :required="true" v-model:value="family" :error="familyError" />
+                <t-input class="max-w-screen-sm" type="text" label="First Name" :required="true" v-model:value="name" :error="nameError" />
+                <t-input class="max-w-screen-sm" type="text" label="Last Name" :required="true" v-model:value="family" :error="familyError" />
             </div>
 
-            <hr class="my-4 border-gray-600 border-solid" />
+            <hr class="my-4 border-solid" />
 
             <t-input
-                class="sideway max-w-screen-sm"
+                class="max-w-screen-sm"
                 type="email"
                 label="Email Address"
                 desc="email address must be unique"
@@ -50,11 +50,11 @@
                 :error="emailError"
             />
 
-            <hr class="my-4 border-gray-600 border-solid" />
+            <hr class="my-4 border-solid" />
 
             <t-select
-                class="sideway"
-                inputClass="bg-gray-600 max-h-10 w-64"
+                class=""
+                inputClass="max-h-10 w-64"
                 placeholder="Admin Status"
                 label="Admin Status"
                 desc="select or change the status of admin. disabled admins can't access adminPanel"
@@ -68,11 +68,11 @@
                 </template>
             </t-select>
 
-            <hr class="my-4 border-gray-600 border-solid" />
+            <hr class="my-4 border-solid" />
 
             <t-select
-                class="sideway"
-                inputClass="bg-gray-600 max-h-10 w-64"
+                class=""
+                inputClass="max-h-10 w-64"
                 placeholder="Role"
                 label="Admin Role"
                 desc="admin role determine the permissions of admin and what admin can do or see in adminPanel"
@@ -86,10 +86,10 @@
                 </template>
             </t-select>
 
-            <hr class="my-4 border-gray-600 border-solid" />
+            <hr class="my-4 border-solid" />
 
             <t-input
-                class="sideway max-w-screen-sm"
+                class="max-w-screen-sm"
                 type="password"
                 label="Password"
                 placeholder="admin's login password"
@@ -100,9 +100,9 @@
             />
         </div>
 
-        <hr class="my-4 mt-auto border-gray-600 border-solid" />
+        <hr class="my-4 mt-auto border-solid" />
         <div class="flex flex-wrap items-center gap-4">
-            <button class="t_button t_button_min bg-violet-500 hover:bg-violet-600 disabled:opacity-50" :disabled="updatingAdmin" @click="update()">
+            <button class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50" :disabled="updatingAdmin" @click="update()">
                 <b v-if="!updatingAdmin">Save Changes</b>
                 <b v-else class="fad fa-spinner fa-spin text-xl"></b>
             </button>

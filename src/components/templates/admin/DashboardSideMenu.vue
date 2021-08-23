@@ -5,27 +5,24 @@
                 <div class="flex items-center justify-start gap-1 w-full">
                     <img src="../../../assets/images/settings.png" alt="" />
                     <h2 class="text-2xl">
-                        <b class="text-violet-400">A</b>
-                        <b class="text-violet-100">gah</b>
+                        <b class="text-primary-400">A</b>
+                        <b class="">gah</b>
                     </h2>
                 </div>
-                <button class="sidemenu_toggle t_button hover:bg-gray-700" @click="toggleSidemneu()">
+                <button class="sidemenu_toggle t_button hover:bg-gray-700 hover:text-bluegray-50" @click="toggleSidemneu()">
                     <i class="fas" :class="sidemenuOpen ? 'fa-align-right' : 'fa-ellipsis-v'"></i>
                 </button>
             </div>
         </div>
         <nav>
             <ul>
-                <router-link to="/admin" title="Dashbaord" v-if="checkPermissions(['admin.dashboard.view'], adminInfo.permissions)">
+                <router-link to="/admin" title="داشبورد" v-if="checkPermissions(['admin.dashboard.view'], adminInfo.permissions)">
                     <li class="nav_item" :class="{ nav_active: checkActive(['/admin']) }">
                         <i class="fad fa-home-lg"></i>
-                        <span>Dashbaord</span>
+                        <span>داشبورد</span>
                     </li>
                 </router-link>
 
-                <hr class="nav_spacer" />
-
-                <li class="nav_header" v-if="checkPermissions(['admin.admins.view', 'admin.admin_roles.view'], adminInfo.permissions)">System</li>
                 <li
                     class="nav_group"
                     :class="{ open: openItem == 'SystemAccess' }"
@@ -34,25 +31,25 @@
                     v-if="checkPermissions(['admin.admins.view', 'admin.admin_roles.view'], adminInfo.permissions)"
                 >
                     <div
-                        title="System Access"
+                        title="ادمین ها"
                         class="nav_item"
                         :class="{ nav_active: checkActive(['/admin/admins_list', '/admin/role_manager']) }"
                         @click="openGroup('SystemAccess', $event)"
                     >
                         <i class="fad fa-shield-alt"></i>
-                        <span>System Access</span>
+                        <span>ادمین ها</span>
                     </div>
                     <ul ref="SystemAccess" for="SystemAccess">
-                        <router-link to="/admin/admins_list" title="Admins List" v-if="checkPermissions(['admin.admins.view'], adminInfo.permissions)">
+                        <router-link to="/admin/admins_list" title="لیست ادمین ها" v-if="checkPermissions(['admin.admins.view'], adminInfo.permissions)">
                             <li class="nav_item" :class="{ nav_active: checkActive(['/admin/admins_list']) }">
-                                <span>Admins List</span>
+                                <span>لیست ادمین ها</span>
                             </li>
                         </router-link>
-                        <router-link to="/admin/role_manager" title="Role Manager" v-if="checkPermissions(['admin.admin_roles.view'], adminInfo.permissions)">
+                        <router-link to="/admin/role_manager" title="مدیریت نقش ها" v-if="checkPermissions(['admin.admin_roles.view'], adminInfo.permissions)">
                             <li class="nav_item" :class="{ nav_active: checkActive(['/admin/role_manager']) }">
-                                <span>Role Manager</span>
+                                <span>مدیریت نقش ها</span>
                                 <router-link
-                                    class="t_button p-1 text-violet-400 hover:bg-gray-800"
+                                    class="t_button p-1 text-primary-400 hover:bg-gray-800"
                                     to="/admin/role_manager/add_role"
                                     v-if="checkPermissions(['admin.admin_roles.add'], adminInfo.permissions)"
                                 >
@@ -63,32 +60,32 @@
                     </ul>
                 </li>
 
-                <router-link to="/admin/panel_settings" title="Panel Settings">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                <router-link to="/admin/users" title="کاربران">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/users']) }">
                         <i class="fad fa-cog"></i>
                         <span>کاربران</span>
+                        <!-- include caht UI with multiple tabs for messages and user info and user consulte reserves -->
                     </li>
                 </router-link>
-                <router-link to="/admin/panel_settings" title="Panel Settings">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+
+                <router-link to="/admin/consultes" title="کاربران">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/consultes']) }">
                         <i class="fad fa-cog"></i>
-                        <span>مشاورین</span>
+                        <span>مشاوره ها</span>
                     </li>
                 </router-link>
-                <router-link to="/admin/panel_settings" title="Panel Settings">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+
+                <hr class="nav_spacer" />
+
+                <li class="nav_header">گزارشات</li>
+                <router-link to="/admin/calls" title="ریزمکالمات">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/calls']) }">
                         <i class="fad fa-cog"></i>
-                        <span>مقاله ها</span>
+                        <span>ریزمکالمات</span>
                     </li>
                 </router-link>
-                <router-link to="/admin/panel_settings" title="Panel Settings">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
-                        <i class="fad fa-cog"></i>
-                        <span>سوالات متداول</span>
-                    </li>
-                </router-link>
-                <router-link to="/admin/panel_settings" title="Panel Settings">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                <router-link to="/admin/transactions" title="تراکنش های مالی">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/transactions']) }">
                         <i class="fad fa-cog"></i>
                         <span>تراکنش های مالی</span>
                     </li>
@@ -96,11 +93,21 @@
 
                 <hr class="nav_spacer" />
 
-                <li class="nav_header">Settings</li>
-                <router-link to="/admin/panel_settings" title="Panel Settings">
+                <li class="nav_header">مدیریت محتوا</li>
+                <router-link to="/admin/articles" title="مقاله ها">
+                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/articles']) }">
+                        <i class="fad fa-cog"></i>
+                        <span>مقاله ها</span>
+                    </li>
+                </router-link>
+
+                <hr class="nav_spacer" />
+
+                <li class="nav_header">تنظیمات</li>
+                <router-link to="/admin/panel_settings" title="تنظیمات پنل">
                     <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
                         <i class="fad fa-cog"></i>
-                        <span>Panel Settings</span>
+                        <span>تنظیمات پنل</span>
                     </li>
                 </router-link>
             </ul>

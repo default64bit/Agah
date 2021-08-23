@@ -1,8 +1,8 @@
 <template>
     <div class="t_select t_search_select" :class="{ open: open }">
-        <label class="relative text-gray-100" v-if="label">
+        <label class="relative" v-if="label">
             <span>{{ label }}</span>
-            <i class="absolute text-violet-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
+            <i class="absolute text-primary-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
         </label>
         <div class="flex flex-col flex-grow">
             <div class="t_select_input" :class="inputClass">

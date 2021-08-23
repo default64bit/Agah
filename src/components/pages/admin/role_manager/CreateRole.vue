@@ -3,19 +3,19 @@
         <div class="flex flex-wrap justify-between items-center gap-4">
             <h1 class="text-4xl"><b>Create New Role</b></h1>
         </div>
-        <hr class="my-4 border-gray-600 border-solid" />
+        <hr class="my-4 border-solid" />
 
-        <div class="flex flex-col h-full overflow-auto gap-2">
+        <div class="flex flex-col h-full overflow-auto gap-2 p-2">
             <t-input
-                class="sideway max-w-screen-sm"
+                class="max-w-screen-sm"
                 type="text"
                 label="Role Name"
                 desc="Role name must be unique"
                 v-model:value="roleName"
                 :error="roleNameError"
             />
-            <hr class="my-4 border-gray-600 border-solid" />
-            <h3 class="text-xl text-gray-100">Permissions</h3>
+            <hr class="my-4 border-solid" />
+            <h3 class="text-xl">Permissions</h3>
             <small class="text-gray-400">Select permissions that you want this role to have</small>
             <div v-if="selectedPermissionsError" class="flex gap-1 items-center rounded bg-red-100 text-red-700 p-1 mt-1 text-xs">
                 <i class="far fa-exclamation-circle"></i>
@@ -24,14 +24,14 @@
             <ul class="mt-4">
                 <li class="mb-4" v-for="(group, groupName) in permissions" :key="groupName">
                     <div class="flex items-center mb-2 gap-2 cursor-pointer select-none" @click="addPermission(group)">
-                        <i class="text-violet-400" :class="checkPermission(group) ? 'fas fa-check-square' : 'far fa-square'"></i>
+                        <i class="text-primary-400" :class="checkPermission(group) ? 'fas fa-check-square' : 'far fa-square'"></i>
                         <b>{{ groupName.toUpperCase() }}</b>
                     </div>
-                    <ul class="pl-6">
+                    <ul class="px-6">
                         <li class="mb-2" v-for="(item, i) in group" :key="i">
                             <div class="flex items-center gap-2 cursor-pointer select-none" @click="addPermission([item])">
-                                <i class="text-violet-400" :class="checkPermission([item]) ? 'fas fa-check-square' : 'far fa-square'"></i>
-                                <span class="text-sm text-gray-200">{{ item.label }}</span>
+                                <i class="text-primary-400" :class="checkPermission([item]) ? 'fas fa-check-square' : 'far fa-square'"></i>
+                                <span class="text-sm opacity-50">{{ item.label }}</span>
                             </div>
                         </li>
                     </ul>
@@ -39,9 +39,9 @@
             </ul>
         </div>
 
-        <hr class="my-4 mt-auto border-gray-600 border-solid" />
+        <hr class="my-4 mt-auto border-solid" />
         <div class="flex flex-wrap items-center gap-4">
-            <button class="t_button t_button_min bg-violet-500 hover:bg-violet-600 disabled:opacity-50" :disabled="creatingRole" @click="create()">
+            <button class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50" :disabled="creatingRole" @click="create()">
                 <b v-if="!creatingRole">Save Changes</b>
                 <b v-else class="fad fa-spinner fa-spin text-xl"></b>
             </button>

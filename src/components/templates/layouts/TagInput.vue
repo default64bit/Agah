@@ -2,7 +2,7 @@
     <div class="t_input">
         <label class="relative text-gray-100" v-if="label">
             <span>{{ label }}</span>
-            <i class="absolute text-violet-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
+            <i class="absolute text-primary-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
         </label>
         <ul class="flex flex-wrap gap-2 mb-2" v-if="list.length">
             <li class="flex items-center gap-1 p-1 rounded bg-warmgray-700 border-solid border-warmgray-400 border" v-for="(item, i) in list" :key="i">

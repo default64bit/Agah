@@ -1,7 +1,7 @@
 <template>
     <transition name="slidedown" mode="out-in" appear="">
         <div class="dashboard_toast" :class="borderColor" v-if="show">
-            <button class="dashboard_toast_close t_button text-violet-500 hover:bg-gray-800" @click="close()" v-if="toastOptions.dismissible">
+            <button class="dashboard_toast_close t_button text-primary-500 hover:bg-gray-800" @click="close()" v-if="toastOptions.dismissible">
                 <i class="fas fa-times"></i>
             </button>
 
@@ -44,7 +44,7 @@ export default {
                     this.borderColor = "border-rose-500";
                     break;
                 case "default":
-                    this.borderColor = "border-violet-500";
+                    this.borderColor = "border-primary-500";
                     break;
             }
 

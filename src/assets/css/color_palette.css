@@ -1,44 +1,54 @@
 :root {
-    --selection-bg-color: #8b5cf6;
+    --selection-bg-color: theme("colors.primary.500");
     --selection-color: #fffff0;
+    --scroll-thumb-bg-color: theme('colors.secondary.400');
 
     --body-bg-color: #242424;
+    --body-color: theme("colors.gray.200");
+
+    --hr-border-color: theme("colors.gray.600");
 
     --button-shadow-color: rgba(0, 0, 0, 0.25);
+    --button-bg-color: transparent;
     --button-hover-shadow-color: rgba(0, 0, 0, 0.35);
+    --button-hover-bg-color: theme("colors.gray.700");
 
     --input-color: #fff;
+    --input-group-bg-color: theme("colors.gray.600");
     --input-group-shadow-color: rgba(0, 0, 0, 0.25);
-    --input-group-focus-border-color: #c4b5fd;
+    --input-group-focus-border-color: theme("colors.primary.300");
 
+    --card-bg-color: theme("colors.truegray.700");
     --card-footer-border-top-color: #343434;
+    --card-footer-bg-color: theme("colors.warmgray.700");
     --card-loading-bg-color: #24242477;
 
     --loading-bg-color: #24242477;
 
     --tabs-border-bottom-color: #434343;
     --tabs-li-color: #dadada;
-    --tabs-li-hover-color: #c4b5fd;
-    --tabs-route-exact-active-color: #c4b5fd;
-    --tabs-route-exact-active-border-bottom-color: #8b5cf6;
+    --tabs-li-hover-color: theme("colors.primary.300");
+    --tabs-route-exact-active-color: theme("colors.primary.300");
+    --tabs-route-exact-active-border-bottom-color: theme("colors.primary.500");
 
     --table-bg-color: #343434;
     --table-th-bg-color: theme("colors.warmgray.700");
     --table-th-color: #dadada;
     --table-tr-hover-bg-color: #434343;
     --table-td-border-bottom-color: #444;
-    --table-title-color: #bfc8ff;
+    --table-title-color: theme("colors.secondary.200");
+    --table-pages-border-color: theme("colors.warmgray.700");
     --table-card-tr-shadow-color: rgba(0, 0, 0, 0.25);
 
     --select-color: #fff;
-    --select-input-bg-color: #434343;
+    --select-input-bg-color: theme("colors.gray.600");
     --select-input-shadow-color: rgba(0, 0, 0, 0.25);
-    --select-box-arrow-color: #a78bfa;
+    --select-box-arrow-color: theme("colors.primary.400");
     --select-list-bg-color: #434343;
     --select-list-shadow-color: rgba(0, 0, 0, 0.25);
     --select-list-li-hover-bg-color: #555;
     --select-list-li-selected-bg-color: #555;
-    --select-list-li-selected-shadow-color: #a78bfa;
+    --select-list-li-selected-shadow-color: theme("colors.primary.400");
 
     --group-button-list-bg-color: #434343;
     --group-button-list-shadow-color: rgba(0, 0, 0, 0.25);
@@ -47,8 +57,8 @@
     --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.25);
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.25);
 
-    --progress-bar-gradient-color-1: #8b5cf6;
-    --progress-bar-gradient-color-2: #c4b5fd;
+    --progress-bar-gradient-color-1: theme("colors.primary.500");
+    --progress-bar-gradient-color-2: theme("colors.primary.300");
 
     --call-flash-color: #2ee674;
 
@@ -59,12 +69,12 @@
     --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-sidemenu-nav-item-hover-bg-color: #343434;
     --dashboard-sidemenu-nav-item-active-bg-color: #343434;
-    --dashboard-sidemenu-nav-item-active-border-start-color: #7c3aed;
+    --dashboard-sidemenu-nav-item-active-border-start-color: theme("colors.primary.600");
     --dashboard-sidemenu-nav-spacer-border-bottom-color: #464646;
     --dashboard-sidemenu-nav-header-color: #9ca3af;
     --dashboard-sidemenu-nav-group-border-start-color: #555;
     --dashboard-sidemenu-nav-group-open-bg-color: #434343;
-    --dashboard-sidemenu-nav-group-after-color: #a78bfa;
+    --dashboard-sidemenu-nav-group-after-color: theme("colors.primary.400");
 
     --dashboard-header-shadow-color: #1a1a1a;
     --dashboard-header-title-alt-color: #3a3a3a;
@@ -85,13 +95,13 @@
     --message-board-color: #fff;
     --message-board-chat-ul-border-color: #3a3a3a;
     --message-board-chat-avatar-shadow-color: rgb(0, 0, 0, 0.35);
-    --message-board-message-bubble-sent-bg-color: #4c1d95;
+    --message-board-message-bubble-sent-bg-color: theme("colors.primary.800");
     --message-board-message-bubble-received-bg-color: #464646;
     --message-board-new-chat-color: #000;
 
     --dashboard-body-bg-color: theme("colors.truegray.800");
 
-    --welcome-card-image-before-bg-color: #a78bfa;
+    --welcome-card-image-before-bg-color: theme("colors.primary.400");
 
     --dashboard-toast-bg-color: #434343;
     --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.25);
@@ -99,10 +109,10 @@
     /* ======================================================= */
 
     --auth-header-color: #fff;
-    --auth-header-hover-bg-color: #a78bfa;
+    --auth-header-hover-bg-color: theme("colors.primary.400");
     --auth-header-hover-color: #242424;
-    --auth_box-bg-color: #343434;
-    --auth_box-shadow-color: rgba(0, 0, 0, 0.35);
+    --auth-box-bg-color: #343434;
+    --auth-box-shadow-color: rgba(0, 0, 0, 0.35);
 }
 
 [theme="dark"] {
@@ -110,46 +120,56 @@
 }
 
 [theme="light"] {
-    --selection-bg-color: #8b5cf6;
+    --selection-bg-color: theme("colors.primary.500");
     --selection-color: #fffff0;
+    --scroll-thumb-bg-color: theme('colors.secondary.400');
 
-    --body-bg-color: #e4e4e4;
+    --body-bg-color: #efefef;
+    --body-color: theme("colors.gray.800");
+
+    --hr-border-color: theme("colors.gray.300");
 
     --button-shadow-color: rgba(0, 0, 0, 0.05);
+    --button-bg-color: transparent;
     --button-hover-shadow-color: rgba(0, 0, 0, 0.15);
+    --button-hover-bg-color: theme("colors.gray.200");
 
     --input-color: #000;
+    --input-group-bg-color: #fff;
     --input-group-shadow-color: rgba(0, 0, 0, 0.05);
-    --input-group-focus-border-color: #c4b5fd;
+    --input-group-focus-border-color: theme("colors.primary.300");
 
+    --card-bg-color: theme("colors.truegray.300");
     --card-footer-border-top-color: #c4c4c4;
+    --card-footer-bg-color: theme("colors.warmgray.300");
     --card-loading-bg-color: #e4e4e477;
 
     --loading-bg-color: #e4e4e477;
 
     --tabs-border-bottom-color: #c2c2c2;
     --tabs-li-color: #2a2a2a;
-    --tabs-li-hover-color: #c4b5fd;
-    --tabs-route-exact-active-color: #c4b5fd;
-    --tabs-route-exact-active-border-bottom-color: #8b5cf6;
+    --tabs-li-hover-color: theme("colors.primary.700");
+    --tabs-route-exact-active-color: theme("colors.primary.700");
+    --tabs-route-exact-active-border-bottom-color: theme("colors.primary.500");
 
-    --table-bg-color: #efefef;
+    --table-bg-color: #ededed;
     --table-th-bg-color: theme("colors.warmgray.300");
     --table-th-color: #2a2a2a;
     --table-tr-hover-bg-color: #e2e2e2;
     --table-td-border-bottom-color: #ddd;
-    --table-title-color: #bfc8ff;
+    --table-title-color: theme("colors.secondary.200");
+    --table-pages-border-color: theme("colors.warmgray.300");
     --table-card-tr-shadow-color: rgba(0, 0, 0, 0.05);
 
     --select-color: #000;
-    --select-input-bg-color: #c2c2c2;
+    --select-input-bg-color: #fff;
     --select-input-shadow-color: rgba(0, 0, 0, 0.05);
-    --select-box-arrow-color: #a78bfa;
-    --select-list-bg-color: #f4f4f4;
+    --select-box-arrow-color: theme("colors.primary.400");
+    --select-list-bg-color: #fafafa;
     --select-list-shadow-color: rgba(0, 0, 0, 0.05);
-    --select-list-li-hover-bg-color: #555;
-    --select-list-li-selected-bg-color: #555;
-    --select-list-li-selected-shadow-color: #a78bfa;
+    --select-list-li-hover-bg-color: #ccc;
+    --select-list-li-selected-bg-color: #ccc;
+    --select-list-li-selected-shadow-color: theme("colors.primary.400");
 
     --group-button-list-bg-color: #c2c2c2;
     --group-button-list-shadow-color: rgba(0, 0, 0, 0.05);
@@ -158,8 +178,8 @@
     --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.05);
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.05);
 
-    --progress-bar-gradient-color-1: #8b5cf6;
-    --progress-bar-gradient-color-2: #c4b5fd;
+    --progress-bar-gradient-color-1: theme("colors.primary.500");
+    --progress-bar-gradient-color-2: theme("colors.primary.300");
 
     --call-flash-color: #2ee674;
 
@@ -167,42 +187,42 @@
 
     --dashboard-template-color: #000;
     --dashboard-sidemenu-bg-color: #fafafa;
-    --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.15);
+    --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.25);
     --dashboard-sidemenu-nav-item-hover-bg-color: #e1e1e1;
     --dashboard-sidemenu-nav-item-active-bg-color: #e1e1e1;
-    --dashboard-sidemenu-nav-item-active-border-start-color: #7c3aed;
-    --dashboard-sidemenu-nav-spacer-border-bottom-color: #a4a4a4;
+    --dashboard-sidemenu-nav-item-active-border-start-color: theme("colors.primary.600");
+    --dashboard-sidemenu-nav-spacer-border-bottom-color: #dfdfdf;
     --dashboard-sidemenu-nav-header-color: #9ca3af;
     --dashboard-sidemenu-nav-group-border-start-color: #555;
     --dashboard-sidemenu-nav-group-open-bg-color: #c2c2c2;
-    --dashboard-sidemenu-nav-group-after-color: #a78bfa;
+    --dashboard-sidemenu-nav-group-after-color: theme("colors.primary.400");
 
     --dashboard-header-shadow-color: #eaeaea;
     --dashboard-header-title-alt-color: #3a3a3a;
-    --dashboard-header-profile-open-bg-color: #c4c4c4;
+    --dashboard-header-profile-open-bg-color: #e4e4e4;
     --dashboard-header-profile-open-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-header-avatar-shadow-color: rgba(0, 0, 0, 0.05);
     --dashboard-header-avatar-border-color: #a4a4a4;
     --dashboard-header-profile-nav-spacer-border-color: #a4a4a4;
-    --dashboard-header-profile-nav-item-hover-bg-color: #e4e4e4;
+    --dashboard-header-profile-nav-item-hover-bg-color: #d4d4d4;
 
-    --notification-list-bg-color: #c4c4c4;
-    --notification-list-shadow-color: rgba(0, 0, 0, 0.15);
+    --notification-list-bg-color: #e4e4e4;
+    --notification-list-shadow-color: rgba(0, 0, 0, 0.05);
     --notification-list-li-bg-color: #3a3a3a;
     --notification-list-li-notif-icon-shadow-color: rgb(0, 0, 0, 0.15);
 
     --message-board-bg-color: #eaeaea;
-    --message-board-shadow-color: rgba(0, 0, 0, 0.15);
+    --message-board-shadow-color: rgba(0, 0, 0, 0.1);
     --message-board-color: #000;
     --message-board-chat-ul-border-color: #3a3a3a;
     --message-board-chat-avatar-shadow-color: rgb(0, 0, 0, 0.15);
-    --message-board-message-bubble-sent-bg-color: #a78bfa;
+    --message-board-message-bubble-sent-bg-color: theme("colors.primary.400");
     --message-board-message-bubble-received-bg-color: #464646;
     --message-board-new-chat-color: #000;
 
-    --dashboard-body-bg-color: theme("colors.truegray.200");
+    --dashboard-body-bg-color: theme("colors.truegray.100");
 
-    --welcome-card-image-before-bg-color: #a78bfa;
+    --welcome-card-image-before-bg-color: theme("colors.primary.400");
 
     --dashboard-toast-bg-color: #c2c2c2;
     --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.05);
@@ -210,8 +230,8 @@
     /* ======================================================= */
 
     --auth-header-color: #000;
-    --auth-header-hover-bg-color: #a78bfa;
+    --auth-header-hover-bg-color: theme("colors.primary.400");
     --auth-header-hover-color: #e4e4e4;
-    --auth_box-bg-color: #c4c4c4;
-    --auth_box-shadow-color: rgba(0, 0, 0, 0.15);
+    --auth-box-bg-color: #e4e4e4;
+    --auth-box-shadow-color: rgba(0, 0, 0, 0.03);
 }

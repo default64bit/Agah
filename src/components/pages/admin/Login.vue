@@ -2,9 +2,9 @@
     <auth>
         <template v-slot:content>
             <div class="auth_box">
-                <h1 class="text-white">Admin Login</h1>
+                <h1 class="">Admin Login</h1>
 
-                <a class="t_button bg-gray-100 hover:bg-gray-200 w-full" href="/api/v1/admin/auth/google">
+                <a class="t_button text-black bg-gray-100 hover:bg-gray-200 w-full" href="/api/v1/admin/auth/google">
                     <img src="../../../assets/images/icons/google.svg" alt="" />
                     <span>Login With Google</span>
                 </a>
@@ -19,7 +19,7 @@
                     <b>{{ error }}</b>
                 </div>
 
-                <button class="t_button mt-6 bg-violet-400 hover:bg-violet-500 disabled:opacity-50 w-full" :disabled="submitingForm" @click="submit()">
+                <button class="t_button mt-6 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 w-full" :disabled="submitingForm" @click="submit()">
                     <b v-if="!submitingForm">Login</b>
                     <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                 </button>

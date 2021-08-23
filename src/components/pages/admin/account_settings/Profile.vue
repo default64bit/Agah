@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col w-max max-w-full">
         <h3 class="text-xl">Profile Picture</h3>
-        <t-card class="bg-truegray-700" :loading="uploadingAvatar">
+        <t-card class="" :loading="uploadingAvatar">
             <template v-slot:content>
                 <div class="t_card_body flex items-center gap-4">
                     <div class="w-24 h-24 rounded-full shadow-lg">
@@ -10,7 +10,7 @@
                     <div class="flex flex-col gap-4">
                         <div class="flex gap-4">
                             <input class="hidden" type="file" accept=".jpg,.png,.gif" ref="avatarFile" @change="uploadAvatar()" />
-                            <button class="t_button t_button_min bg-gray-500 hover:bg-violet-400" @click="selectAvatar()">Update Picture</button>
+                            <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">Update Picture</button>
                             <button
                                 class="t_button t_button_min bg-gray-500 hover:bg-gray-600"
                                 @click="deleteAvatar()"
@@ -19,7 +19,7 @@
                                 <i class="text-red-400 text-lg fas fa-trash-alt"></i>
                             </button>
                         </div>
-                        <span class="text-sm text-gray-300">Must be JPEG, PNG, or GIF and cannot exceed 2MB.</span>
+                        <span class="text-sm">Must be JPEG, PNG, or GIF and cannot exceed 2MB.</span>
                     </div>
                 </div>
             </template>
@@ -28,15 +28,15 @@
         <hr class="my-2" />
 
         <h3 class="text-xl">Profile Info</h3>
-        <t-card class="bg-truegray-700" :loading="editingProfile">
+        <t-card class="" :loading="editingProfile">
             <template v-slot:content>
                 <div class="t_card_body flex flex-col items-center gap-6">
                     <t-input class="sideway" type="text" label="First Name" v-model:value="firstName" :error="firstNameError" />
                     <t-input class="sideway" type="text" label="Last Name" v-model:value="lastName" :error="lastNameError" />
                 </div>
-                <div class="t_card_footer bg-warmgray-700">
+                <div class="t_card_footer">
                     <button
-                        class="t_button t_button_min bg-violet-500 hover:bg-violet-600 disabled:opacity-50"
+                        class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50"
                         :disabled="editingProfile"
                         @click="editProfile()"
                     >

@@ -2,19 +2,19 @@
     <auth>
         <template v-slot:links>
             <span>Already have an account?</span>
-            <router-link to="/login" class="t_button t_button_min border-2 border-solid border-violet-400">Login</router-link>
+            <router-link to="/login" class="t_button t_button_min border-2 border-solid border-primary-400">Login</router-link>
         </template>
         <template v-slot:content>
             <div class="auth_box flex-row w-min p-0">
                 <div class="flex flex-col items-center justify-center p-6" style="width:24rem;">
-                    <h1 class="text-white">Sign Up To Jasper</h1>
+                    <h1 class="">Sign Up To Jasper</h1>
 
-                    <a class="t_button bg-gray-100 hover:bg-gray-200 w-full" href="/api/v1/user/auth/google">
+                    <a class="t_button text-black bg-gray-100 hover:bg-gray-200 w-full" href="/api/v1/user/auth/google">
                         <img src="../../../assets/images/icons/google.svg" alt="" />
                         <span>Continue With Google</span>
                     </a>
 
-                    <t-spacer class="my-5 text-gray-100" text="OR" />
+                    <t-spacer class="my-5" text="OR" />
 
                     <div class="flex flex-row items-start justify-center gap-2">
                         <t-input class="mb-4" name="name" type="text" icon="fad fa-user" label="First Name" v-model:value="name" />
@@ -35,9 +35,9 @@
                     <div class="w-full">
                         <t-checkbox name="term_check" v-model:value="termCheck">
                             <template v-slot:desc>
-                                <span class="text-white text-xs">
-                                    By creating an account you agree to the <a class="text-violet-300" href="#terms-of-use">terms of use</a> and our
-                                    <a class="text-violet-300" href="#privacy-policy">privacy policy</a>
+                                <span class="text-xs">
+                                    By creating an account you agree to the <a class="text-primary-600" href="#terms-of-use">terms of use</a> and our
+                                    <a class="text-primary-600" href="#privacy-policy">privacy policy</a>
                                 </span>
                             </template>
                         </t-checkbox>
@@ -48,7 +48,7 @@
                         <b>{{ error }}</b>
                     </div>
 
-                    <button class="t_button mt-6 bg-violet-400 hover:bg-violet-500 disabled:opacity-50 w-full" :disabled="submitingForm" @click="submit()">
+                    <button class="t_button mt-6 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 w-full" :disabled="submitingForm" @click="submit()">
                         <b v-if="!submitingForm">Register</b>
                         <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                     </button>

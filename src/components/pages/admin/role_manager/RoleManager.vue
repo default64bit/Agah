@@ -5,7 +5,7 @@
             <div class="flex items-center gap-2">
                 <router-link
                     to="/admin/role_manager/add_role"
-                    class="t_button t_button_min bg-violet-500 hover:bg-violet-600"
+                    class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50"
                     v-if="checkPermissions(['admin.admin_roles.add'], adminInfo.permissions)"
                 >
                     <i class="fal fa-plus"></i> <b>New Role</b>
@@ -13,39 +13,39 @@
             </div>
         </div>
 
-        <hr class="my-4 border-gray-600 border-solid" />
+        <hr class="my-4 border-solid" />
 
         <div class="flex flex-wrap justify-between items-center gap-4">
             <div class="flex flex-wrap md:flex-nowrap items-center gap-2">
                 <t-input type="search" icon="fad fa-search" placeholder="Search..." v-model:value="search" @keydown="searchTable($event)" />
-                <button class="t_button t_button_min bg-gray-600 hover:bg-gray-700" @click="filterDialogState = true">
+                <button class="t_button t_button_min" @click="filterDialogState = true">
                     <i class="far fa-sliders-h"></i> Filters
                 </button>
                 <t-groupbutton>
                     <template v-slot:button>
-                        <span class="t_button t_button_min bg-gray-600 hover:bg-gray-700"><i class="fas fa-sort-amount-up"></i> Sort</span>
+                        <span class="t_button t_button_min"><i class="fas fa-sort-amount-up"></i> Sort</span>
                     </template>
                     <template v-slot:buttons>
                         <span
-                            class="flex justify-between items-center gap-4 rounded p-2 bg-gray-600 hover:bg-gray-700"
+                            class="flex justify-between items-center gap-4 rounded p-2"
                             v-for="(item, name) in sortOptions"
                             :key="name"
                             @click="updateSort(name)"
                         >
                             <span> {{ name }} </span>
                             <i
-                                class="text-violet-400 fad fa-sort"
+                                class="text-primary-400 fad fa-sort"
                                 :class="{ 'fa-sort-up': sort.col == name && sort.type == 'asc', 'fa-sort-down': sort.col == name && sort.type == 'desc' }"
                             ></i>
                         </span>
                     </template>
                 </t-groupbutton>
             </div>
-            <div class="flex justify-center items-center">
-                <button class="t_button p-2" :class="tableView == 'list' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'list'">
+            <div class="flex justify-center items-center gap-1">
+                <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'list'">
                     <i class="fas fa-th-list fa-lg"></i>
                 </button>
-                <button class="t_button p-2" :class="tableView == 'card' ? 'text-violet-500' : 'text-gray-400'" @click="tableView = 'card'">
+                <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'card'">
                     <i class="fas fa-th-large fa-lg"></i>
                 </button>
             </div>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <hr class="border-warmgray-700 border-solid my-4" />
-                <button class="t_button py-1 bg-violet-500 hover:bg-violet-600" @click="filter()">Filter</button>
+                <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-bluegray-50" @click="filter()">Filter</button>
             </template>
         </t-dialog>
 
@@ -131,7 +131,7 @@
                         <b v-if="!deletingRecord">Delete</b>
                         <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                     </button>
-                    <button class="t_button py-1 border-violet-400 hover:bg-violet-500" @click="deleteDialogState = false">Cancel</button>
+                    <button class="t_button py-1 border-primary-400 hover:bg-primary-500" @click="deleteDialogState = false">Cancel</button>
                 </div>
             </template>
         </t-dialog>

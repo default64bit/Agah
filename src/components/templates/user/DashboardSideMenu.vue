@@ -5,11 +5,11 @@
                 <div class="flex items-center justify-start gap-1 w-full">
                     <img src="../../../assets/images/settings.png" alt="" />
                     <h2 class="text-2xl">
-                        <b class="text-violet-400">J</b>
-                        <b class="text-violet-100">asper</b>
+                        <b class="text-primary-400">J</b>
+                        <b class="text-primary-100">asper</b>
                     </h2>
                 </div>
-                <button class="sidemenu_toggle t_button hover:bg-gray-700" @click="toggleSidemneu()">
+                <button class="sidemenu_toggle t_button hover:bg-gray-700 hover:text-bluegray-50" @click="toggleSidemneu()">
                     <i class="fas" :class="sidemenuOpen ? 'fa-align-right' : 'fa-ellipsis-v'"></i>
                 </button>
             </div>

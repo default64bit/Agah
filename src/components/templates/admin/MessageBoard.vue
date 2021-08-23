@@ -1,51 +1,51 @@
 <template>
     <teleport to="body">
         <div class="message_board" :class="{ open: isOpen }" ref="message_board">
-            <small class="text-violet-300 mb-2" v-if="!connectionReady">Connecting...</small>
+            <small class="text-primary-300 mb-2" v-if="!connectionReady">Connecting...</small>
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
-                    <button class="t_button p-1 text-violet-400 hover:bg-gray-600" @click="back()" v-if="page != 'chats'">
+                    <button class="t_button p-1 text-primary-400 hover:bg-gray-600" @click="back()" v-if="page != 'chats'">
                         <i class="far fa-arrow-left"></i>
                     </button>
                     <h2 class="text-3xl" v-if="page == 'chats'">Messages</h2>
                     <div class="flex items-center gap-2" v-if="page == 'messages'">
-                        <div class="chat_avatar border-violet-400">
+                        <div class="chat_avatar border-primary-400">
                             <img :src="selectedChat.avatar" alt="" />
                         </div>
                         <b class="text-xl flex-grow overflow-hidden overflow-ellipsis">{{ selectedChat.fullName }}</b>
                     </div>
                 </div>
-                <button class="t_button p-1 text-violet-400 hover:bg-gray-600" @click="close()"><i class="far fa-times"></i></button>
+                <button class="t_button p-1 text-primary-400 hover:bg-gray-600" @click="close()"><i class="far fa-times"></i></button>
             </div>
-            <hr class="my-4 border-gray-600 border-solid" />
+            <hr class="my-4 border-solid" />
 
             <div class="message_board_page" name="chats" v-show="page == 'chats'">
                 <ul ref="chat_ul" name="chat_ul">
                     <transition-group name="slideright" appear>
                         <li v-for="(chat, i) in chats" :key="i" @click="goToMessages(chat)">
-                            <div class="chat_avatar" :class="{ 'border-violet-400': chat.hasNew }">
+                            <div class="chat_avatar" :class="{ 'border-primary-400': chat.hasNew }">
                                 <img :src="chat.avatar" alt="" />
                             </div>
                             <div class="chat_info flex flex-col">
                                 <div class="flex items-center justify-between gap-4">
                                     <b class="flex-grow overflow-hidden">{{ chat.fullName }}</b>
-                                    <div class="text-xs text-gray-400" v-if="chat.lastMsg">
+                                    <div class="text-xs opacity-50" v-if="chat.lastMsg">
                                         {{ new Date(chat.lastMsg.createdAt).toLocaleDateString("en") }}
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between gap-4">
-                                    <p class="text-sm text-gray-300" v-if="chat.lastMsg">{{ chat.lastMsg.message }}</p>
-                                    <i class="fad fa-circle text-violet-500" v-if="chat.hasNew"></i>
+                                    <p class="text-sm opacity-50" v-if="chat.lastMsg">{{ chat.lastMsg.message }}</p>
+                                    <i class="fad fa-circle text-primary-500" v-if="chat.hasNew"></i>
                                 </div>
                             </div>
                         </li>
                     </transition-group>
                     <div class="flex items-center justify-center" v-if="loadingChat">
-                        <i class="fad fa-spinner fa-spin my-4 text-violet-400 text-2xl"></i>
+                        <i class="fad fa-spinner fa-spin my-4 text-primary-400 text-2xl"></i>
                     </div>
                 </ul>
                 <transition name="slideup" mode="out-in" appear="">
-                    <button class="new_chat t_button bg-violet-500 hover:bg-violet-600" v-if="!newChatBtnHide" @click="goToPeople()">
+                    <button class="new_chat t_button bg-primary-500 hover:bg-primary-600 text-bluegray-50" v-if="!newChatBtnHide" @click="goToPeople()">
                         <i class="fas fa-plus"></i>
                     </button>
                 </transition>
@@ -54,7 +54,7 @@
             <div class="message_board_page" name="messages" v-show="page == 'messages'">
                 <ul class="mb-4" ref="message_ul" name="message_ul">
                     <div class="flex items-center justify-center" v-if="selectedMessageBoard.loading">
-                        <i class="fad fa-spinner fa-spin my-4 text-violet-400 text-2xl"></i>
+                        <i class="fad fa-spinner fa-spin my-4 text-primary-400 text-2xl"></i>
                     </div>
                     <li v-for="(message, i) in selectedMessageBoard.messages" :key="i">
                         <transition :name="message.sender.email == adminInfo.email ? 'slideleft' : 'slideright'" appear>
@@ -69,20 +69,20 @@
                     </li>
                     <transition name="slideleft" appear>
                         <li v-if="selectedMessageBoard.typing">
-                            <div class="message_bubble received bg-gray-500 text-violet-400 text-xs"><b>Typing...</b></div>
+                            <div class="message_bubble received bg-gray-500 text-primary-500 text-xs"><b>Typing...</b></div>
                         </li>
                     </transition>
                 </ul>
-                <div class="flex items-center mt-auto p-2 bg-gray-700 rounded">
+                <div class="flex items-center mt-auto p-2 shadow-xl border border-solid border-primary-300 rounded">
                     <input
-                        class="flex-grow px-2 bg-gray-700"
+                        class="flex-grow bg-transparent px-2"
                         v-model="selectedMessageBoard.draftText"
                         placeholder="Type Your Message..."
                         dir="auto"
                         @keyup="messageInputKeyup"
                     />
                     <span class="far fa-horizontal-rule fa-rotate-90 text-gray-500"></span>
-                    <button class="t_button shadow-none p-1 text-xl text-violet-500" @click="sendMessage()">
+                    <button class="t_button shadow-none p-1 text-xl text-primary-500" @click="sendMessage()">
                         <i class="fad fa-paper-plane"></i>
                     </button>
                 </div>
@@ -102,7 +102,7 @@
                         </li>
                     </transition-group>
                     <div class="flex items-center justify-center" v-if="loadingPeople">
-                        <i class="fad fa-spinner fa-spin my-4 text-violet-400 text-2xl"></i>
+                        <i class="fad fa-spinner fa-spin my-4 text-primary-400 text-2xl"></i>
                     </div>
                 </ul>
             </div>

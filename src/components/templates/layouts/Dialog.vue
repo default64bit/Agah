@@ -9,8 +9,8 @@
                             <h2 class="text-lg">
                                 <b>{{ title }}</b>
                             </h2>
-                            <button class="t_button p-1 hover:bg-gray-600" @click="close()">
-                                <i class="fas fa-times h-4 text-violet-400 text-xl"></i>
+                            <button class="t_button p-1 hover:bg-gray-600 hover:text-bluegray-50" @click="close()">
+                                <i class="fas fa-times h-4 text-primary-400 text-xl"></i>
                             </button>
                         </div>
                         <slot name="body"></slot>

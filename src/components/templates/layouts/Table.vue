@@ -6,7 +6,7 @@
                 <small class="text-gray-400">results per page</small>
                 <t-select
                     class="w-auto"
-                    inputClass="text-sm w-max py-1 h-7 bg-gray-600"
+                    inputClass="text-sm w-max py-1 h-7"
                     :options="ppOptions"
                     v-model:selectedOption="selectedPP"
                     @update:selectedOption="updatePerPage()"
@@ -32,7 +32,7 @@
                             <div class="flex items-center gap-4">
                                 <span>{{ name }}</span>
                                 <i
-                                    class="text-violet-400 fad fa-sort"
+                                    class="text-primary-400 fad fa-sort"
                                     :class="{ 'fa-sort-up': sort.col == name && sort.type == 'asc', 'fa-sort-down': sort.col == name && sort.type == 'desc' }"
                                     v-if="value.sortable"
                                 ></i>
@@ -48,22 +48,22 @@
                     </transition-group>
                 </tbody>
             </table>
-            <div class="flex justify-center items-center p-4 text-violet-400 text-lg" v-if="isEmpty">No Data Available</div>
+            <div class="flex justify-center items-center p-4 text-primary-400 text-lg" v-if="isEmpty">No Data Available</div>
         </div>
         <div class="t_card_loading" v-else>
-            <i class="fad fa-spinner-third fa-spin fa-5x text-violet-400"></i>
+            <i class="fad fa-spinner-third fa-spin fa-5x text-primary-400"></i>
         </div>
 
-        <div class="flex items-center flex-wrap gap-4 mt-auto pt-2 border-t-2 border-solid border-warmgray-700">
-            <button class="t_button py-1 hover:border-violet-500 border-warmgray-700 border-2 border-solid" :disabled="page == 1" @click="prev">
-                <i class="fas fa-chevron-left text-violet-400"></i> <span>Previus</span>
+        <div class="t_table_pages flex items-center flex-wrap gap-4 mt-auto pt-2 border-t-2 border-solid">
+            <button class="t_button py-1 hover:border-primary-500 border-warmgray-700 border-2 border-solid" :disabled="page == 1" @click="prev">
+                <i class="fas fa-chevron-left text-primary-400"></i> <span>Previus</span>
             </button>
             <div class="flex items-center justify-center gap-2" dir="auto">
                 <t-input class="w-10 py-0" type="text" v-model:value="tempPage" @keyup="updatePage($event)"></t-input>
                 <span>Of {{ pageTotal }}</span>
             </div>
-            <button class="t_button py-1 hover:border-violet-500 border-warmgray-700 border-2 border-solid" :disabled="page == pageTotal" @click="next">
-                <span>Next</span> <i class="fas fa-chevron-right text-violet-400"></i>
+            <button class="t_button py-1 hover:border-primary-500 border-warmgray-700 border-2 border-solid" :disabled="page == pageTotal" @click="next">
+                <span>Next</span> <i class="fas fa-chevron-right text-primary-400"></i>
             </button>
         </div>
     </div>

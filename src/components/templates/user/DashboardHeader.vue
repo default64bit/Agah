@@ -3,8 +3,8 @@
         <div class="header_info flex flex-wrap-reverse md:flex-nowrap items-end md:items-start gap-2">
             <div class="flex flex-wrap items-center gap-1">
                 <div class="notifications">
-                    <button class="icon_head notification_toggle relative hover:bg-gray-700 t_button" @click="notifToggleClick()">
-                        <span class="bop bg-violet-400" v-if="newNotif"></span>
+                    <button class="icon_head notification_toggle relative hover:bg-gray-700 hover:text-bluegray-50 t_button" @click="notifToggleClick()">
+                        <span class="bop bg-primary-400" v-if="newNotif"></span>
                         <i class="far fa-inbox text-lg"></i>
                         <span class="title_alt text-xs">Notifications</span>
                     </button>
