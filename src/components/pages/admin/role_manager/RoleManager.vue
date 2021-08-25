@@ -113,7 +113,7 @@
                         />
                     </div>
                 </div>
-                <hr class="border-warmgray-700 border-solid my-4" />
+                <hr class="border-solid my-4" />
                 <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-bluegray-50" @click="filter()">Filter</button>
             </template>
         </t-dialog>
@@ -122,10 +122,10 @@
             <template v-slot:body>
                 <div class="flex flex-col">
                     <i class="fad fa-exclamation-triangle text-red-500 my-4 mx-auto text-6xl"></i>
-                    <span class="text-lg">Do you want to <b class="text-rose-200">DELETE</b> record "{{ deletingRecordName }}"?</span>
-                    <small class="text-gray-300">This action is permanent and can't be undone</small>
+                    <span class="text-lg">Do you want to <b class="text-rose-300">DELETE</b> record "{{ deletingRecordName }}"?</span>
+                    <small class="opacity-50">This action is permanent and can't be undone</small>
                 </div>
-                <hr class="border-warmgray-700 border-solid my-4" />
+                <hr class="border-solid my-4" />
                 <div class="flex gap-2">
                     <button class="t_button py-1 bg-rose-400 hover:bg-rose-500" :disabled="deletingRecord" @click="deleteRecord()">
                         <b v-if="!deletingRecord">Delete</b>

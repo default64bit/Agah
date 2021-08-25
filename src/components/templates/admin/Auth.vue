@@ -21,6 +21,7 @@ export default {
     },
     async created() {},
     async mounted() {
+        this.setup();
         await this.checkAuthentication();
     },
     computed: {
@@ -38,6 +39,12 @@ export default {
                 .catch((e) => {
                     this.loading = false;
                 });
+        },
+
+        setup() {
+            if (localStorage.getItem("adminPanelTheme") !== null) {
+                window.document.querySelector("body").setAttribute("theme", localStorage.getItem("adminPanelTheme"));
+            }
         },
     },
 };

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { body } from "express-validator";
 import BaseValidator from "../BaseValidator";
 
-class ProfileValidator extends BaseValidator {
+class Validator extends BaseValidator {
     public static async updateInfo(req: Request, res: Response, next) {
         const validationChain = [
             body("firstName").exists().withMessage("name can't be empty"),
@@ -39,4 +39,4 @@ class ProfileValidator extends BaseValidator {
     }
 }
 
-export default ProfileValidator;
+export default Validator;

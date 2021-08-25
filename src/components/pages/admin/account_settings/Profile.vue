@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col w-max max-w-full">
-        <h3 class="text-xl">Profile Picture</h3>
+        <h3 class="text-xl">عکس پروفایل</h3>
         <t-card class="" :loading="uploadingAvatar">
             <template v-slot:content>
                 <div class="t_card_body flex items-center gap-4">
@@ -10,7 +10,7 @@
                     <div class="flex flex-col gap-4">
                         <div class="flex gap-4">
                             <input class="hidden" type="file" accept=".jpg,.png,.gif" ref="avatarFile" @change="uploadAvatar()" />
-                            <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">Update Picture</button>
+                            <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">تغییر عکس</button>
                             <button
                                 class="t_button t_button_min bg-gray-500 hover:bg-gray-600"
                                 @click="deleteAvatar()"
@@ -27,12 +27,12 @@
 
         <hr class="my-2" />
 
-        <h3 class="text-xl">Profile Info</h3>
+        <h3 class="text-xl">اطلاعات عمومی</h3>
         <t-card class="" :loading="editingProfile">
             <template v-slot:content>
-                <div class="t_card_body flex flex-col items-center gap-6">
-                    <t-input class="sideway" type="text" label="First Name" v-model:value="firstName" :error="firstNameError" />
-                    <t-input class="sideway" type="text" label="Last Name" v-model:value="lastName" :error="lastNameError" />
+                <div class="t_card_body flex items-center gap-6">
+                    <t-input class="" type="text" label="نام" v-model:value="firstName" :error="firstNameError" />
+                    <t-input class="" type="text" label="نام خانوادگی" v-model:value="lastName" :error="lastNameError" />
                 </div>
                 <div class="t_card_footer">
                     <button
@@ -40,7 +40,7 @@
                         :disabled="editingProfile"
                         @click="editProfile()"
                     >
-                        <b v-if="!editingProfile">Save Changes</b>
+                        <b v-if="!editingProfile">ثبت تغییرات</b>
                         <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                     </button>
                 </div>

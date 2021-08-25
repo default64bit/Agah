@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { body, param, query } from "express-validator";
 import BaseValidator from "../BaseValidator";
 
-class AdminRolesValidator extends BaseValidator {
+class Validator extends BaseValidator {
     public static async getRoles(req: Request, res: Response, next) {
         const validationChain = [
             query("page").escape(),
@@ -67,4 +67,4 @@ class AdminRolesValidator extends BaseValidator {
     }
 }
 
-export default AdminRolesValidator;
+export default Validator;

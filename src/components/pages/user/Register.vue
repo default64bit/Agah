@@ -9,7 +9,7 @@
                 <div class="flex flex-col items-center justify-center p-6" style="width:24rem;">
                     <h1 class="">Sign Up To Jasper</h1>
 
-                    <a class="t_button text-black bg-gray-100 hover:bg-gray-200 w-full" href="/api/v1/user/auth/google">
+                    <a class="t_button text-black bg-gray-50 hover:bg-gray-100 w-full" href="/api/v1/user/auth/google">
                         <img src="../../../assets/images/icons/google.svg" alt="" />
                         <span>Continue With Google</span>
                     </a>

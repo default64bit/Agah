@@ -30,6 +30,7 @@
     --tabs-li-hover-color: theme("colors.primary.300");
     --tabs-route-exact-active-color: theme("colors.primary.300");
     --tabs-route-exact-active-border-bottom-color: theme("colors.primary.500");
+    --tabs-route-exact-active-bg-color: theme("colors.gray.600");
 
     --table-bg-color: #343434;
     --table-th-bg-color: theme("colors.warmgray.700");
@@ -55,6 +56,7 @@
 
     --dialog-color: #fff;
     --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.25);
+    --dialog-box-bg-color: theme("colors.gray.800");
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.25);
 
     --progress-bar-gradient-color-1: theme("colors.primary.500");
@@ -115,11 +117,11 @@
     --auth-box-shadow-color: rgba(0, 0, 0, 0.35);
 }
 
-[theme="dark"] {
+[theme="default_dark"] {
     /* default theme is dark */
 }
 
-[theme="light"] {
+[theme="default_light"] {
     --selection-bg-color: theme("colors.primary.500");
     --selection-color: #fffff0;
     --scroll-thumb-bg-color: theme('colors.secondary.400');
@@ -131,7 +133,7 @@
 
     --button-shadow-color: rgba(0, 0, 0, 0.05);
     --button-bg-color: transparent;
-    --button-hover-shadow-color: rgba(0, 0, 0, 0.15);
+    --button-hover-shadow-color: rgba(0, 0, 0, 0.06);
     --button-hover-bg-color: theme("colors.gray.200");
 
     --input-color: #000;
@@ -151,13 +153,14 @@
     --tabs-li-hover-color: theme("colors.primary.700");
     --tabs-route-exact-active-color: theme("colors.primary.700");
     --tabs-route-exact-active-border-bottom-color: theme("colors.primary.500");
+    --tabs-route-exact-active-bg-color: #fff;
 
     --table-bg-color: #ededed;
     --table-th-bg-color: theme("colors.warmgray.300");
     --table-th-color: #2a2a2a;
     --table-tr-hover-bg-color: #e2e2e2;
     --table-td-border-bottom-color: #ddd;
-    --table-title-color: theme("colors.secondary.200");
+    --table-title-color: theme("colors.secondary.500");
     --table-pages-border-color: theme("colors.warmgray.300");
     --table-card-tr-shadow-color: rgba(0, 0, 0, 0.05);
 
@@ -171,11 +174,12 @@
     --select-list-li-selected-bg-color: #ccc;
     --select-list-li-selected-shadow-color: theme("colors.primary.400");
 
-    --group-button-list-bg-color: #c2c2c2;
+    --group-button-list-bg-color: #e3e3e3;
     --group-button-list-shadow-color: rgba(0, 0, 0, 0.05);
 
     --dialog-color: #000;
     --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.05);
+    --dialog-box-bg-color: theme("colors.gray.100");
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.05);
 
     --progress-bar-gradient-color-1: theme("colors.primary.500");
@@ -191,9 +195,9 @@
     --dashboard-sidemenu-nav-item-hover-bg-color: #e1e1e1;
     --dashboard-sidemenu-nav-item-active-bg-color: #e1e1e1;
     --dashboard-sidemenu-nav-item-active-border-start-color: theme("colors.primary.600");
-    --dashboard-sidemenu-nav-spacer-border-bottom-color: #dfdfdf;
+    --dashboard-sidemenu-nav-spacer-border-bottom-color: #e1e1e1;
     --dashboard-sidemenu-nav-header-color: #9ca3af;
-    --dashboard-sidemenu-nav-group-border-start-color: #555;
+    --dashboard-sidemenu-nav-group-border-start-color: #999;
     --dashboard-sidemenu-nav-group-open-bg-color: #c2c2c2;
     --dashboard-sidemenu-nav-group-after-color: theme("colors.primary.400");
 
@@ -224,7 +228,7 @@
 
     --welcome-card-image-before-bg-color: theme("colors.primary.400");
 
-    --dashboard-toast-bg-color: #c2c2c2;
+    --dashboard-toast-bg-color: #fff;
     --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.05);
 
     /* ======================================================= */

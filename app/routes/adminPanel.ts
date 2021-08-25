@@ -17,6 +17,12 @@ import AdminRolesValidator from "../validators/admin/AdminRolesValidator";
 
 import PermissionController from "../controllers/admin/PermissionController";
 
+import UserController from "../controllers/admin/UserController";
+import UserValidator from "../validators/admin/UserValidator";
+
+import CallsController from "../controllers/admin/CallsController";
+import CallsValidator from "../validators/admin/CallsValidator";
+
 import PanelSettingsController from "../controllers/admin/PanelSettingsController";
 import PanelSettingsValidator from "../validators/admin/PanelSettingsValidator";
 
@@ -27,6 +33,8 @@ const messageBoardController = new MessageBoardController();
 const adminsController = new AdminsController();
 const adminRolesController = new AdminRolesController();
 const permissionController = new PermissionController();
+const userController = new UserController();
+const callsController = new CallsController();
 const panelSettingsController = new PanelSettingsController();
 
 router.use(adminAuth.ensureAuth);
@@ -66,8 +74,17 @@ router.get("/admin_role/:id", AdminRolesValidator.getRole, adminRolesController.
 router.post("/admin_roles", AdminRolesValidator.addRole, adminRolesController.addRole.bind(adminRolesController));
 router.put("/admin_roles", AdminRolesValidator.editRole, adminRolesController.editRole.bind(adminRolesController));
 router.delete("/admin_role/:id", AdminRolesValidator.deleteRole, adminRolesController.deleteRole.bind(adminRolesController));
-
 router.get("/permissions", permissionController.getPermissions.bind(permissionController));
+
+router.get("/users", UserValidator.getUsers, userController.getUsers.bind(userController));
+router.get("/user/:id/info", UserValidator.getUser, userController.getUserInfo.bind(userController));
+router.get("/user/:id/chats", UserValidator.getUser, userController.getUserChats.bind(userController));
+router.get("/user/:id/schedules", UserValidator.getUser, userController.getUserSchedules.bind(userController));
+router.get("/user/:id/transactions", UserValidator.getUser, userController.getUserTransactions.bind(userController));
+router.put("/user/:id", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"), UserValidator.editUser, userController.editUser.bind(userController));
+router.delete("/user/:id", UserValidator.deleteUser, userController.deleteUser.bind(userController));
+
+router.get("/calls", CallsValidator.getCalls, callsController.getCalls.bind(callsController));
 
 router.get("/panel_settings", panelSettingsController.getSettings.bind(panelSettingsController));
 router.post("/panel_settings", PanelSettingsValidator.editAdmin, panelSettingsController.updateSettings.bind(panelSettingsController));

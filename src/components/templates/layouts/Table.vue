@@ -1,9 +1,9 @@
 <template>
     <div class="t_table">
         <div class="flex flex-wrap justify-between items-center">
-            <small class="text-gray-400">{{ `showing ${(page - 1) * pp + 1} - ${end} out of ${total} results` }}</small>
+            <small class="opacity-50">{{ `showing ${(page - 1) * pp + 1} - ${end} out of ${total} results` }}</small>
             <div class="flex items-center gap-2">
-                <small class="text-gray-400">results per page</small>
+                <small class="opacity-50">results per page</small>
                 <t-select
                     class="w-auto"
                     inputClass="text-sm w-max py-1 h-7"
@@ -55,15 +55,15 @@
         </div>
 
         <div class="t_table_pages flex items-center flex-wrap gap-4 mt-auto pt-2 border-t-2 border-solid">
-            <button class="t_button py-1 hover:border-primary-500 border-warmgray-700 border-2 border-solid" :disabled="page == 1" @click="prev">
-                <i class="fas fa-chevron-left text-primary-400"></i> <span>Previus</span>
+            <button class="t_button py-1 hover:border-primary-500 border-warmgray-500 border-2 border-solid" :disabled="page == 1" @click="prev">
+                <i class="fas fa-chevron-left text-primary-400"></i> <span>قبلی</span>
             </button>
             <div class="flex items-center justify-center gap-2" dir="auto">
                 <t-input class="w-10 py-0" type="text" v-model:value="tempPage" @keyup="updatePage($event)"></t-input>
                 <span>Of {{ pageTotal }}</span>
             </div>
-            <button class="t_button py-1 hover:border-primary-500 border-warmgray-700 border-2 border-solid" :disabled="page == pageTotal" @click="next">
-                <span>Next</span> <i class="fas fa-chevron-right text-primary-400"></i>
+            <button class="t_button py-1 hover:border-primary-500 border-warmgray-500 border-2 border-solid" :disabled="page == pageTotal" @click="next">
+                <span>بعدی</span> <i class="fas fa-chevron-right text-primary-400"></i>
             </button>
         </div>
     </div>

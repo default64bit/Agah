@@ -17,6 +17,10 @@ const _schema: mongoose.Schema = new mongoose.Schema({
     lastMessageDate: {
         type: Date,
     },
+    newMessage: {
+        type: Number,
+        default: 0,
+    },
 });
 
 export interface IUserChat {
@@ -25,6 +29,7 @@ export interface IUserChat {
     admin: mongodb.ObjectId;
     lastMessage: IUserChatMessages;
     lastMessageDate: Date;
+    newMessage: Number;
 }
 
 class UserChat {

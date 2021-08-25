@@ -28,7 +28,7 @@
                 />
                 <b v-if="postInputText" class="text-gray-300 text-sm">{{ postInputText }}</b>
             </div>
-            <div class="desc text-gray-400 text-xs mt-2" v-if="desc">{{ desc }}</div>
+            <div class="desc opacity-50 text-xs mt-2" v-if="desc">{{ desc }}</div>
             <div v-if="error" class="flex gap-1 items-center rounded bg-red-100 text-red-700 p-1 mt-1 text-xs">
                 <i class="far fa-exclamation-circle"></i>
                 <b>{{ error }}</b>

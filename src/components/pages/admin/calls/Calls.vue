@@ -1,16 +1,9 @@
 <template>
     <div class="dashboard_body">
         <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-4xl"><b>Admins List</b></h1>
+            <h1 class="text-4xl"><b>ریزمکالمات</b></h1>
             <div class="flex items-center gap-2">
                 <button class="t_button t_button_min bg-gray-200 hover:bg-gray-300 text-black"><i class="fas fa-print"></i> Export</button>
-                <router-link
-                    to="/admin/admins_list/create_admin"
-                    class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50"
-                    v-if="checkPermissions(['admin.admins.add'], adminInfo.permissions)"
-                >
-                    <i class="fal fa-plus"></i> <b>New Admin</b>
-                </router-link>
             </div>
         </div>
 
@@ -19,9 +12,7 @@
         <div class="flex flex-wrap justify-between items-center gap-4">
             <div class="flex flex-wrap md:flex-nowrap items-center gap-2">
                 <t-input type="search" icon="fad fa-search" placeholder="Search..." v-model:value="search" @keydown="searchTable($event)" />
-                <button class="t_button t_button_min" @click="filterDialogState = true">
-                    <i class="far fa-sliders-h"></i> Filters
-                </button>
+                <button class="t_button t_button_min" @click="filterDialogState = true"><i class="far fa-sliders-h"></i> Filters</button>
                 <t-groupbutton>
                     <template v-slot:button>
                         <span class="t_button t_button_min"><i class="fas fa-sort-amount-up"></i> Sort</span>
@@ -66,52 +57,45 @@
             :pageTotal="pageTotal"
             @update:table="getTableData()"
         >
-            <template v-slot:tbody="{ record, index }">
+            <template v-slot:tbody="{ record, index }" :index="index">
                 <td>
-                    <div class="flex items-center gap-2">
-                        <img class="avatar" :src="record.image" v-if="record.image" alt="" />
-                        <img class="avatar" src="http://localhost:3000/img/avatars/admin.png" v-else alt="" />
-                        <span>{{ `${record.name} ${record.family}` }}</span>
-                    </div>
+                    <span class="title">گیرنده:</span>
+                    <span v-if="record.caller_user[0]" dir="ltr">
+                        {{ `${record.caller_user[0].name} ${record.caller_user[0].family}` }}
+                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
+                    </span>
+                    <span v-if="record.caller_admin[0]" dir="ltr">
+                        {{ `${record.caller_admin[0].name} ${record.caller_admin[0].family}` }}
+                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
+                    </span>
                 </td>
-                <td>{{ record.email }}</td>
-                <td>{{ record.role.name }}</td>
                 <td>
-                    <span class="p-1 px-2 text-sm rounded-xl bg-lime-100 text-lime-700" v-if="record.status == 'active'"><b>Active</b></span>
-                    <span class="p-1 px-2 text-sm rounded-xl bg-rose-100 text-rose-700" v-if="record.status == 'deactive'"><b>Deactive</b></span>
+                    <span class="title">مخاطب:</span>
+                    <span v-if="record.callee_user[0]" dir="ltr">
+                        {{ `${record.callee_user[0].name} ${record.callee_user[0].family}` }}
+                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
+                    </span>
+                    <span v-if="record.callee_admin[0]" dir="ltr">
+                        {{ `${record.callee_admin[0].name} ${record.callee_admin[0].family}` }}
+                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
+                    </span>
                 </td>
-                <td>{{ new Date(record.createdAt).toLocaleString("en") }}</td>
                 <td>
-                    <div class="flex items-center gap-1">
-                        <router-link
-                            :to="`/admin/admins_list/admin/${record._id}`"
-                            class="t_button p-2 rounded-full hover:bg-cyan-300 hover:text-black"
-                            title="Edit"
-                            v-if="checkPermissions(['admin.admins.edit'], adminInfo.permissions)"
-                        >
-                            <i class="fal fa-pen"></i>
-                        </router-link>
-                        <button
-                            class="t_button p-2 rounded-full hover:bg-red-300 hover:text-black"
-                            title="Delete"
-                            @click="askToDelete(record._id, `${record.name} ${record.family}`, index)"
-                            v-if="checkPermissions(['admin.admins.delete'], adminInfo.permissions)"
-                        >
-                            <i class="fal fa-trash"></i>
-                        </button>
-                    </div>
+                    <span class="title">مدت تماس:</span>
+                    <span>{{ record.duration }}</span>
                 </td>
+                <td>{{ new Date(record.createdAt).toLocaleString("fa") }}</td>
             </template>
         </t-table>
 
-        <t-dialog v-model:open="filterDialogState" title="Filters">
+        <t-dialog v-model:open="filterDialogState" title="فیلترها">
             <template v-slot:body>
                 <div class="flex flex-col">
                     <div class="flex items-center gap-4">
                         <t-input
                             type="text"
                             icon="fad fa-calendar-alt"
-                            label="From Register Date"
+                            label="از تاریخ"
                             desc="yyyy/mm/dd"
                             maskPattern="0000/00/00"
                             v-model:value="filters.fromRegisterDate"
@@ -119,7 +103,7 @@
                         <t-input
                             type="text"
                             icon="fad fa-calendar-alt"
-                            label="To Register Date"
+                            label="تا تاریخ"
                             desc="yyyy/mm/dd"
                             maskPattern="0000/00/00"
                             v-model:value="filters.toRegisterDate"
@@ -127,21 +111,7 @@
                     </div>
                 </div>
                 <hr class="border border-solid my-4" />
-                <div class="flex flex-col">
-                    <label class="mb-2">Status</label>
-                    <ul class="flex flex-wrap gap-2 select-none">
-                        <li class="t_button py-0 gap-2 rounded-full bg-gray-700 hover:bg-gray-800" @click="filterStatus('active')">
-                            <i class="fal fa-check text-primary-100" v-if="filters.status.indexOf('active') != -1"></i>
-                            <span class="text-lime-200">Active</span>
-                        </li>
-                        <li class="t_button py-0 gap-2 rounded-full bg-gray-700 hover:bg-gray-800" @click="filterStatus('deactive')">
-                            <i class="fal fa-check text-primary-100" v-if="filters.status.indexOf('deactive') != -1"></i>
-                            <span class="text-rose-200">Deactive</span>
-                        </li>
-                    </ul>
-                </div>
-                <hr class="border border-solid my-4" />
-                <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-bluegray-50" @click="filter()">Filter</button>
+                <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-bluegray-50" @click="filter()">فیلتر</button>
             </template>
         </t-dialog>
 
@@ -192,19 +162,17 @@ export default {
                 toRegisterDate: "",
                 status: [],
             },
-            sort: { col: "Name", type: "asc" },
+            sort: { col: "تاریخ تماس", type: "asc" },
             page: 1,
             pp: 25,
             total: 0,
             pageTotal: 0,
 
             tableHeads: {
-                Name: { sortable: true },
-                Email: { sortable: true },
-                Role: { sortable: true },
-                Status: { sortable: true },
-                "Register Date": { sortable: true },
-                Actions: { sortable: false },
+                گیرنده: { sortable: true },
+                مخاطب: { sortable: true },
+                "مدت تماس": { sortable: true },
+                "تاریخ تماس": { sortable: true },
             },
             tableData: [],
             tableView: "list",
@@ -255,7 +223,7 @@ export default {
             params = params.join("&");
 
             axios
-                .get(`${this.getBaseUrl()}/api/v1/admin/admins?${params}`)
+                .get(`${this.getBaseUrl()}/api/v1/admin/calls?${params}`)
                 .then((response) => {
                     this.tableData = response.data.records;
                     this.total = response.data.total;
@@ -263,50 +231,11 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {
                     this.isDataLoading = false;
-                });
-        },
-
-        askToDelete(id, name, index) {
-            this.deletingRecordId = id;
-            this.deletingRecordName = name;
-            this.deletingRecordIndex = index;
-            this.deleteDialogState = true;
-        },
-        deleteRecord() {
-            this.deletingRecord = true;
-            axios
-                .delete(`${this.getBaseUrl()}/api/v1/admin/admins/${this.deletingRecordId}`)
-                .then((response) => {
-                    this.makeToast({
-                        title: "Delete Admin",
-                        message: `Admin ${this.deletingRecordName} has been deleted successfully`,
-                        type: "success",
-                    });
-                    this.tableData.splice(this.deletingRecordIndex, 1);
-                })
-                .catch((error) => {
-                    if (error.response.data) {
-                        this.makeToast({
-                            title: "Delete Admin",
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
-                    }
-                })
-                .finally(() => {
-                    this.deletingRecordId = "";
-                    this.deletingRecordName = "";
-                    this.deletingRecordIndex = "";
-                    this.deletingRecord = false;
-                    this.deleteDialogState = false;
                 });
         },
 
@@ -326,13 +255,6 @@ export default {
         filter() {
             this.filterDialogState = false;
             this.getTableData();
-        },
-        filterStatus(status) {
-            if (this.filters.status.indexOf(status) != -1) {
-                this.filters.status.splice(this.filters.status.indexOf(status), 1);
-            } else {
-                this.filters.status.push(status);
-            }
         },
     },
 };

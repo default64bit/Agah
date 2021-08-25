@@ -16,8 +16,8 @@
         </div>
         <nav>
             <ul>
-                <router-link to="/admin" title="داشبورد" v-if="checkPermissions(['admin.dashboard.view'], adminInfo.permissions)">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin']) }">
+                <router-link to="/admin/dashboard" title="داشبورد" v-if="checkPermissions(['admin.dashboard.view'], adminInfo.permissions)">
+                    <li class="nav_item">
                         <i class="fad fa-home-lg"></i>
                         <span>داشبورد</span>
                     </li>
@@ -41,36 +41,32 @@
                     </div>
                     <ul ref="SystemAccess" for="SystemAccess">
                         <router-link to="/admin/admins_list" title="لیست ادمین ها" v-if="checkPermissions(['admin.admins.view'], adminInfo.permissions)">
-                            <li class="nav_item" :class="{ nav_active: checkActive(['/admin/admins_list']) }">
+                            <li class="nav_item">
                                 <span>لیست ادمین ها</span>
                             </li>
                         </router-link>
                         <router-link to="/admin/role_manager" title="مدیریت نقش ها" v-if="checkPermissions(['admin.admin_roles.view'], adminInfo.permissions)">
-                            <li class="nav_item" :class="{ nav_active: checkActive(['/admin/role_manager']) }">
+                            <li class="nav_item">
                                 <span>مدیریت نقش ها</span>
-                                <router-link
-                                    class="t_button p-1 text-primary-400 hover:bg-gray-800"
-                                    to="/admin/role_manager/add_role"
-                                    v-if="checkPermissions(['admin.admin_roles.add'], adminInfo.permissions)"
-                                >
-                                    <i class="fas fa-plus"></i>
-                                </router-link>
                             </li>
                         </router-link>
                     </ul>
                 </li>
 
-                <router-link to="/admin/users" title="کاربران">
+                <router-link
+                    to="/admin/users"
+                    title="کاربران"
+                    v-if="checkPermissions(['admin.users.view', 'admin.users.chat', 'admin.users.call'], adminInfo.permissions)"
+                >
                     <li class="nav_item" :class="{ nav_active: checkActive(['/admin/users']) }">
-                        <i class="fad fa-cog"></i>
+                        <i class="fad fa-users"></i>
                         <span>کاربران</span>
-                        <!-- include caht UI with multiple tabs for messages and user info and user consulte reserves -->
                     </li>
                 </router-link>
 
                 <router-link to="/admin/consultes" title="کاربران">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/consultes']) }">
-                        <i class="fad fa-cog"></i>
+                    <li class="nav_item">
+                        <i class="fad fa-calendar-alt"></i>
                         <span>مشاوره ها</span>
                     </li>
                 </router-link>
@@ -78,15 +74,15 @@
                 <hr class="nav_spacer" />
 
                 <li class="nav_header">گزارشات</li>
-                <router-link to="/admin/calls" title="ریزمکالمات">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/calls']) }">
-                        <i class="fad fa-cog"></i>
+                <router-link to="/admin/calls" title="ریزمکالمات" v-if="checkPermissions(['admin.calls.view'], adminInfo.permissions)">
+                    <li class="nav_item">
+                        <i class="fad fa-phone-volume"></i>
                         <span>ریزمکالمات</span>
                     </li>
                 </router-link>
                 <router-link to="/admin/transactions" title="تراکنش های مالی">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/transactions']) }">
-                        <i class="fad fa-cog"></i>
+                    <li class="nav_item">
+                        <i class="fad fa-file-invoice-dollar"></i>
                         <span>تراکنش های مالی</span>
                     </li>
                 </router-link>
@@ -95,8 +91,8 @@
 
                 <li class="nav_header">مدیریت محتوا</li>
                 <router-link to="/admin/articles" title="مقاله ها">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/articles']) }">
-                        <i class="fad fa-cog"></i>
+                    <li class="nav_item">
+                        <i class="fad fa-newspaper"></i>
                         <span>مقاله ها</span>
                     </li>
                 </router-link>
@@ -105,7 +101,7 @@
 
                 <li class="nav_header">تنظیمات</li>
                 <router-link to="/admin/panel_settings" title="تنظیمات پنل">
-                    <li class="nav_item" :class="{ nav_active: checkActive(['/admin/panel_settings']) }">
+                    <li class="nav_item">
                         <i class="fad fa-cog"></i>
                         <span>تنظیمات پنل</span>
                     </li>
@@ -129,13 +125,22 @@ export default {
         };
     },
     created() {},
-    mounted() {},
+    mounted() {
+        if (localStorage.getItem("sidemenuOpen") !== null) this.sidemenuOpen = localStorage.getItem("sidemenuOpen") == "true" ? true : false;
+
+        this.adjustSidemenu();
+        window.addEventListener("resize", this.adjustSidemenu);
+    },
+    beforeUnmount() {
+        window.removeEventListener("resize", this.adjustSidemenu);
+    },
     computed: {
         ...mapGetters(["adminInfo"]),
     },
     methods: {
         toggleSidemneu() {
             this.sidemenuOpen = !this.sidemenuOpen;
+            localStorage.setItem("sidemenuOpen", this.sidemenuOpen);
             this.openGroup();
         },
 
@@ -173,7 +178,7 @@ export default {
         checkActive(routes = [], openGroup = null) {
             let isActive = false;
             for (let i = 0; i < routes.length; i++) {
-                if (this.$route.path == routes[i]) {
+                if (this.$route.path.includes(routes[i])) {
                     isActive = true;
                     break;
                 }
@@ -182,6 +187,10 @@ export default {
                 this.openGroup(openGroup);
             }
             return isActive;
+        },
+
+        adjustSidemenu() {
+            if (window.innerWidth <= 640) this.sidemenuOpen = false;
         },
     },
 };

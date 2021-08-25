@@ -44,7 +44,8 @@ export default () => {
                 path: "/admin",
                 component: () => import("./components/templates/admin/Dashboard"),
                 children: [
-                    { path: "", component: () => import("./components/pages/admin/Home"), name: "AdminHome" },
+                    { path: "dashboard", alias: "", component: () => import("./components/pages/admin/Home"), name: "AdminHome" },
+
                     {
                         path: "account_settings",
                         component: () => import("./components/templates/admin/AccountSettings"),
@@ -62,6 +63,19 @@ export default () => {
                     { path: "role_manager", component: () => import("./components/pages/admin/role_manager/RoleManager") },
                     { path: "role_manager/add_role", component: () => import("./components/pages/admin/role_manager/CreateRole") },
                     { path: "role_manager/role/:id", component: () => import("./components/pages/admin/role_manager/EditRole") },
+
+                    {
+                        path: "users",
+                        component: () => import("./components/pages/admin/users/Users"),
+                        children: [
+                            { path: "info/:id?", alias:"", component: () => import("./components/pages/admin/users/Info") },
+                            { path: "chat/:id?", component: () => import("./components/pages/admin/users/Chat") },
+                            { path: "schedules/:id?", component: () => import("./components/pages/admin/users/Schedules") },
+                            { path: "transactions/:id?", component: () => import("./components/pages/admin/users/Transactions") },
+                        ],
+                    },
+
+                    { path: "calls", component: () => import("./components/pages/admin/calls/Calls") },
 
                     { path: "panel_settings", component: () => import("./components/pages/admin/PanelSettings") },
                 ],

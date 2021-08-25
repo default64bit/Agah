@@ -73,7 +73,7 @@ export default () => {
                 },
             },
             async (jwtPayload, callback) => {
-                let admin = await Admin.model.findById(jwtPayload);
+                let admin = await Admin.model.findById(jwtPayload).exec();
                 if (admin) {
                     if (admin.status != "active") {
                         return callback(403, null);

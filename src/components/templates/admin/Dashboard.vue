@@ -37,10 +37,11 @@ export default {
         await this.checkAuthentication();
     },
     created() {},
-    mounted() {
-        this.checkAuthentication();
+    async mounted() {
+        this.setup();
+        await this.checkAuthentication();
     },
-    beforeRouteEnter(to, from, next) {
+    async beforeRouteEnter(to, from, next) {
         // TOOD
         // check admin permissions
         next();
@@ -68,6 +69,12 @@ export default {
                         window.location.href = "/admin/login";
                     }
                 });
+        },
+
+        setup() {
+            if (localStorage.getItem("adminPanelTheme") !== null) {
+                window.document.querySelector("body").setAttribute("theme", localStorage.getItem("adminPanelTheme"));
+            }
         },
     },
 };

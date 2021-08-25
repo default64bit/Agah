@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { body, param, query } from "express-validator";
 import BaseValidator from "../BaseValidator";
 
-class PanelSettingsValidator extends BaseValidator {
+class Validator extends BaseValidator {
     public static async editAdmin(req: Request, res: Response, next) {
         const validationChain = [
             body("companyName").isString().withMessage("Compnay name must be a string"),
@@ -24,4 +24,4 @@ class PanelSettingsValidator extends BaseValidator {
     }
 }
 
-export default PanelSettingsValidator;
+export default Validator;

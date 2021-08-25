@@ -1,25 +1,20 @@
 <template>
     <div class="flex flex-col w-max max-w-full">
-        <h3 class="text-xl">Reset Password</h3>
+        <h3 class="text-xl">تغییر رمزعبور</h3>
         <t-card class="" :loading="updatingPassword">
             <template v-slot:content>
                 <div class="t_card_body flex flex-col items-center gap-6">
                     <t-input
-                        class="sideway"
                         type="password"
-                        label="Old Password"
+                        label="رمزعبور قدیمی"
                         v-model:value="oldPassword"
                         :error="oldPasswordError"
-                        desc="Your current password that you want to change"
+                        desc="رمزعبور که هم اکنون استفاده میکنید"
                     />
-                    <t-input class="sideway" type="password" label="New Password" v-model:value="newPassword" :error="newPasswordError" />
-                    <t-input
-                        class="sideway"
-                        type="password"
-                        label="New Password Confirmation"
-                        v-model:value="newPasswordConfirmation"
-                        :error="newPasswordConfirmationError"
-                    />
+                    <div class="flex items-center gap-2">
+                        <t-input class="" type="password" label="رمزعبور جدید" v-model:value="newPassword" :error="newPasswordError" />
+                        <t-input type="password" label="تکرار رمزعبور جدید" v-model:value="newPasswordConfirmation" :error="newPasswordConfirmationError" />
+                    </div>
                 </div>
                 <div class="t_card_footer">
                     <button
@@ -27,7 +22,7 @@
                         :disabled="updatingPassword"
                         @click="resetPassword()"
                     >
-                        <b v-if="!updatingPassword">Confirm</b>
+                        <b v-if="!updatingPassword">تایید</b>
                         <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                     </button>
                 </div>
@@ -105,7 +100,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data) {
-                        if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== 'undefined') {
+                        if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
                         } else {
                             this.makeToast({

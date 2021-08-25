@@ -26,6 +26,8 @@ const actions = {
                 headers: {
                     AdminAuthToken: AdminAuthToken,
                     "csrf-token": Options.csrfToken,
+                    "Cache-Control": "no-cache",
+                    Pragma: "no-cache",
                 },
             })
             .then((response) => {

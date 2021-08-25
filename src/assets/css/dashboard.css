@@ -44,7 +44,7 @@
 .dashboard_sidemenu nav .nav_item:hover{
     background-color: var(--dashboard-sidemenu-nav-item-hover-bg-color);
 }
-.dashboard_sidemenu nav .nav_item.nav_active{
+.dashboard_sidemenu nav .nav_item.nav_active,.dashboard_sidemenu nav .router-link-active .nav_item{
     background-color: var(--dashboard-sidemenu-nav-item-active-bg-color); border-inline-start: .35rem solid var(--dashboard-sidemenu-nav-item-active-border-start-color); margin-inline-start: -.25rem;
 }
 .dashboard_sidemenu.min:not(:hover) nav > a{width: 100%;}
@@ -62,7 +62,7 @@
 .dashboard_sidemenu nav .nav_group.open{}
 .dashboard_sidemenu nav .nav_group ul{
     height: 0px; overflow: hidden; transition: all .3s;
-    padding-inline-start: 1rem; margin: .25rem 0;
+    padding-inline-start: 1rem; padding-top: .25rem;
     border-inline-start: 1px solid var(--dashboard-sidemenu-nav-group-border-start-color); margin-inline-start: 1rem;
 }
 .dashboard_sidemenu.min nav .nav_group ul{ position: relative; }

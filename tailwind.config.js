@@ -8,6 +8,7 @@ module.exports = {
             screens: {
                 "2xs": "160px",
                 xs: "320px",
+                "2sm": "480px",
             },
         },
         colors: {
@@ -22,7 +23,7 @@ module.exports = {
                 800: "#797664",
                 900: "#636052",
             },
-            transparent: 'transparent',
+            transparent: "transparent",
             black: colors.black,
             white: colors.white,
             bluegray: colors.blueGray,

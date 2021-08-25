@@ -33,6 +33,7 @@
                 v-model:selectedOption="theme"
                 :error="themeError"
                 :options="themeOptions"
+                @update:selectedOption="changeTheme()"
             >
                 <template v-slot:option="{ option }">
                     <option :value="option.value">{{ option.name }}</option>
@@ -42,7 +43,11 @@
 
         <hr class="my-4 mt-auto border-solid" />
         <div class="flex flex-wrap items-center gap-4">
-            <button class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 text-bluegray-50 disabled:opacity-50" :disabled="savingChanges" @click="saveChanges()">
+            <button
+                class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 text-bluegray-50 disabled:opacity-50"
+                :disabled="savingChanges"
+                @click="saveChanges()"
+            >
                 <b v-if="!savingChanges">Save Changes</b>
                 <b v-else class="fad fa-spinner fa-spin text-xl"></b>
             </button>
@@ -156,6 +161,13 @@ export default {
                         this.$router.push("/admin/");
                     }
                 });
+        },
+
+        // ========================================
+
+        changeTheme() {
+            window.document.querySelector("body").setAttribute("theme", this.theme.value);
+            localStorage.setItem("adminPanelTheme", this.theme.value);
         },
     },
 };

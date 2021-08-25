@@ -4,12 +4,12 @@
             <div class="auth_box">
                 <h1 class="">Admin Login</h1>
 
-                <a class="t_button text-black bg-gray-100 hover:bg-gray-200 w-full" href="/api/v1/admin/auth/google">
+                <a class="t_button text-black bg-gray-50 hover:bg-gray-100 w-full" href="/api/v1/admin/auth/google">
                     <img src="../../../assets/images/icons/google.svg" alt="" />
                     <span>Login With Google</span>
                 </a>
 
-                <t-spacer class="my-5 text-gray-100" text="OR" />
+                <t-spacer class="my-5" text="OR" />
 
                 <t-input class="mb-4" name="username" type="text" icon="fad fa-envelope" label="Email Address" v-model:value="username" />
                 <t-input class="mb-4" name="password" type="password" icon="fad fa-lock-alt" label="Password" v-model:value="password" />

@@ -4,7 +4,7 @@
             <div class="t_dialog" :class="{ open: open }" v-show="open">
                 <div class="backdrop" @click="close()"></div>
                 <transition name="slidedown" appear>
-                    <div class="box bg-gray-800" :class="boxClass" v-show="open">
+                    <div class="box" :class="boxClass" v-show="open">
                         <div class="flex justify-between items-center gap-4 mb-4">
                             <h2 class="text-lg">
                                 <b>{{ title }}</b>
