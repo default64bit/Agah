@@ -90,7 +90,7 @@ class AdminsController {
         // finding the model
         const admin = await Admin.model
             .findById(id)
-            .select(["image", "name", "family", "email", "status"])
+            .select(["-googleID"])
             .populate("role", ["name"])
             .exec();
         if (!admin) return res.status(404).end();
@@ -146,17 +146,21 @@ class AdminsController {
             });
         }
 
-        await Admin.model.create({
-            image: imageLink,
-            name: req.body.name.toString(),
-            family: req.body.family.toString(),
-            email: req.body.email.toString(),
-            password: await Admin.hash(req.body.password.toString()),
-            status: req.body.status.toString(),
-            role: roleId,
-        });
+        const admin = await Admin.model
+            .create({
+                image: imageLink,
+                name: req.body.name.toString(),
+                family: req.body.family.toString(),
+                email: req.body.email.toString(),
+                password: await Admin.hash(req.body.password.toString()),
+                status: req.body.status.toString(),
+                role: roleId,
+            })
+            .then((doc) => doc)
+            .catch((e) => false);
+        if (!admin) return res.status(500).end();
 
-        return res.end();
+        return res.json(admin);
     }
 
     public async editAdmin(req: AuthenticatedRequest, res: Response) {
@@ -238,6 +242,19 @@ class AdminsController {
         if (imageLink != "") updateQuery["image"] = imageLink;
         if (req.body.password) updateQuery["password"] = await Admin.hash(req.body.password.toString());
 
+        if (req.body.socialMedias) {
+            updateQuery["socialMedias"] = [];
+            const socialMedias = JSON.parse(req.body.socialMedias);
+            socialMedias.forEach((socialMedia) => {
+                if(socialMedia.name && socialMedia.value){
+                    updateQuery["socialMedias"].push({
+                        name: socialMedia.name.value,
+                        link: socialMedia.value,
+                    });
+                }
+            });
+        }
+
         await Admin.model.updateOne({ _id: id }, updateQuery).catch((e) => {
             error = true;
             console.log(e);
@@ -256,7 +273,7 @@ class AdminsController {
 
     public async deleteAdmin(req: AuthenticatedRequest, res: Response) {
         if (!adminPermissionCheck(req, req.admin)) return res.status(403).end();
-        
+
         let id = mongoose.Types.ObjectId(req.params.id);
 
         // check if deleting admin is not the logged in admin

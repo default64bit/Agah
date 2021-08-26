@@ -121,20 +121,13 @@ export default {
                 data: formData,
             })
                 .then(() => {
-                    this.makeToast({
-                        message: "Profile Picture Updated Successfully",
-                        type: "success",
-                    });
+                    this.makeToast({ message: "Profile Picture Updated Successfully", type: "success" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field) {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                 })
@@ -150,10 +143,7 @@ export default {
                 csrfToken: this.getCookie("XSRF-TOKEN"),
             })
                 .then(() => {
-                    this.makeToast({
-                        message: "Profile Picture Deleted Successfully",
-                        type: "success",
-                    });
+                    this.makeToast({ message: "Profile Picture Deleted Successfully", type: "success" });
                 })
                 .catch(() => {})
                 .finally(() => {
@@ -176,20 +166,13 @@ export default {
                 },
             })
                 .then(() => {
-                    this.makeToast({
-                        message: "Profile Info Updated Successfully",
-                        type: "info",
-                    });
+                    this.makeToast({ message: "Profile Info Updated Successfully", type: "info" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field) {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                 })

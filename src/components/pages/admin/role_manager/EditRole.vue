@@ -6,14 +6,7 @@
         <hr class="my-4 border-solid" />
 
         <div class="flex flex-col h-full overflow-auto gap-2 p-2">
-            <t-input
-                class="max-w-screen-sm"
-                type="text"
-                label="Role Name"
-                desc="Role name must be unique"
-                v-model:value="roleName"
-                :error="roleNameError"
-            />
+            <t-input class="max-w-screen-sm" type="text" label="Role Name" desc="Role name must be unique" v-model:value="roleName" :error="roleNameError" />
             <hr class="my-4 border-solid" />
             <h3 class="text-xl">Permissions</h3>
             <small class="text-gray-400">Select permissions that you want this role to have</small>
@@ -41,7 +34,11 @@
 
         <hr class="my-4 mt-auto border-solid" />
         <div class="flex flex-wrap items-center gap-4">
-            <button class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50" :disabled="editingRole" @click="edit()">
+            <button
+                class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50"
+                :disabled="editingRole"
+                @click="edit()"
+            >
                 <b v-if="!editingRole">Save Changes</b>
                 <b v-else class="fad fa-spinner fa-spin text-xl"></b>
             </button>
@@ -93,21 +90,13 @@ export default {
                     selectedPermissions: this.selectedPermissions,
                 })
                 .then((response) => {
-                    this.makeToast({
-                        title: "Update Role",
-                        message: "Role has been updated successfully",
-                        type: "info",
-                    });
+                    this.makeToast({ title: "Update Role", message: "Role has been updated successfully", type: "info" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                 })
@@ -153,13 +142,9 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                     if (error.response.status == 404) {
@@ -183,10 +168,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 });
         },

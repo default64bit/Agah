@@ -93,20 +93,13 @@ export default {
                     }
                 )
                 .then((response) => {
-                    this.makeToast({
-                        message: "Your Password Updated Successfully",
-                        type: "success",
-                    });
+                    this.makeToast({ message: "Your Password Updated Successfully", type: "success" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                 })

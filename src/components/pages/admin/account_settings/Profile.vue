@@ -5,7 +5,7 @@
             <template v-slot:content>
                 <div class="t_card_body flex items-center gap-4">
                     <div class="w-24 h-24 rounded-full shadow-lg">
-                        <img class="w-full h-full rounded-full" :src="adminInfo.avatar" alt="" />
+                        <img class="w-full h-full rounded-full object-cover" :src="adminInfo.avatar" alt="" />
                     </div>
                     <div class="flex flex-col gap-4">
                         <div class="flex gap-4">
@@ -100,20 +100,14 @@ export default {
                 data: formData,
             })
                 .then(() => {
-                    this.makeToast({
-                        message: "Profile Picture Updated Successfully",
-                        type: "success",
-                    });
+                    this.makeToast({ message: "Profile Picture Updated Successfully", type: "success" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
                         if (error.response.data.field) {
                             this[error.response.data.field + "Error"] = error.response.data.error;
                         } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
+                            this.makeToast({ message: error.response.data.error, type: "danger" });
                         }
                     }
                 })
@@ -129,10 +123,7 @@ export default {
                 csrfToken: this.getCookie("XSRF-TOKEN"),
             })
                 .then(() => {
-                    this.makeToast({
-                        message: "Profile Picture Deleted Successfully",
-                        type: "success",
-                    });
+                    this.makeToast({ message: "Profile Picture Deleted Successfully", type: "success" });
                 })
                 .catch(() => {})
                 .finally(() => {
@@ -155,20 +146,14 @@ export default {
                 },
             })
                 .then(() => {
-                    this.makeToast({
-                        message: "Profile Info Updated Successfully",
-                        type: "info",
-                    });
+                    this.makeToast({ message: "Profile Info Updated Successfully", type: "info" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
                         if (error.response.data.field) {
                             this[error.response.data.field + "Error"] = error.response.data.error;
                         } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
+                            this.makeToast({ message: error.response.data.error, type: "danger" });
                         }
                     }
                 })

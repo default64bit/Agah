@@ -3,8 +3,8 @@
         <label class="" v-if="label">{{ label }}</label>
         <div class="flex flex-col flex-grow">
             <div class="input_group">
-                <input class="text-white" type="checkbox" :name="name" v-model="value" />
-                <div class="flex items-start mb-2 gap-2 cursor-pointer select-none" @click="toggleCheck()">
+                <input class="text-white" :type="type" :name="name" v-model="value" />
+                <div class="flex items-start gap-2 cursor-pointer select-none" @click="toggleCheck()">
                     <i class="text-primary-500 mt-1" :class="value == 'true' ? 'fas fa-check-square' : 'far fa-square'"></i>
                     <span class="text-sm">
                         <slot name="desc"></slot>
@@ -26,6 +26,7 @@ export default {
     props: {
         name: {},
         label: {},
+        type: { default: "checkbox" },
         value: { default: "false" },
         desc: {},
         error: {},

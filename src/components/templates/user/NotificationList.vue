@@ -55,7 +55,7 @@ export default {
         this.$refs.notif_ul.removeEventListener("scroll", this.onScroll);
     },
     computed: {
-        ...mapGetters(["makeToast","userInfo"]),
+        ...mapGetters(["makeToast", "userInfo"]),
     },
     watch: {
         isOpen(newValue) {
@@ -94,10 +94,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {
@@ -130,10 +127,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 });
         },

@@ -58,7 +58,16 @@ export default () => {
 
                     { path: "admins_list", component: () => import("./components/pages/admin/admins_list/AdminsList") },
                     { path: "admins_list/create_admin", component: () => import("./components/pages/admin/admins_list/CreateAdmin") },
-                    { path: "admins_list/admin/:id", component: () => import("./components/pages/admin/admins_list/EditAdmin") },
+                    // { path: "admins_list/admin/:id", component: () => import("./components/pages/admin/admins_list/EditAdmin") },
+                    {
+                        path: "admins_list/admin/:id",
+                        component: () => import("./components/pages/admin/admins_list/EditAdminTemplate"),
+                        children: [
+                            { path: "", component: () => import("./components/pages/admin/admins_list/EditAdmin") },
+                            { path: "schedules", component: () => import("./components/pages/admin/admins_list/Schedules") },
+                            { path: "timeoff-schedules", component: () => import("./components/pages/admin/admins_list/TimeOffSchedules") },
+                        ],
+                    },
 
                     { path: "role_manager", component: () => import("./components/pages/admin/role_manager/RoleManager") },
                     { path: "role_manager/add_role", component: () => import("./components/pages/admin/role_manager/CreateRole") },

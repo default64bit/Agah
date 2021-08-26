@@ -19,9 +19,7 @@
         <div class="flex flex-wrap justify-between items-center gap-4">
             <div class="flex flex-wrap md:flex-nowrap items-center gap-2">
                 <t-input type="search" icon="fad fa-search" placeholder="Search..." v-model:value="search" @keydown="searchTable($event)" />
-                <button class="t_button t_button_min" @click="filterDialogState = true">
-                    <i class="far fa-sliders-h"></i> Filters
-                </button>
+                <button class="t_button t_button_min" @click="filterDialogState = true"><i class="far fa-sliders-h"></i> Filters</button>
                 <t-groupbutton>
                     <template v-slot:button>
                         <span class="t_button t_button_min"><i class="fas fa-sort-amount-up"></i> Sort</span>
@@ -263,10 +261,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {
@@ -285,20 +280,12 @@ export default {
             axios
                 .delete(`${this.getBaseUrl()}/api/v1/admin/admins/${this.deletingRecordId}`)
                 .then((response) => {
-                    this.makeToast({
-                        title: "Delete Admin",
-                        message: `Admin ${this.deletingRecordName} has been deleted successfully`,
-                        type: "success",
-                    });
+                    this.makeToast({ title: "Delete Admin", message: `Admin ${this.deletingRecordName} has been deleted successfully`, type: "success" });
                     this.tableData.splice(this.deletingRecordIndex, 1);
                 })
                 .catch((error) => {
                     if (error.response.data) {
-                        this.makeToast({
-                            title: "Delete Admin",
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ title: "Delete Admin", message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {

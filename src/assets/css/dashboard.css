@@ -14,9 +14,9 @@
     background-color: var(--dashboard-sidemenu-bg-color); transition: all .3s;
     box-shadow: 5px 0px 10px var(--dashboard-sidemenu-shadow-color);
 }
-.dashboard_sidemenu.min{ position: fixed; width: 5rem; }
-.dashboard_sidemenu.min:hover{ width: 17rem; }
-.dashboard_sidemenu.min + .dashboard_bh{ width: calc(100% - 5rem); margin-inline-start: 5rem; }
+.dashboard_sidemenu.min{ position: fixed; width: 3rem; padding: .2rem; }
+.dashboard_sidemenu.min:hover{ width: 17rem; padding: .75rem; }
+.dashboard_sidemenu.min + .dashboard_bh{ width: calc(100% - 3rem); margin-inline-start: 3rem; }
 .dashboard_sidemenu head{
     display: flex; flex-direction: column;
 }
@@ -109,8 +109,8 @@
 }
 .dashboard_header .title_alt{
     position: absolute; top: 2.5rem; opacity: .7;
-    display: none; padding: .25rem .75rem;
-    border-radius: 5px; background-color: var(--dashboard-header-title-alt-color); color: white;
+    display: none; padding: .25rem .75rem; width: max-content; color: var(--dashboard-header-title-alt-color);
+    border-radius: 5px; background-color: var(--dashboard-header-title-alt-bg-color);
 }
 .dashboard_header .icon_head:hover .title_alt{ display: flex; }
 
@@ -161,7 +161,7 @@
 /* Header ======================================================== */
 
 /* Notification List ======================================================== */
-.notification_list{
+/* .notification_list{
     position: absolute;
     width: 25rem; height: 0; max-height: calc(100vh - 5rem);
     overflow: hidden; z-index: 12;
@@ -174,24 +174,23 @@
 }
 .notification_list.open{
     height: 35rem;
-}
+} */
 
-.notification_list ul{
-    display: flex; flex-direction: column; gap: .5rem;
-    height: calc(100% - 6rem); overflow: auto;
+.notification_list{
+    display: flex; flex-direction: column; gap: .5rem; overflow: auto;
 }
-.notification_list ul li{
+.notification_list li{
     position: relative;
     display: flex; align-items: flex-start; justify-content: flex-start; gap: 1rem;
     width: 100%; padding: 1rem; background-color: var(--notification-list-li-bg-color);
 }
-.notification_list ul li .notif_icon{
+.notification_list li .notif_icon{
     border-width: 1px; border-style: solid; border-color: transparent; border-radius: 50%;
     display: flex; justify-content: center; align-items: center;
     padding: .5rem; width: 3rem; height: 3rem;
     box-shadow: inset 0px 0px 10px var(--notification-list-li-notif-icon-shadow-color);
 }
-.notification_list ul li .notif_info{
+.notification_list li .notif_info{
     width: calc(100% - 7rem); flex-grow: 1;
 }
 /* Notification List ======================================================== */
@@ -199,8 +198,8 @@
 /* Message Board ======================================================== */
 .message_board{
     position: fixed; top: 0; inset-inline-end: 0;
-    display: flex; flex-direction: column; z-index: 10;
-    width: 24rem; height: 100vh; padding: 1rem;
+    display: flex; flex-direction: column; z-index: 12;
+    width: 100%; max-width: 24rem; height: 100vh; padding: 1rem;
     background-color: var(--message-board-bg-color); transition: all .3s;
     box-shadow: 5px 0px 10px var(--message-board-shadow-color);
     transform: translateX(24rem);
@@ -274,8 +273,11 @@
 .dashboard_body{
     width: 100%; height: 100%; overflow: auto;
     display: flex; flex-direction: column;
-    padding: 2rem; border-radius: 5px;
+    padding: .75rem; border-radius: 5px;
     background-color: var(--dashboard-body-bg-color);
+}
+@media (min-width: 768px){
+    .dashboard_body{ padding: 2rem; }
 }
 /* Body ======================================================== */
 

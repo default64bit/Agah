@@ -41,7 +41,7 @@
 
                 <hr class="my-4 border-solid" />
 
-                <div class="flex items-end flex-col md:flex-row max-w-screen-sm gap-4">
+                <div class="flex items-start flex-col md:flex-row md:items-end max-w-screen-sm gap-4">
                     <t-input class="max-w-screen-xs" type="email" label="آدرس ایمیل" :required="true" v-model:value="email" :error="emailError" />
                     <t-checkbox name="emailVerfication" v-model:value="emailVerified">
                         <template v-slot:desc><span> وضعیت تایید ایمیل </span> </template>
@@ -50,7 +50,7 @@
 
                 <hr class="my-4 border-solid" />
 
-                <div class="flex items-end flex-col md:flex-row max-w-screen-sm gap-4">
+                <div class="flex items-start flex-col md:flex-row md:items-end max-w-screen-sm gap-4">
                     <t-input class="max-w-screen-xs" type="email" label="شماره موبایل" :required="true" v-model:value="mobile" :error="mobileError" />
                     <t-checkbox name="emailVerfication" v-model:value="mobileVerified">
                         <template v-slot:desc><span> وضعیت تایید موبایل </span> </template>
@@ -60,7 +60,7 @@
                 <hr class="my-4 border-solid" />
 
                 <t-select
-                    class=""
+                    class="max-w-screen-2xs"
                     inputClass="max-h-10 w-64"
                     placeholder="Admin Status"
                     label="وضعیت کاربر"
@@ -186,10 +186,9 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({ message: error.response.data.error, type: "danger" });
                         }
                     }
                 })

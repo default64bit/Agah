@@ -7,12 +7,10 @@
 
         <div class="flex flex-col h-full overflow-auto gap-2">
             <t-select
-                class="max-w-screen-sm"
-                inputClass="max-h-10 w-64"
+                class="max-w-screen-xs"
                 placeholder="Language"
                 label="Admin Panel Language"
                 desc="This will change language of only admin panel"
-                :required="true"
                 v-model:selectedOption="locale"
                 :error="localeError"
                 :options="localeOptions"
@@ -25,11 +23,9 @@
             <hr class="my-4 border-solid" />
 
             <t-select
-                class="max-w-screen-sm"
-                inputClass="max-h-10 w-64"
+                class="max-w-screen-xs"
                 placeholder="Select a theme"
                 label="Admin Panel Theme"
-                :required="true"
                 v-model:selectedOption="theme"
                 :error="themeError"
                 :options="themeOptions"
@@ -113,21 +109,13 @@ export default {
                     theme: this.theme.value,
                 })
                 .then((response) => {
-                    this.makeToast({
-                        title: "Update Panel Settings",
-                        message: "Panel Settings has been updated successfully",
-                        type: "info",
-                    });
+                    this.makeToast({ title: "Update Panel Settings", message: "Panel Settings has been updated successfully", type: "info" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                 })
@@ -148,13 +136,9 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                     if (error.response.status == 404) {

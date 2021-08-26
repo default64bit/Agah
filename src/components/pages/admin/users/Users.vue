@@ -7,7 +7,7 @@
                 <ul ref="users_ul" name="users_ul">
                     <transition-group name="slideright" appear>
                         <li
-                            class="flex items-center gap-2 p-3 cursor-pointer hover:shadow-lg rounded"
+                            class="flex items-center flex-wrap gap-2 py-3 px-1 cursor-pointer hover:shadow-lg rounded"
                             v-for="(user, i) in users"
                             :key="i"
                             @click="selecteUser(user)"
@@ -23,9 +23,9 @@
                     </transition-group>
                 </ul>
             </div>
-            <div class="dashboard_body shadow-xl flex-grow">
+            <div class="dashboard_body min-h-screen md:min-h-full shadow-xl flex-grow">
                 <div class="flex items-center justify-between flex-wrap gap-4 mb-4" v-if="selected_user.name">
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center flex-wrap gap-2">
                         <div class="w-14 h-14 rounded-full shadow-md">
                             <img class="w-14 h-14 rounded-full" :src="selected_user.image" alt="" />
                         </div>

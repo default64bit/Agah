@@ -1,22 +1,17 @@
 <template>
-    <div class="dashboard_body max-w-screen-xl mx-auto shadow-2xl">
-        <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-4xl"><b>Update Admin</b></h1>
-        </div>
-        <hr class="my-4 border-solid" />
-
+    <div class="flex flex-col h-full overflow-auto">
         <div class="flex flex-col h-full overflow-auto gap-2 p-2">
-            <h3 class="text-xl">Profile Picture</h3>
+            <h3 class="text-xl">عکس پروفایل</h3>
             <t-card class="max-w-screen-sm">
                 <template v-slot:content>
-                    <div class="t_card_body flex flex-col md:flex-row md:items-center gap-4">
+                    <div class="t_card_body flex flex-wrap items-center gap-4">
                         <div class="w-24 h-24 rounded-full shadow-lg">
-                            <img class="w-full h-full rounded-full object-contain" :src="avatarFile" alt="" />
+                            <img class="w-full h-full rounded-full object-cover" :src="avatarFile" alt="" />
                         </div>
                         <div class="flex flex-col gap-4">
                             <div class="flex gap-4">
                                 <input class="hidden" type="file" accept=".jpg,.png,.gif" ref="avatarFile" @change="avatarFileChange()" />
-                                <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">Update Picture</button>
+                                <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">تغغیر عکس</button>
                                 <button
                                     class="t_button t_button_min bg-gray-500 hover:bg-gray-600"
                                     @click="avatarFileDelete()"
@@ -34,29 +29,20 @@
             <hr class="my-4 border-solid" />
 
             <div class="flex flex-col gap-4">
-                <t-input class="max-w-screen-sm" type="text" label="First Name" :required="true" v-model:value="name" :error="nameError" />
-                <t-input class="max-w-screen-sm" type="text" label="Last Name" :required="true" v-model:value="family" :error="familyError" />
+                <t-input class="max-w-screen-sm" type="text" label="نام" :required="true" v-model:value="name" :error="nameError" />
+                <t-input class="max-w-screen-sm" type="text" label="نام خانوادگی" :required="true" v-model:value="family" :error="familyError" />
             </div>
 
             <hr class="my-4 border-solid" />
 
-            <t-input
-                class="max-w-screen-sm"
-                type="email"
-                label="Email Address"
-                desc="email address must be unique"
-                :required="true"
-                v-model:value="email"
-                :error="emailError"
-            />
+            <t-input class="max-w-screen-sm" type="email" label="آدرس ایمیل" :required="true" v-model:value="email" :error="emailError" />
 
             <hr class="my-4 border-solid" />
 
             <t-select
-                class=""
-                inputClass="max-h-10 w-64"
+                class="max-w-screen-xs"
                 placeholder="Admin Status"
-                label="Admin Status"
+                label="وضعیت ادمین"
                 desc="select or change the status of admin. disabled admins can't access adminPanel"
                 :required="true"
                 v-model:selectedOption="status"
@@ -71,10 +57,9 @@
             <hr class="my-4 border-solid" />
 
             <t-select
-                class=""
-                inputClass="max-h-10 w-64"
+                class="max-w-screen-xs"
                 placeholder="Role"
-                label="Admin Role"
+                label="نقش ادمین"
                 desc="admin role determine the permissions of admin and what admin can do or see in adminPanel"
                 :required="true"
                 v-model:selectedOption="role"
@@ -91,22 +76,39 @@
             <t-input
                 class="max-w-screen-sm"
                 type="password"
-                label="Password"
+                label="رمزعبور"
                 placeholder="admin's login password"
                 desc="must be atleast 8 characters with symbols and numbers"
                 :required="true"
                 v-model:value="password"
                 :error="passwordError"
             />
+
+            <hr class="my-4 border-solid" />
+
+            <t-complex title="شبکه های اجتماعی" v-model:items="socialMedias" :error="socialMediasError">
+                <template v-slot:item="{ item, i }">
+                    <t-select class="max-w-screen-xs" label="شبکه اجتماعی" v-model:selectedOption="item.name" :options="socialMediaOptions">
+                        <template v-slot:option="{ option }">
+                            <span :value="option.value"> <i :class="option.icon"></i> {{ option.name }} </span>
+                        </template>
+                    </t-select>
+                    <t-input class="max-w-screen-xs" type="text" :name="`social_${i}_value`" label="لینک" v-model:value="item.value" />
+                </template>
+            </t-complex>
         </div>
 
         <hr class="my-4 mt-auto border-solid" />
         <div class="flex flex-wrap items-center gap-4">
-            <button class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50" :disabled="updatingAdmin" @click="update()">
-                <b v-if="!updatingAdmin">Save Changes</b>
+            <button
+                class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50"
+                :disabled="updatingAdmin"
+                @click="update()"
+            >
+                <b v-if="!updatingAdmin">ثبت تغییرات</b>
                 <b v-else class="fad fa-spinner fa-spin text-xl"></b>
             </button>
-            <router-link class="t_button t_button_min border-rose-400 hover:bg-rose-500" to="/admin/admins_list">Go Back</router-link>
+            <router-link class="t_button t_button_min border-rose-400 hover:bg-rose-500" to="/admin/admins_list">بازگشت</router-link>
         </div>
     </div>
 </template>
@@ -118,6 +120,7 @@ import axios from "axios";
 import Input from "../../../templates/layouts/Input";
 import Card from "../../../templates/layouts/Card";
 import Select from "../../../templates/layouts/Select";
+import Complex from "../../../templates/layouts/Complex";
 
 export default {
     name: "UpdateAdmin",
@@ -125,6 +128,7 @@ export default {
         "t-input": Input,
         "t-card": Card,
         "t-select": Select,
+        "t-complex": Complex,
     },
     data() {
         return {
@@ -137,6 +141,7 @@ export default {
             status: { name: "Active", value: "active" },
             role: { name: "", value: "" },
             password: "",
+            socialMedias: [],
 
             nameError: "",
             familyError: "",
@@ -144,11 +149,21 @@ export default {
             statusError: "",
             roleError: "",
             passwordError: "",
+            socialMediasError: "",
 
             roles: {},
             statusOptions: {
                 active: { name: "Active", value: "active" },
                 deactive: { name: "Deactive", value: "deactive" },
+            },
+            socialMediaOptions: {
+                facebook: { name: "facebook", icon: "fab fa-facebook", value: "facebook" },
+                instagram: { name: "instagram", icon: "fab fa-instagram", value: "instagram" },
+                twitter: { name: "twitter", icon: "fab fa-twitter", value: "twitter" },
+                telegram: { name: "telegram", icon: "fab fa-telegram", value: "telegram" },
+                skype: { name: "skype", icon: "fab fa-skype", value: "skype" },
+                linkedin: { name: "linkedin", icon: "fab fa-linkedin", value: "linkedin" },
+                youtube: { name: "youtube", icon: "fab fa-youtube", value: "youtube" },
             },
         };
     },
@@ -176,25 +191,18 @@ export default {
             formData.append("status", this.status.value);
             formData.append("role", this.role.value);
             formData.append("password", this.password);
+            if (this.socialMedias) formData.append("socialMedias", JSON.stringify(this.socialMedias));
 
             axios
                 .put(`${this.getBaseUrl()}/api/v1/admin/admins`, formData)
                 .then((response) => {
-                    this.makeToast({
-                        title: "Update Admin",
-                        message: "Admin has been updated successfully",
-                        type: "info",
-                    });
+                    this.makeToast({ title: "Update Admin", message: "Admin has been updated successfully", type: "info" });
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                 })
@@ -224,16 +232,20 @@ export default {
                     this.email = response.data.email;
                     this.status = this.statusOptions[response.data.status];
                     this.role = this.roles[response.data.role._id];
+                    if (response.data.socialMedias) {
+                        response.data.socialMedias.forEach((socialMedia) => {
+                            this.socialMedias.push({
+                                name: this.socialMediaOptions[socialMedia.name],
+                                value: socialMedia.link,
+                            });
+                        });
+                    }
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                     if (error.response.status == 404) {
@@ -255,10 +267,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 });
         },

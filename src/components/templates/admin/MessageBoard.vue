@@ -162,7 +162,7 @@ export default {
         this.$refs.people_ul.removeEventListener("scroll", this.onPeopleScroll);
     },
     computed: {
-        ...mapGetters(["makeToast","adminInfo"]),
+        ...mapGetters(["makeToast", "adminInfo"]),
     },
     methods: {
         defaultSelectedMessageBoard() {
@@ -214,10 +214,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {
@@ -279,10 +276,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {
@@ -545,10 +539,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {

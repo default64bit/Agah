@@ -1,30 +1,29 @@
 <template>
     <div class="dashboard_header h-auto md:h-16">
-        <div>
-            <!-- TODO -->
-            <!-- breadcrums -->
-        </div>
+        <div></div>
         <div class="flex flex-wrap-reverse md:flex-nowrap items-end md:items-start gap-2">
             <div class="flex flex-wrap items-center gap-1">
                 <div class="messages">
-                    <button class="messages_toggle relative hover:bg-gray-700 hover:text-bluegray-50 t_button" @click="msgToggleClick()">
+                    <button class="icon_head messages_toggle relative hover:bg-gray-700 hover:text-bluegray-50 t_button" @click="msgToggleClick()">
                         <span class="bop bg-primary-400" v-if="newMsg"></span>
                         <i class="far fa-comments-alt text-lg"></i>
+                        <span class="title_alt text-xs">پیام ها</span>
                     </button>
                     <message-board v-model:isOpen="isMsgBoardOpen" v-model:isThereNew="newMsg"></message-board>
                 </div>
                 <div class="notifications">
-                    <button class="notification_toggle relative hover:bg-gray-700 hover:text-bluegray-50 t_button" @click="notifToggleClick()">
+                    <!-- <button class="notification_toggle relative hover:bg-gray-700 hover:text-bluegray-50 t_button" @click="notifToggleClick()">
                         <span class="bop bg-primary-400" v-if="newNotif"></span>
                         <i class="far fa-inbox text-lg"></i>
                     </button>
-                    <notification-list v-model:isOpen="isNotifListOpen" v-model:isThereNew="newNotif"></notification-list>
+                    <notification-list v-model:isOpen="isNotifListOpen" v-model:isThereNew="newNotif"></notification-list> -->
+                    <notification-list></notification-list>
                 </div>
             </div>
             <div class="profile" :class="{ open: isProfileOpen }" @click="toggleProfile(true)" @blur="profileBlur" tabindex="0">
                 <div class="flex gap-2">
                     <span class="avatar">
-                        <img :src="adminInfo.avatar" alt="" />
+                        <img class="object-cover" :src="adminInfo.avatar" alt="" />
                     </span>
                     <div class="text flex-col justify-center">
                         <h6 class="-mb-1 whitespace-normal">{{ `${adminInfo.name} ${adminInfo.family}` }}</h6>
@@ -59,7 +58,7 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 
-import NotificationList from "./NotificationList";
+import NotificationList from "./NotificationList2";
 import MessageBoard from "./MessageBoard";
 import Input from "../layouts/Input";
 
@@ -90,7 +89,7 @@ export default {
     created() {},
     mounted() {},
     computed: {
-        ...mapGetters(["makeToast","adminInfo"]),
+        ...mapGetters(["makeToast", "adminInfo"]),
     },
     methods: {
         toggleProfile(state) {
@@ -116,10 +115,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 });
         },

@@ -79,7 +79,8 @@
     --dashboard-sidemenu-nav-group-after-color: theme("colors.primary.400");
 
     --dashboard-header-shadow-color: #1a1a1a;
-    --dashboard-header-title-alt-color: #3a3a3a;
+    --dashboard-header-title-alt-color: #efefef;
+    --dashboard-header-title-alt-bg-color: #3a3a3a;
     --dashboard-header-profile-open-bg-color: #343434;
     --dashboard-header-profile-open-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-header-avatar-shadow-color: rgba(0, 0, 0, 0.25);
@@ -202,7 +203,8 @@
     --dashboard-sidemenu-nav-group-after-color: theme("colors.primary.400");
 
     --dashboard-header-shadow-color: #eaeaea;
-    --dashboard-header-title-alt-color: #3a3a3a;
+    --dashboard-header-title-alt-color: #000;
+    --dashboard-header-title-alt-bg-color: #fff;
     --dashboard-header-profile-open-bg-color: #e4e4e4;
     --dashboard-header-profile-open-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-header-avatar-shadow-color: rgba(0, 0, 0, 0.05);
@@ -212,7 +214,7 @@
 
     --notification-list-bg-color: #e4e4e4;
     --notification-list-shadow-color: rgba(0, 0, 0, 0.05);
-    --notification-list-li-bg-color: #3a3a3a;
+    --notification-list-li-bg-color: #fafafa;
     --notification-list-li-notif-icon-shadow-color: rgb(0, 0, 0, 0.15);
 
     --message-board-bg-color: #eaeaea;

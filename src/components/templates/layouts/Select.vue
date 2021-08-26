@@ -5,7 +5,7 @@
             <i class="absolute text-primary-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
         </label>
         <div class="flex flex-col flex-grow">
-            <div class="t_select_input" :class="inputClass">
+            <div class="t_select_input">
                 <div class="box" tabindex="0" @click="toggleMenu()" @blur="toggleMenu(false)">
                     <span name="placeholder" class="opacity-50" v-if="placeholder && !selectedOption.value">{{ placeholder }}</span>
                     <span name="value" v-if="selectedOption.name">{{ selectedOption.name }}</span>

@@ -1,7 +1,11 @@
 <template>
     <div class="dashboard_body max-w-screen-xl mx-auto shadow-2xl">
-        <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-4xl"><b>Create New Admin</b></h1>
+        <div class="flex gap-2 items-baseline">
+            <router-link to="/admin"><i class="fad fa-home text-lg"></i></router-link>
+            <i class="fas fa-chevron-right text-sm text-secondary-400"></i>
+            <router-link to="/admin/admins_list">ادمین ها</router-link>
+            <i class="fas fa-chevron-right text-sm text-secondary-400"></i>
+            <h1 class="text-2xl"><b>ساخت ادمین جدید</b></h1>
         </div>
         <hr class="my-4 border-solid" />
 
@@ -16,7 +20,9 @@
                         <div class="flex flex-col gap-4">
                             <div class="flex gap-4">
                                 <input class="hidden" type="file" accept=".jpg,.png,.gif" ref="avatarFile" @change="avatarFileChange()" />
-                                <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">Update Picture</button>
+                                <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">
+                                    Update Picture
+                                </button>
                                 <button
                                     class="t_button t_button_min bg-gray-500 hover:bg-gray-600"
                                     @click="avatarFileDelete()"
@@ -53,8 +59,7 @@
             <hr class="my-4 border-solid" />
 
             <t-select
-                class=""
-                inputClass="max-h-10 w-64"
+                class="max-w-screen-xs"
                 placeholder="Admin Status"
                 label="Admin Status"
                 desc="select or change the status of admin. disabled admins can't access adminPanel"
@@ -71,8 +76,7 @@
             <hr class="my-4 border-solid" />
 
             <t-select
-                class=""
-                inputClass="max-h-10 w-64"
+                class="max-w-screen-xs"
                 placeholder="Role"
                 label="Admin Role"
                 desc="admin role determine the permissions of admin and what admin can do or see in adminPanel"
@@ -181,21 +185,14 @@ export default {
             axios
                 .post(`${this.getBaseUrl()}/api/v1/admin/admins`, formData)
                 .then((response) => {
-                    this.makeToast({
-                        title: "Create New Admin",
-                        message: "New admin has been created successfully",
-                        type: "success",
-                    });
+                    this.makeToast({ title: "Create New Admin", message: "New admin has been created successfully", type: "success" });
+                    this.$router.push(`/admin/admins_list/admin/${response.data._id}`);
                 })
                 .catch((error) => {
                     if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
-                        } else {
-                            this.makeToast({
-                                message: error.response.data.error,
-                                type: "danger",
-                            });
                         }
                     }
                 })
@@ -228,10 +225,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 });
         },

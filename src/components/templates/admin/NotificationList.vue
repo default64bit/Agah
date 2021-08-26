@@ -7,7 +7,7 @@
         <hr class="mt-auto border-solid" />
         <ul ref="notif_ul">
             <transition-group name="slideright" appear>
-                <li v-for="(notif, i) in notifications" :key="i">
+                <li class="shadow-md" v-for="(notif, i) in notifications" :key="i">
                     <div class="notif_icon" :class="{ 'border-primary-500': !notif.readAt }"><i :class="notif.data.icon"></i></div>
                     <a class="notif_info flex flex-col" :href="notif.data.link">
                         <b class="text-xl">{{ notif.data.title }}</b>
@@ -15,7 +15,7 @@
                         <div class="mt-2 text-xs text-gray-400">{{ new Date(notif.createdAt).toLocaleString("en") }}</div>
                     </a>
                     <span class="t_button p-1 text-primary-400 rounded-full hover:bg-gray-600" @click="clear(notif._id, i)">
-                        <i class="far fa-times"></i>
+                        <i class="far fa-trash"></i>
                     </span>
                 </li>
             </transition-group>
@@ -55,7 +55,7 @@ export default {
         this.$refs.notif_ul.removeEventListener("scroll", this.onScroll);
     },
     computed: {
-        ...mapGetters(["makeToast","adminInfo"]),
+        ...mapGetters(["makeToast", "adminInfo"]),
     },
     watch: {
         isOpen(newValue) {
@@ -94,10 +94,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {
@@ -130,10 +127,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 });
         },

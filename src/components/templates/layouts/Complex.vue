@@ -2,10 +2,10 @@
     <div class="t_complex">
         <div class="flex items-center flex-wrap gap-4">
             <h3 class="text-xl">{{ title }}</h3>
-            <button class="t_button p-1 border-lime-500 hover:bg-lime-600 w-max text-sm" @click="addItem()">Add Item</button>
+            <button class="t_button p-1 border-lime-500 hover:bg-lime-600 w-max text-sm" @click="addItem()">جدید</button>
         </div>
         <div class="flex flex-col items-start">
-            <div class="flex flex-col md:flex-row items-end w-full gap-4 p-2" v-for="(item, i) in items" :key="i">
+            <div class="flex flex-col items-start md:flex-row md:items-end w-full gap-4 p-2" v-for="(item, i) in items" :key="i">
                 <slot name="item" :item="item" :i="i"></slot>
                 <button class="t_button border-rose-400 hover:bg-rose-500 rounded mb-1" @click="removeItem(i)">
                     <i class="far fa-trash-alt"></i>

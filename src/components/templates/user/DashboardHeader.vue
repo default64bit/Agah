@@ -81,7 +81,7 @@ export default {
     created() {},
     mounted() {},
     computed: {
-        ...mapGetters(["makeToast","userInfo"]),
+        ...mapGetters(["makeToast", "userInfo"]),
     },
     methods: {
         toggleProfile(state) {
@@ -107,10 +107,7 @@ export default {
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
-                        this.makeToast({
-                            message: error.response.data.error,
-                            type: "danger",
-                        });
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 });
         },
