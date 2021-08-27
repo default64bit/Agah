@@ -26,43 +26,134 @@
                     </template>
                 </t-select>
             </div>
-            <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-white">افزودن</button>
+            <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-white" @click="updateSchedules()">افزودن</button>
         </div>
         <hr class="my-2 border-solid border-secondary-500 border-opacity-50" />
         <ul class="flex flex-col justify-between gap-2 p-2 h-full">
-            <li class="flex items-center justify-start" day="sat">
-                <b class="p-2 px-4 shadow-lg rounded w-32 text-center">شنبه</b>
-                <div class="flex-grow h-full px-2"></div>
+            <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="sat">
+                <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">شنبه</b>
+                <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
+                    <div class="schedule_item" v-for="(item, i) in schedules.sat" :key="i">
+                        <span class="flex justify-between gap-2">
+                            <b>{{ item.startTime }}</b> - <b>{{ item.endTime }}</b>
+                        </span>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'online'">آنلاین</span>
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'in-person'">حضوری</span>
+                            <button class="t_button border-rose-400 hover:bg-rose-500 hover:text-white p-1" @click="deleteSchedule(item._id)">
+                                <i class="far fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
             <hr class="border-solid border-secondary-500 border-opacity-10" />
-            <li class="flex items-center justify-start" day="sun">
-                <b class="p-2 px-4 shadow-lg rounded w-32 text-center">یکشنبه</b>
-                <div class="flex-grow h-full px-2"></div>
+            <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="sun">
+                <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">یکشنبه</b>
+                <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
+                    <div class="schedule_item" v-for="(item, i) in schedules.sun" :key="i">
+                        <span class="flex justify-between gap-2">
+                            <b>{{ item.startTime }}</b> - <b>{{ item.endTime }}</b>
+                        </span>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'online'">آنلاین</span>
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'in-person'">حضوری</span>
+                            <button class="t_button border-rose-400 hover:bg-rose-500 hover:text-white p-1" @click="deleteSchedule(item._id)">
+                                <i class="far fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
             <hr class="border-solid border-secondary-500 border-opacity-10" />
-            <li class="flex items-center justify-start" day="mon">
-                <b class="p-2 px-4 shadow-lg rounded w-32 text-center">دوشنبه</b>
-                <div class="flex-grow h-full px-2"></div>
+            <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="mon">
+                <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">دوشنبه</b>
+                <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
+                    <div class="schedule_item" v-for="(item, i) in schedules.mon" :key="i">
+                        <span class="flex justify-between gap-2">
+                            <b>{{ item.startTime }}</b> - <b>{{ item.endTime }}</b>
+                        </span>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'online'">آنلاین</span>
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'in-person'">حضوری</span>
+                            <button class="t_button border-rose-400 hover:bg-rose-500 hover:text-white p-1" @click="deleteSchedule(item._id)">
+                                <i class="far fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
             <hr class="border-solid border-secondary-500 border-opacity-10" />
-            <li class="flex items-center justify-start" day="tue">
-                <b class="p-2 px-4 shadow-lg rounded w-32 text-center">سه شنبه</b>
-                <div class="flex-grow h-full px-2"></div>
+            <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="tue">
+                <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">سه شنبه</b>
+                <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
+                    <div class="schedule_item" v-for="(item, i) in schedules.tue" :key="i">
+                        <span class="flex justify-between gap-2">
+                            <b>{{ item.startTime }}</b> - <b>{{ item.endTime }}</b>
+                        </span>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'online'">آنلاین</span>
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'in-person'">حضوری</span>
+                            <button class="t_button border-rose-400 hover:bg-rose-500 hover:text-white p-1" @click="deleteSchedule(item._id)">
+                                <i class="far fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
             <hr class="border-solid border-secondary-500 border-opacity-10" />
-            <li class="flex items-center justify-start" day="wed">
-                <b class="p-2 px-4 shadow-lg rounded w-32 text-center">چهارشنبه</b>
-                <div class="flex-grow h-full px-2"></div>
+            <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="wed">
+                <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">چهارشنبه</b>
+                <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
+                    <div class="schedule_item" v-for="(item, i) in schedules.wed" :key="i">
+                        <span class="flex justify-between gap-2">
+                            <b>{{ item.startTime }}</b> - <b>{{ item.endTime }}</b>
+                        </span>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'online'">آنلاین</span>
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'in-person'">حضوری</span>
+                            <button class="t_button border-rose-400 hover:bg-rose-500 hover:text-white p-1" @click="deleteSchedule(item._id)">
+                                <i class="far fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
             <hr class="border-solid border-secondary-500 border-opacity-10" />
-            <li class="flex items-center justify-start" day="thu">
-                <b class="p-2 px-4 shadow-lg rounded w-32 text-center">پنجشنبه</b>
-                <div class="flex-grow h-full px-2"></div>
+            <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="thu">
+                <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">پنجشنبه</b>
+                <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
+                    <div class="schedule_item" v-for="(item, i) in schedules.thu" :key="i">
+                        <span class="flex justify-between gap-2">
+                            <b>{{ item.startTime }}</b> - <b>{{ item.endTime }}</b>
+                        </span>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'online'">آنلاین</span>
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'in-person'">حضوری</span>
+                            <button class="t_button border-rose-400 hover:bg-rose-500 hover:text-white p-1" @click="deleteSchedule(item._id)">
+                                <i class="far fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
             <hr class="border-solid border-secondary-500 border-opacity-10" />
-            <li class="flex items-center justify-start" day="fri">
-                <b class="p-2 px-4 shadow-lg rounded w-32 text-center">جمعه</b>
-                <div class="flex-grow h-full px-2"></div>
+            <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="fri">
+                <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">جمعه</b>
+                <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
+                    <div class="schedule_item" v-for="(item, i) in schedules.fri" :key="i">
+                        <span class="flex justify-between gap-2">
+                            <b>{{ item.startTime }}</b> - <b>{{ item.endTime }}</b>
+                        </span>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'online'">آنلاین</span>
+                            <span class="text-sm p-1 rounded" v-if="item.type == 'in-person'">حضوری</span>
+                            <button class="t_button border-rose-400 hover:bg-rose-500 hover:text-white p-1" @click="deleteSchedule(item._id)">
+                                <i class="far fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
@@ -87,8 +178,10 @@ export default {
         return {
             updatingSchedules: false,
 
-            startTime: "",
-            endTime: "",
+            schedules: { sat: [], sun: [], mon: [], tue: [], wed: [], thu: [], fri: [] },
+
+            startTime: "09:00",
+            endTime: "12:00",
             typeOnline: false,
             typeInPerson: false,
             day: { name: "شنبه", value: "sat" },
@@ -96,6 +189,7 @@ export default {
             startTimeError: "",
             endTimeError: "",
             dayError: "",
+
             dayOptions: [
                 { name: "شنبه", value: "sat" },
                 { name: "یکشنبه", value: "sun" },
@@ -110,7 +204,6 @@ export default {
     created() {},
     async mounted() {
         await this.getSchedules();
-        await this.getTimeOffSchedules();
     },
     methods: {
         ...mapActions(["makeToast"]),
@@ -119,10 +212,20 @@ export default {
             if (this.updatingSchedules) return;
             this.updatingSchedules = true;
 
+            this.startTimeError = this.endTimeError = this.dayError = "";
+
             axios
-                .put(`${this.getBaseUrl()}/api/v1/admin/admins/schedules`, formData)
+                .post(`${this.getBaseUrl()}/api/v1/admin/schedules`, {
+                    admin: this.$route.params.id,
+                    startTime: this.startTime,
+                    endTime: this.endTime,
+                    typeOnline: this.typeOnline,
+                    typeInPerson: this.typeInPerson,
+                    day: this.day.value,
+                })
                 .then((response) => {
-                    this.makeToast({ title: "Update Schedules", message: "Admin Schedules has been updated successfully", type: "info" });
+                    this.makeToast({ title: "Update Schedules", message: "Schedules has been updated successfully", type: "info" });
+                    this.getSchedules();
                 })
                 .catch((error) => {
                     if (error.response.data) {
@@ -136,49 +239,19 @@ export default {
                     this.updatingSchedules = false;
                 });
         },
-        deleteSchedules() {},
 
-        updateTimeOffSchedules() {
-            if (this.updatingTimeOffSchedules) return;
-            this.updatingTimeOffSchedules = true;
-
-            axios
-                .put(`${this.getBaseUrl()}/api/v1/admin/admins/time_off_schedules`, formData)
-                .then((response) => {
-                    this.makeToast({ title: "Update Schedules", message: "Admin Schedules has been updated successfully", type: "info" });
-                })
-                .catch((error) => {
-                    if (error.response.data) {
-                        this.makeToast({ message: error.response.data.error, type: "danger" });
-                        if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
-                            this[error.response.data.field + "Error"] = error.response.data.error;
-                        }
-                    }
-                })
-                .finally(() => {
-                    this.updatingTimeOffSchedules = false;
-                });
+        async deleteSchedule(id) {
+            await axios.delete(`${this.getBaseUrl()}/api/v1/admin/schedules/${id}`).then((response) => {
+                this.getSchedules();
+            });
         },
-        deleteTimeOffSchedules() {},
 
         async getSchedules() {
             await axios
-                .get(`${this.getBaseUrl()}/api/v1/admin/admins/${this.$route.params.id}/schedules`)
-                .then((response) => {})
-                .catch((error) => {
-                    if (error.response.data) {
-                        this.makeToast({ message: error.response.data.error, type: "danger" });
-                        if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
-                            this[error.response.data.field + "Error"] = error.response.data.error;
-                        }
-                    }
-                });
-        },
-
-        async getTimeOffSchedules() {
-            await axios
-                .get(`${this.getBaseUrl()}/api/v1/admin/admins/${this.$route.params.id}/time_off_schedules`)
-                .then((response) => {})
+                .get(`${this.getBaseUrl()}/api/v1/admin/schedules/${this.$route.params.id}`)
+                .then((response) => {
+                    this.schedules = response.data;
+                })
                 .catch((error) => {
                     if (error.response.data) {
                         this.makeToast({ message: error.response.data.error, type: "danger" });

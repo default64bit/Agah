@@ -28,6 +28,10 @@ const _schema: mongoose.Schema = new mongoose.Schema({
             link: { type: String },
         }),
     ],
+    consultPricePerHour: { // in Toman
+        type: Number,
+        default: 100000
+    },
     password: {
         type: String,
         required: true,

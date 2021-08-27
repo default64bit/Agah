@@ -104,10 +104,11 @@
 
     --dashboard-body-bg-color: theme("colors.truegray.800");
 
-    --welcome-card-image-before-bg-color: theme("colors.primary.400");
-
     --dashboard-toast-bg-color: #434343;
     --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.25);
+
+    --dashboard-schedule-title-bg-color: #313131;
+    --dashboard-schedule-item-bg-color: #434343;
 
     /* ======================================================= */
 
@@ -228,10 +229,11 @@
 
     --dashboard-body-bg-color: theme("colors.truegray.100");
 
-    --welcome-card-image-before-bg-color: theme("colors.primary.400");
-
     --dashboard-toast-bg-color: #fff;
     --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.05);
+
+    --dashboard-schedule-title-bg-color: #efefef;
+    --dashboard-schedule-item-bg-color: #fff;
 
     /* ======================================================= */
 

@@ -12,6 +12,9 @@ import MessageBoardController from "../controllers/admin/MessageBoardController"
 import AdminsController from "../controllers/admin/AdminsController";
 import AdminsValidator from "../validators/admin/AdminsValidator";
 
+import SchedulesController from "../controllers/admin/SchedulesController";
+import SchedulesValidator from "../validators/admin/SchedulesValidator";
+
 import AdminRolesController from "../controllers/admin/AdminRolesController";
 import AdminRolesValidator from "../validators/admin/AdminRolesValidator";
 
@@ -31,6 +34,7 @@ const profileController = new ProfileController();
 const notificationController = new NotificationController();
 const messageBoardController = new MessageBoardController();
 const adminsController = new AdminsController();
+const schedulesController = new SchedulesController();
 const adminRolesController = new AdminRolesController();
 const permissionController = new PermissionController();
 const userController = new UserController();
@@ -53,21 +57,15 @@ router.get("/message_board/chats", messageBoardController.getChats);
 router.get("/message_board/messages", messageBoardController.getMessages);
 router.get("/message_board/peoples", messageBoardController.getPeoples);
 
-router.get("/admins", AdminsValidator.getAdmins, adminsController.getAdmins.bind(permissionController));
-router.get("/admins/:id", AdminsValidator.getAdmin, adminsController.getAdmin.bind(permissionController));
-router.post(
-    "/admins",
-    multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"),
-    AdminsValidator.addAdmin,
-    adminsController.addAdmin.bind(permissionController)
-);
-router.put(
-    "/admins",
-    multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"),
-    AdminsValidator.editAdmin,
-    adminsController.editAdmin.bind(permissionController)
-);
-router.delete("/admins/:id", AdminsValidator.deleteAdmin, adminsController.deleteAdmin.bind(permissionController));
+router.get("/admins", AdminsValidator.getAdmins, adminsController.getAdmins.bind(adminsController));
+router.get("/admins/:id", AdminsValidator.getAdmin, adminsController.getAdmin.bind(adminsController));
+router.post("/admins", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"), AdminsValidator.addAdmin, adminsController.addAdmin);
+router.put("/admins", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"), AdminsValidator.editAdmin, adminsController.editAdmin);
+router.delete("/admins/:id", AdminsValidator.deleteAdmin, adminsController.deleteAdmin.bind(adminsController));
+
+router.get("/schedules/:admin_id", SchedulesValidator.getSchedules, schedulesController.getSchedules.bind(schedulesController));
+router.post("/schedules", SchedulesValidator.addSchedule, schedulesController.addSchedule.bind(schedulesController));
+router.delete("/schedules/:id", SchedulesValidator.deleteSchedule, schedulesController.deleteSchedule.bind(schedulesController));
 
 router.get("/admin_roles", AdminRolesValidator.getRoles, adminRolesController.getRoles.bind(adminRolesController));
 router.get("/admin_role/:id", AdminRolesValidator.getRole, adminRolesController.getRole.bind(adminRolesController));

@@ -281,27 +281,6 @@
 }
 /* Body ======================================================== */
 
-/* Welcome Card ======================================================== */
-.welcome_card{
-    display: flex; flex-direction: column; flex-wrap: wrap;
-    padding: 1rem; gap: 1rem;
-    width: max-content; height: max-content; border-radius: 5px;
-}
-.welcome_card .image{
-    position: relative;
-    display: flex; justify-content: center; align-items: flex-end;
-    width: 100%; height: 10rem;
-}
-.welcome_card .image::before{
-    content: ""; position: absolute;
-    width: 10rem; height: 10rem; border-radius: 50%;
-    background-color: var(--welcome-card-image-before-bg-color); opacity: .25;
-}
-.welcome_card .image img{
-    width: 8rem; object-fit: contain;
-}
-/* Welcome Card ======================================================== */
-
 /* Toast ======================================================== */
 .dashboard_toast{
     position: absolute; top: 1.5rem; inset-inline-end: 1.5rem; z-index: 200;
@@ -339,6 +318,18 @@
     filter: drop-shadow(0px 0px 3px rgba(0,0,0,.1));
 }
 /* leaflet End ================================================== */
+
+/* Schedule ================================================== */
+.schedule_title{
+    border-inline-start: 5px solid theme("colors.primary.400");
+    background-color: var(--dashboard-schedule-title-bg-color);
+}
+.schedule_item{
+    display: flex; align-items: center; gap: .5rem;
+    padding: .5rem; border-radius: 5px;
+    background-color: var(--dashboard-schedule-item-bg-color);
+}
+/* Schedule End ================================================== */
 
 .select_org{}
 .select_org > button.t_button span{
