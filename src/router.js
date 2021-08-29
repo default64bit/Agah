@@ -86,6 +86,10 @@ export default () => {
 
                     { path: "calls", component: () => import("./components/pages/admin/calls/Calls") },
 
+                    { path: "articles", component: () => import("./components/pages/admin/articles/ArticleList") },
+                    { path: "articles/new", component: () => import("./components/pages/admin/articles/CreateArticle") },
+                    { path: "articles/:id", component: () => import("./components/pages/admin/articles/EditArticle") },
+
                     { path: "panel_settings", component: () => import("./components/pages/admin/PanelSettings") },
                 ],
             },

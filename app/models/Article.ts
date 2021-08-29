@@ -17,6 +17,7 @@ const _schema: mongoose.Schema = new mongoose.Schema({
     }),
     views: { type: Number, default: 0 },
     status: { type: String, enum: ["published", "pending"] },
+    url_code: { type: String, unique: true, required: true },
     publishedAt: { type: Date },
     createdAt: { type: Date, default: Date.now() },
 });
@@ -32,6 +33,7 @@ export interface IArticle {
     metadata: IMetadata;
     views: number;
     status: string;
+    url_code: string;
     publishedAt: Date;
     createdAt: Date;
 }

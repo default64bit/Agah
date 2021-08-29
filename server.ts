@@ -85,6 +85,7 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
 
     expressApp.use("/img/avatars", express.static(path.join(__dirname, "public", "avatars")));
     expressApp.use("/img/icons", express.static(path.join(__dirname, "public", "icons")));
+    expressApp.use("/img/articles", express.static(path.join(__dirname, "public", "articles")));
     expressApp.use("/audio", express.static(path.join(__dirname, "public", "audio")));
     expressApp.use("/favicon.ico", express.static(path.join(__dirname, "public", "favicon.ico")));
     expressApp.use("/fontawsome", express.static(path.join(__dirname, "public", "fontawsome")));
@@ -104,7 +105,7 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
                     }
                     html = html.toString().replace('<div id="app">', `<div id="app">${appContent}`);
                     html = html.replace("<title>Vue App", `<title>AdminPanel`);
-                    html = html.replace("<body", `<body dir="rtl" theme="light"`);
+                    html = html.replace("<body", `<body dir="rtl" theme="light" lang="fa"`);
                     res.setHeader("Content-Type", "text/html");
                     res.send(html);
                 });

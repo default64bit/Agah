@@ -1,35 +1,10 @@
 <template>
-    <div class="flex flex-col gap-2 h-full">
-        <div class="flex items-center justify-between flex-wrap px-2 gap-4">
-            <div class="flex items-center gap-2">
-                <label class="w-full">از ساعت</label>
-                <t-input class="sideways max-w-screen-2xs" type="time" v-model:value="startTime" :error="startTimeError" />
-            </div>
-            <div class="flex items-center gap-2">
-                <label class="w-full">تا ساعت</label>
-                <t-input class="sideways max-w-screen-2xs" type="time" v-model:value="endTime" :error="endTimeError" />
-            </div>
-            <div class="flex items-center gap-2">
-                <label>به صورت:</label>
-                <t-checkbox name="typeOnline" v-model:value="typeOnline">
-                    <template v-slot:desc><span class="text-sm">آنلاین</span> </template>
-                </t-checkbox>
-                <t-checkbox name="typeInPerson" v-model:value="typeInPerson">
-                    <template v-slot:desc><span class="text-sm">حضوری</span> </template>
-                </t-checkbox>
-            </div>
-            <div class="flex items-center gap-2">
-                <label class="w-full">در روز:</label>
-                <t-select class="max-w-screen-2xs" v-model:selectedOption="day" :options="dayOptions" :error="dayError">
-                    <template v-slot:option="{ option }">
-                        <option :value="option.value">{{ option.name }}</option>
-                    </template>
-                </t-select>
-            </div>
-            <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-white" @click="updateSchedules()">افزودن</button>
-        </div>
-        <hr class="my-2 border-solid border-secondary-500 border-opacity-50" />
-        <ul class="flex flex-col justify-between gap-2 p-2 h-full">
+    <div class="flex flex-col gap-2 px-1 pb-2 h-full">
+        <button class="t_button bg-primary-500 hover:bg-primary-600 text-white mb-2 w-max" @click="newDialogState = true">
+            <i class="fas fa-plus"></i>
+        </button>
+
+        <ul class="flex flex-col justify-between gap-2 h-full">
             <li class="flex items-center justify-start flex-col md:flex-row gap-4" day="sat">
                 <b class="schedule_title shadow-md p-2 px-4 rounded w-32 text-center">شنبه</b>
                 <div class="flex items-center gap-2 overflow-x-auto flex-grow h-full max-w-full">
@@ -156,6 +131,40 @@
                 </div>
             </li>
         </ul>
+
+        <t-dialog v-model:open="newDialogState" title="زمانبدی جدید">
+            <template v-slot:body>
+                <div class="flex flex-col items-start px-2 gap-6">
+                    <div class="flex items-center gap-2">
+                        <label class="w-full">از ساعت</label>
+                        <t-input class="sideways max-w-screen-2xs" type="time" v-model:value="startTime" :error="startTimeError" />
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-full">تا ساعت</label>
+                        <t-input class="sideways max-w-screen-2xs" type="time" v-model:value="endTime" :error="endTimeError" />
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <label>به صورت:</label>
+                        <t-checkbox name="typeOnline" v-model:value="typeOnline">
+                            <template v-slot:desc><span class="text-sm">آنلاین</span> </template>
+                        </t-checkbox>
+                        <t-checkbox name="typeInPerson" v-model:value="typeInPerson">
+                            <template v-slot:desc><span class="text-sm">حضوری</span> </template>
+                        </t-checkbox>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-full">در روز:</label>
+                        <t-select class="max-w-screen-2xs" v-model:selectedOption="day" :options="dayOptions" :error="dayError">
+                            <template v-slot:option="{ option }">
+                                <option :value="option.value">{{ option.name }}</option>
+                            </template>
+                        </t-select>
+                    </div>
+                    <hr class="border-solid border-secondary-500 border-opacity-20 w-full" />
+                    <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-white" @click="updateSchedules()">افزودن</button>
+                </div>
+            </template>
+        </t-dialog>
     </div>
 </template>
 
@@ -166,6 +175,7 @@ import axios from "axios";
 import Input from "../../../templates/layouts/Input";
 import Select from "../../../templates/layouts/Select";
 import Checkbox from "../../../templates/layouts/Checkbox";
+import Dialog from "../../../templates/layouts/Dialog";
 
 export default {
     name: "Schedules",
@@ -173,12 +183,14 @@ export default {
         "t-input": Input,
         "t-select": Select,
         "t-checkbox": Checkbox,
+        "t-dialog": Dialog,
     },
     data() {
         return {
             updatingSchedules: false,
 
             schedules: { sat: [], sun: [], mon: [], tue: [], wed: [], thu: [], fri: [] },
+            newDialogState: false,
 
             startTime: "09:00",
             endTime: "12:00",

@@ -15,6 +15,9 @@ import AdminsValidator from "../validators/admin/AdminsValidator";
 import SchedulesController from "../controllers/admin/SchedulesController";
 import SchedulesValidator from "../validators/admin/SchedulesValidator";
 
+import TimeOffSchedulesController from "../controllers/admin/TimeOffSchedulesController";
+import TimeOffSchedulesValidator from "../validators/admin/TimeOffSchedulesValidator";
+
 import AdminRolesController from "../controllers/admin/AdminRolesController";
 import AdminRolesValidator from "../validators/admin/AdminRolesValidator";
 
@@ -26,6 +29,9 @@ import UserValidator from "../validators/admin/UserValidator";
 import CallsController from "../controllers/admin/CallsController";
 import CallsValidator from "../validators/admin/CallsValidator";
 
+import ArticlesController from "../controllers/admin/ArticlesController";
+import ArticlesValidator from "../validators/admin/ArticlesValidator";
+
 import PanelSettingsController from "../controllers/admin/PanelSettingsController";
 import PanelSettingsValidator from "../validators/admin/PanelSettingsValidator";
 
@@ -35,10 +41,12 @@ const notificationController = new NotificationController();
 const messageBoardController = new MessageBoardController();
 const adminsController = new AdminsController();
 const schedulesController = new SchedulesController();
+const timeOffSchedulesController = new TimeOffSchedulesController();
 const adminRolesController = new AdminRolesController();
 const permissionController = new PermissionController();
 const userController = new UserController();
 const callsController = new CallsController();
+const articlesController = new ArticlesController();
 const panelSettingsController = new PanelSettingsController();
 
 router.use(adminAuth.ensureAuth);
@@ -67,6 +75,10 @@ router.get("/schedules/:admin_id", SchedulesValidator.getSchedules, schedulesCon
 router.post("/schedules", SchedulesValidator.addSchedule, schedulesController.addSchedule.bind(schedulesController));
 router.delete("/schedules/:id", SchedulesValidator.deleteSchedule, schedulesController.deleteSchedule.bind(schedulesController));
 
+router.get("/timeoff_schedules/:admin_id", TimeOffSchedulesValidator.getSchedules, timeOffSchedulesController.getSchedules.bind(timeOffSchedulesController));
+router.post("/timeoff_schedules", TimeOffSchedulesValidator.addSchedule, timeOffSchedulesController.addSchedule.bind(timeOffSchedulesController));
+router.delete("/timeoff_schedules/:id", TimeOffSchedulesValidator.deleteSchedule, timeOffSchedulesController.deleteSchedule.bind(timeOffSchedulesController));
+
 router.get("/admin_roles", AdminRolesValidator.getRoles, adminRolesController.getRoles.bind(adminRolesController));
 router.get("/admin_role/:id", AdminRolesValidator.getRole, adminRolesController.getRole.bind(adminRolesController));
 router.post("/admin_roles", AdminRolesValidator.addRole, adminRolesController.addRole.bind(adminRolesController));
@@ -83,6 +95,13 @@ router.put("/user/:id", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("a
 router.delete("/user/:id", UserValidator.deleteUser, userController.deleteUser.bind(userController));
 
 router.get("/calls", CallsValidator.getCalls, callsController.getCalls.bind(callsController));
+
+router.get("/articles", ArticlesValidator.getArticles, articlesController.getArticles.bind(articlesController));
+router.get("/article/:id", ArticlesValidator.getArticle, articlesController.getArticle.bind(articlesController));
+router.post("/articles/:temp/upload_image", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("image"), articlesController.uploadImage);
+router.post("/articles", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("image"), ArticlesValidator.addArticle, articlesController.addArticle);
+router.put("/articles", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("image"), ArticlesValidator.editArticle, articlesController.editArticle);
+router.delete("/article/:id", ArticlesValidator.deleteArticle, articlesController.deleteArticle.bind(articlesController));
 
 router.get("/panel_settings", panelSettingsController.getSettings.bind(panelSettingsController));
 router.post("/panel_settings", PanelSettingsValidator.editAdmin, panelSettingsController.updateSettings.bind(panelSettingsController));

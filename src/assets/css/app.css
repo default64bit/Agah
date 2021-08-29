@@ -360,6 +360,37 @@ hr{
 }
 /* Document Editor ======================================== */
 
+/* Rich Text Editor ======================================== */
+.t_rich_editor{
+    width: 100%; color: var(--input-color);
+    display: flex; flex-direction: column;
+}
+.t_rich_editor label{
+    font-size: .85rem; margin-bottom: .25rem;
+}
+.t_rich_editor .box{
+    width: 100%; min-height: 20rem; background-color: var(--input-group-bg-color);
+    padding: .35rem; box-shadow: 0px 5px 15px var(--input-group-shadow-color);
+    border-radius: 5px; border: 2px solid transparent;
+    transition: all .25s ease-out;
+}
+
+[dir="rtl"] .ce-toolbar__content, [dir="rtl"] .ce-block__content{ width: calc(100% - 100px); max-width: initial; }
+[dir="rtl"] .ce-toolbar__settings-btn{ display: flex; justify-content: center; align-items: center; }
+[dir="rtl"] .ce-toolbar__plus{ position: relative; float: left; }
+[dir="rtl"] .ce-inline-toolbar{ left: initial; right: 0; }
+[dir="rtl"] .ce-inline-toolbar.ce-inline-toolbar--showed{ right: initial; }
+[dir="rtl"] .ce-toolbox{ left: 0; }
+.codex-editor__redactor{ padding: 0 !important; }
+.ce-header{ font-weight: bold; }
+h1.ce-header{ font-size: 2.5rem; }
+h2.ce-header{ font-size: 2rem; }
+h3.ce-header{ font-size: 1.5rem; }
+h4.ce-header{ font-size: 1.25rem; }
+h5.ce-header{ font-size: 1rem; }
+h6.ce-header{ font-size: .75rem; }
+/* Rich Text Editor ======================================== */
+
 /* Progress Bar ======================================== */
 @keyframes progress_bar_gradient {
 	0% { background-position: 0% 50%; }

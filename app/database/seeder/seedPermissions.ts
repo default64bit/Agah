@@ -29,6 +29,11 @@ export default async () => {
 
                     { _id: "admin.calls.view", label: "View Calls", group: "calls", type: "AdminOnly" },
 
+                    { _id: "admin.articles.view", label: "View Articles", group: "articles", type: "AdminOnly" },
+                    { _id: "admin.articles.add", label: "Create New Articles", group: "articles", type: "AdminOnly" },
+                    { _id: "admin.articles.edit", label: "Edit Articles", group: "articles", type: "AdminOnly" },
+                    { _id: "admin.articles.delete", label: "Delete Articles", group: "articles", type: "AdminOnly" },
+
                     { _id: "admin.panel_settings.view", label: "View Panel Settings", group: "panel settings", type: "AdminOnly" },
                     { _id: "admin.panel_settings.edit", label: "Edit Panel Settings", group: "panel settings", type: "AdminOnly" },
                 ],

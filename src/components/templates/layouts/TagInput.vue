@@ -1,21 +1,20 @@
 <template>
     <div class="t_input">
-        <label class="relative text-gray-100" v-if="label">
+        <label class="relative" v-if="label">
             <span>{{ label }}</span>
             <i class="absolute text-primary-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
         </label>
         <ul class="flex flex-wrap gap-2 mb-2" v-if="list.length">
-            <li class="flex items-center gap-1 p-1 rounded bg-warmgray-700 border-solid border-warmgray-400 border" v-for="(item, i) in list" :key="i">
+            <li class="flex items-center gap-1 p-1 rounded bg-warmgray-700 text-white" v-for="(item, i) in list" :key="i">
                 <span class="text-sm">{{ item }}</span>
                 <b class="fas fa-times text-xs text-rose-200 cursor-pointer" @click="removeTag(i)"></b>
             </li>
         </ul>
         <div class="flex flex-col flex-grow">
-            <div class="input_group bg-gray-600" :class="{ focus: focus, disabled: disabled }">
+            <div class="input_group" :class="{ focus: focus, disabled: disabled }">
                 <i class="text-gray-400" :class="icon" v-if="icon"></i>
                 <input
                     dir="auto"
-                    class="text-white"
                     type="text"
                     :name="name"
                     :placeholder="placeholder"
@@ -26,7 +25,7 @@
                     @focus="toggleFocus()"
                     @blur="toggleFocus()"
                 />
-                <b v-if="postInputText" class="text-gray-300 text-sm">{{ postInputText }}</b>
+                <b v-if="postInputText" class="opacity-30 text-sm">{{ postInputText }}</b>
             </div>
             <div class="desc opacity-50 text-xs mt-2" v-if="desc">{{ desc }}</div>
             <div v-if="error" class="flex gap-1 items-center rounded bg-red-100 text-red-700 p-1 mt-1 text-xs">

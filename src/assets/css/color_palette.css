@@ -193,7 +193,7 @@
 
     --dashboard-template-color: #000;
     --dashboard-sidemenu-bg-color: #fafafa;
-    --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.25);
+    --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-sidemenu-nav-item-hover-bg-color: #e1e1e1;
     --dashboard-sidemenu-nav-item-active-bg-color: #e1e1e1;
     --dashboard-sidemenu-nav-item-active-border-start-color: theme("colors.primary.600");

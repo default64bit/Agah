@@ -90,7 +90,7 @@
                 <hr class="nav_spacer" />
 
                 <li class="nav_header">مدیریت محتوا</li>
-                <router-link to="/admin/articles" title="مقاله ها">
+                <router-link to="/admin/articles" title="مقاله ها" v-if="checkPermissions(['admin.articles.view'], adminInfo.permissions)">
                     <li class="nav_item">
                         <i class="fad fa-newspaper"></i>
                         <span>مقاله ها</span>

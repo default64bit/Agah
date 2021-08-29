@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard_body bg-transparent">
-        <div class="flex flex-wrap lg:flex-nowrap justify-between h-full gap-7">
+        <div class="flex flex-wrap lg:flex-nowrap justify-between h-full gap-7 relative">
             <div class="dashboard_body max-w-screen-2sm shadow-xl">
                 <t-input type="search" icon="fad fa-search" placeholder="جستجو..." v-model:value="search" @keydown="searchUsers($event)" />
                 <hr class="my-4 border-solid" />
@@ -23,7 +23,8 @@
                     </transition-group>
                 </ul>
             </div>
-            <div class="dashboard_body min-h-screen md:min-h-full shadow-xl flex-grow">
+            <div class="dashboard_body min-h-screen md:min-h-full shadow-xl flex-grow absolute lg:relative lg:flex" :class="{ hidden: !viewInfo }">
+                <button class="t_button p-1 mb-4 w-max text-rose-500 opacity-60 lg:hidden" @click="viewInfo = false"><i class="fas fa-times"></i></button>
                 <div class="flex items-center justify-between flex-wrap gap-4 mb-4" v-if="selected_user.name">
                     <div class="flex items-center flex-wrap gap-2">
                         <div class="w-14 h-14 rounded-full shadow-md">
@@ -77,6 +78,7 @@ export default {
     },
     data() {
         return {
+            viewInfo: false,
             loading: true,
 
             search: "",
@@ -96,6 +98,7 @@ export default {
             // request and get user to fill up this.selected_user
             axios.get(`${this.getBaseUrl()}/api/v1/admin/user/${this.selected_user._id}/info`).then((response) => {
                 this.selected_user = response.data;
+                this.viewInfo = true;
             });
         }
 
@@ -113,13 +116,11 @@ export default {
 
         selecteUser(user) {
             this.selected_user = user;
-
+            this.viewInfo = true;
             this.$router.replace(`/admin/users/info/${user._id}`);
             // this.$router.push(`/admin/users/info/${user._id}`);
         },
-        searchUsers(e) {
-            if (e.keyCode == 13) this.loadUsers(true);
-        },
+
         async loadUsers(reload = false) {
             if (this.loadingUser || this.usersEnded) return;
             this.loadingUser = true;
@@ -149,9 +150,12 @@ export default {
                     this.loadingUser = false;
                 });
         },
+        searchUsers(e) {
+            if (e.keyCode == 13) this.loadUsers(true);
+        },
         onUsersListScroll(e) {
             if (e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight - 10) {
-                this.loadPeople();
+                this.loadUsers();
             }
         },
     },

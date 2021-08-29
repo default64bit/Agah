@@ -120,7 +120,7 @@
             <template v-slot:body>
                 <div class="flex flex-col">
                     <i class="fad fa-exclamation-triangle text-red-500 my-4 mx-auto text-6xl"></i>
-                    <span class="text-lg">Do you want to <b class="text-rose-300">DELETE</b> record "{{ deletingRecordName }}"?</span>
+                    <span class="text-lg">Do you want to <b class="text-rose-300">DELETE</b> record "{{ deletingRecordName }}" هستید؟</span>
                     <small class="opacity-50">This action is permanent and can't be undone</small>
                 </div>
                 <hr class="border-solid my-4" />

@@ -1,9 +1,15 @@
 <template>
     <div class="dashboard_body">
         <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-4xl"><b>ریزمکالمات</b></h1>
+            <h1 class="text-4xl"><b>مقالات</b></h1>
             <div class="flex items-center gap-2">
-                <button class="t_button t_button_min bg-gray-200 hover:bg-gray-300 text-black"><i class="fas fa-print"></i> Export</button>
+                <router-link
+                    to="/admin/articles/new"
+                    class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50"
+                    v-if="checkPermissions(['admin.articles.add'], adminInfo.permissions)"
+                >
+                    <i class="fal fa-plus"></i> <b>مقاله جدید</b>
+                </router-link>
             </div>
         </div>
 
@@ -57,34 +63,36 @@
             :pageTotal="pageTotal"
             @update:table="getTableData()"
         >
-            <template v-slot:tbody="{ record, index }" :index="index">
+            <template v-slot:tbody="{ record, index }">
+                <td>{{ record.title }}</td>
+                <td>{{ `${record.author[0].name} ${record.author[0].family}` }}</td>
+                <td>{{ record.views }}</td>
                 <td>
-                    <span class="title">گیرنده:</span>
-                    <span v-if="record.caller_user[0]" dir="ltr">
-                        {{ `${record.caller_user[0].name} ${record.caller_user[0].family}` }}
-                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
-                    </span>
-                    <span v-if="record.caller_admin[0]" dir="ltr">
-                        {{ `${record.caller_admin[0].name} ${record.caller_admin[0].family}` }}
-                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
-                    </span>
+                    <span class="p-1 px-2 text-sm rounded-xl bg-lime-100 text-lime-700" v-if="record.status == 'published'"><b>منتشر شده</b></span>
+                    <span class="p-1 px-2 text-sm rounded-xl bg-indigo-100 text-indigo-700" v-if="record.status == 'pending'"><b>منتظر انتشار</b></span>
                 </td>
+                <td>{{ new Date(record.publishedAt).toLocaleString("en") }}</td>
+                <td>{{ new Date(record.createdAt).toLocaleString("en") }}</td>
                 <td>
-                    <span class="title">مخاطب:</span>
-                    <span v-if="record.callee_user[0]" dir="ltr">
-                        {{ `${record.callee_user[0].name} ${record.callee_user[0].family}` }}
-                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
-                    </span>
-                    <span v-if="record.callee_admin[0]" dir="ltr">
-                        {{ `${record.callee_admin[0].name} ${record.callee_admin[0].family}` }}
-                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
-                    </span>
+                    <div class="flex items-center gap-1">
+                        <router-link
+                            :to="`/admin/articles/${record._id}`"
+                            class="t_button p-2 rounded-full hover:bg-cyan-300 hover:text-black"
+                            title="Edit"
+                            v-if="checkPermissions(['admin.articles.edit'], adminInfo.permissions)"
+                        >
+                            <i class="fal fa-pen"></i>
+                        </router-link>
+                        <button
+                            class="t_button p-2 rounded-full hover:bg-red-300 hover:text-black"
+                            title="Delete"
+                            @click="askToDelete(record._id, record.title, index)"
+                            v-if="checkPermissions(['admin.articles.delete'], adminInfo.permissions)"
+                        >
+                            <i class="fal fa-trash"></i>
+                        </button>
+                    </div>
                 </td>
-                <td>
-                    <span class="title">مدت تماس:</span>
-                    <span>{{ record.duration }}</span>
-                </td>
-                <td>{{ new Date(record.createdAt).toLocaleString("fa") }}</td>
             </template>
         </t-table>
 
@@ -95,7 +103,7 @@
                         <t-input
                             type="text"
                             icon="fad fa-calendar-alt"
-                            label="از تاریخ"
+                            label="From Register Date"
                             desc="yyyy/mm/dd"
                             maskPattern="0000/00/00"
                             v-model:value="filters.fromRegisterDate"
@@ -103,32 +111,32 @@
                         <t-input
                             type="text"
                             icon="fad fa-calendar-alt"
-                            label="تا تاریخ"
+                            label="To Register Date"
                             desc="yyyy/mm/dd"
                             maskPattern="0000/00/00"
                             v-model:value="filters.toRegisterDate"
                         />
                     </div>
                 </div>
-                <hr class="border border-solid my-4" />
+                <hr class="border-solid my-4" />
                 <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-bluegray-50" @click="filter()">فیلتر</button>
             </template>
         </t-dialog>
 
-        <t-dialog v-model:open="deleteDialogState" title="Delete">
+        <t-dialog v-model:open="deleteDialogState" title="حذف">
             <template v-slot:body>
                 <div class="flex flex-col">
                     <i class="fad fa-exclamation-triangle text-red-500 my-4 mx-auto text-6xl"></i>
-                    <span class="text-lg">Do you want to <b class="text-rose-300">DELETE</b> record "{{ deletingRecordName }}" هستید؟</span>
-                    <small class="opacity-50">This action is permanent and can't be undone</small>
+                    <span class="text-lg">آیا مطمئن به <b class="text-rose-300">حذف</b> رکورد "{{ deletingRecordName }}" هستید؟</span>
+                    <small class="opacity-50">این عملیات غیرقبل بازگشت است</small>
                 </div>
                 <hr class="border-solid my-4" />
                 <div class="flex gap-2">
                     <button class="t_button py-1 bg-rose-400 hover:bg-rose-500" :disabled="deletingRecord" @click="deleteRecord()">
-                        <b v-if="!deletingRecord">Delete</b>
+                        <b v-if="!deletingRecord">حذف</b>
                         <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                     </button>
-                    <button class="t_button py-1 border-primary-400 hover:bg-primary-500" @click="deleteDialogState = false">Cancel</button>
+                    <button class="t_button py-1 border-primary-400 hover:bg-primary-500" @click="deleteDialogState = false">لغو</button>
                 </div>
             </template>
         </t-dialog>
@@ -145,7 +153,7 @@ import Table from "../../../templates/layouts/Table";
 import Dialog from "../../../templates/layouts/Dialog";
 
 export default {
-    name: "AdminsList",
+    name: "ArticleList",
     components: {
         "t-input": Input,
         "t-groupbutton": GroupButton,
@@ -162,17 +170,20 @@ export default {
                 toRegisterDate: "",
                 status: [],
             },
-            sort: { col: "تاریخ تماس", type: "asc" },
+            sort: { col: "تاریخ انتشار", type: "desc" },
             page: 1,
             pp: 25,
             total: 0,
             pageTotal: 0,
 
             tableHeads: {
-                گیرنده: { sortable: true },
-                مخاطب: { sortable: true },
-                "مدت تماس": { sortable: true },
-                "تاریخ تماس": { sortable: true },
+                عنوان: { sortable: true },
+                نویسنده: { sortable: true },
+                بازدیدها: { sortable: true },
+                وضعیت: { sortable: true },
+                "تاریخ انتشار": { sortable: true },
+                "تاریخ ثبت": { sortable: true },
+                Actions: { sortable: false },
             },
             tableData: [],
             tableView: "list",
@@ -223,7 +234,7 @@ export default {
             params = params.join("&");
 
             axios
-                .get(`${this.getBaseUrl()}/api/v1/admin/calls?${params}`)
+                .get(`${this.getBaseUrl()}/api/v1/admin/articles?${params}`)
                 .then((response) => {
                     this.tableData = response.data.records;
                     this.total = response.data.total;
@@ -236,6 +247,34 @@ export default {
                 })
                 .finally(() => {
                     this.isDataLoading = false;
+                });
+        },
+
+        askToDelete(id, name, index) {
+            this.deletingRecordId = id;
+            this.deletingRecordName = name;
+            this.deletingRecordIndex = index;
+            this.deleteDialogState = true;
+        },
+        deleteRecord() {
+            this.deletingRecord = true;
+            axios
+                .delete(`${this.getBaseUrl()}/api/v1/admin/article/${this.deletingRecordId}`)
+                .then((response) => {
+                    this.makeToast({ title: "Delete Role", message: `Role ${this.deletingRecordName} has been deleted successfully`, type: "success" });
+                    this.tableData.splice(this.deletingRecordIndex, 1);
+                })
+                .catch((error) => {
+                    if (error.response.data) {
+                        this.makeToast({ title: "Delete Role", message: error.response.data.error, type: "danger" });
+                    }
+                })
+                .finally(() => {
+                    this.deletingRecordId = "";
+                    this.deletingRecordName = "";
+                    this.deletingRecordIndex = "";
+                    this.deletingRecord = false;
+                    this.deleteDialogState = false;
                 });
         },
 
