@@ -17,9 +17,9 @@
                     :type="inputType"
                     :placeholder="placeholder"
                     :disabled="disabled"
-                    v-model="value"
+                    :value="value"
                     ref="input"
-                    @input="updateValue()"
+                    @keydown="updateValue()"
                     @focus="toggleFocus()"
                     @blur="toggleFocus()"
                     v-if="inputType != 'textarea'"
@@ -59,8 +59,7 @@
 import IMask from "imask";
 
 export default {
-    name: "Button",
-    // props: ["type", "name", "label", "value", "placeholder", "icon", "desc", "error", "required", "maskPattern"],
+    name: "Input",
     props: {
         type: { type: String },
         name: { type: String },
@@ -89,15 +88,14 @@ export default {
     mounted() {},
     methods: {
         updateValue() {
-            let localValue = this.value;
+            if (!!this.maskPattern) IMask(this.$refs.input, { mask: this.maskPattern });
+
+            let localValue = this.$refs.input.value;
 
             if (!!this.maxCount && this.count >= this.maxCount) localValue = localValue.substr(0, this.count);
             this.count = localValue.length;
 
-            if (!!this.maskPattern) {
-                IMask(this.$refs.input, { mask: this.maskPattern });
-            }
-
+            this.$refs.input.value = localValue;
             this.$emit("update:value", localValue);
         },
 

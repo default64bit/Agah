@@ -60,6 +60,7 @@
     "express-validator": "^6.12.1",
     "express-ws": "^5.0.2",
     "imask": "^6.1.0",
+    "jalali-moment": "^3.3.10",
     "js-cookie": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",

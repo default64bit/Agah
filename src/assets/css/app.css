@@ -284,8 +284,9 @@ hr{
 .t_select .list{
     display: flex; flex-direction: column; gap: .25rem;
     background-color: var(--select-list-bg-color); box-shadow: 0px 5px 15px var(--select-list-shadow-color);
-    position: absolute; top: 2.25rem; overflow: auto; border-radius: 5px;
+    position: absolute; top: 2.5rem; overflow: auto; border-radius: 5px;
     width: inherit; min-width: max-content; max-height: 10rem; padding: .25rem;
+    margin-inline-start: -.35rem;
 }
 .t_select .list li{ padding: .25rem; border-radius: 5px; cursor: pointer; transition: all .1s; }
 .t_select .list li:hover{
@@ -320,6 +321,25 @@ hr{
 }
 .t_group_button.open .list{ z-index: 10; }
 /* GroupButtons ======================================== */
+
+/* DatePicker ======================================== */
+.t_date_picker{
+    position: relative
+}
+.t_date_picker .input_group{
+    position: relative;
+}
+.t_date_picker .picker{
+    display: flex; flex-direction: column; gap: .5rem;
+    background-color: var(--select-list-bg-color); box-shadow: 0px 5px 15px var(--select-list-shadow-color);
+    position: absolute; top: 4rem; overflow: auto; border-radius: 5px;
+    width: 100%; min-width: fit-content; padding: .5rem; inset-inline-end: 0;
+    margin-inline-start: -.35rem;
+}
+.t_date_picker .picker span[selected="true"]{
+    background-color: theme("colors.primary.500"); color:white;
+}
+/* DatePicker ======================================== */
 
 /* Dialog ======================================== */
 .t_dialog{
