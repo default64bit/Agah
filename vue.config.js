@@ -29,6 +29,7 @@ module.exports = {
         webpackConfig.module.rule("ts").uses.delete("cache-loader");
         webpackConfig.module.rule("tsx").uses.delete("cache-loader");
 
+        // adding a temprary title
         webpackConfig.plugin("html").tap((args) => {
             args[0].title = "Admin Panel Template";
             return args;

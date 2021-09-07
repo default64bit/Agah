@@ -11,32 +11,15 @@ export default () => {
             // user paths
             {
                 path: "/",
-                component: () => import("./components/templates/user/Dashboard"),
+                component: () => import("./components/templates/web/Main"),
                 children: [
-                    { path: "", component: () => import("./components/pages/user/Home"), name: "Home" },
-                    { path: "room/:roomId?", component: () => import("./components/pages/user/Room"), name: "Room" },
-                    {
-                        path: "account-settings",
-                        component: () => import("./components/templates/user/AccountSettings"),
-                        children: [
-                            { path: "profile", component: () => import("./components/pages/user/account_settings/Profile") },
-                            { path: "security", component: () => import("./components/pages/user/account_settings/Security") },
-                            { path: "notification", component: () => import("./components/pages/user/account_settings/Notification") },
-                        ],
-                    },
-                    {
-                        path: "panel-settings",
-                        component: () => import("./components/templates/user/PanelSettings"),
-                        children: [
-                            // { path: "language-and-region", component: () => import("./components/pages/user/panel_settings/LanguageAndRegion") },
-                            // { path: "theme", component: () => import("./components/pages/user/panel_settings/Theme") },
-                        ],
-                    },
+                    { path: "", component: () => import("./components/pages/web/Home"), name: "Home" },
+                    { path: "room/:roomId?", component: () => import("./components/pages/web/Room"), name: "Room" },
                 ],
             },
-            { path: "/login", component: () => import("./components/pages/user/Login"), name: "Login" },
-            { path: "/register", component: () => import("./components/pages/user/Register"), name: "Register" },
-            { path: "/forgot-password", component: () => import("./components/pages/user/ForgotPassword"), name: "ForgotPassword" },
+            // { path: "/login", component: () => import("./components/pages/web/Login"), name: "Login" },
+            // { path: "/verfication", component: () => import("./components/pages/web/Verfication"), name: "Verfication" },
+            // { path: "/register", component: () => import("./components/pages/web/Register"), name: "Register" },
 
             //=========================================================================================================
             // admin paths
@@ -58,7 +41,6 @@ export default () => {
 
                     { path: "admins_list", component: () => import("./components/pages/admin/admins_list/AdminsList") },
                     { path: "admins_list/create_admin", component: () => import("./components/pages/admin/admins_list/CreateAdmin") },
-                    // { path: "admins_list/admin/:id", component: () => import("./components/pages/admin/admins_list/EditAdmin") },
                     {
                         path: "admins_list/admin/:id",
                         component: () => import("./components/pages/admin/admins_list/EditAdminTemplate"),

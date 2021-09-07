@@ -39,7 +39,7 @@
 import axios from "axios";
 import cookies from "js-cookie";
 
-import Auth from "../../templates/user/Auth";
+import Auth from "../../templates/web/Auth";
 import Spacer from "../../templates/layouts/Spacer";
 import Input from "../../templates/layouts/Input";
 

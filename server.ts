@@ -105,7 +105,7 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
                     }
                     html = html.toString().replace('<div id="app">', `<div id="app">${appContent}`);
                     html = html.replace("<title>Vue App", `<title>AdminPanel`);
-                    html = html.replace("<body", `<body dir="rtl" theme="light" lang="fa"`);
+                    html = html.replace("<body", `<body dir="rtl" theme="default_light" lang="fa"`);
                     res.setHeader("Content-Type", "text/html");
                     res.send(html);
                 });

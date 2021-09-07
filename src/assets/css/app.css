@@ -43,6 +43,9 @@ hr{
 /* Dashboard Template ========================================= */
 @import url('./dashboard.css');
 
+/* Dashboard Template ========================================= */
+@import url('./web.css');
+
 /* Spacer ======================================== */
 .t_button{
     display: flex; align-items: center; justify-content: center;
@@ -72,9 +75,8 @@ hr{
     display: flex; justify-content: space-around; align-items: center;
     width: 90%; gap: 1rem;
 }
-.t_spacer > span{
-    display: inline-block; width: 100%; height: 2px;
-}
+.t_spacer > span{ display: inline-block; width: 100%; height: 2px; }
+.t_spacer p{ flex-shrink: 0; }
 /* Spacer ======================================== */
 
 /* Input ======================================== */

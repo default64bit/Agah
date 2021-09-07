@@ -111,12 +111,16 @@
     --dashboard-schedule-item-bg-color: #434343;
 
     /* ======================================================= */
-
+    
     --auth-header-color: #fff;
     --auth-header-hover-bg-color: theme("colors.primary.400");
     --auth-header-hover-color: #242424;
     --auth-box-bg-color: #343434;
     --auth-box-shadow-color: rgba(0, 0, 0, 0.35);
+
+    /* ======================================================= */
+
+    --header-wrapper-bg-color: #fcfcfc;
 }
 
 [theme="default_dark"] {
@@ -128,7 +132,7 @@
     --selection-color: #fffff0;
     --scroll-thumb-bg-color: theme('colors.secondary.400');
 
-    --body-bg-color: #efefef;
+    --body-bg-color: #fff;
     --body-color: theme("colors.gray.800");
 
     --hr-border-color: theme("colors.gray.300");
@@ -192,7 +196,7 @@
     /* ======================================================= */
 
     --dashboard-template-color: #000;
-    --dashboard-sidemenu-bg-color: #fafafa;
+    --dashboard-sidemenu-bg-color: #fcfcfc;
     --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-sidemenu-nav-item-hover-bg-color: #e1e1e1;
     --dashboard-sidemenu-nav-item-active-bg-color: #e1e1e1;
@@ -206,7 +210,7 @@
     --dashboard-header-shadow-color: #eaeaea;
     --dashboard-header-title-alt-color: #000;
     --dashboard-header-title-alt-bg-color: #fff;
-    --dashboard-header-profile-open-bg-color: #e4e4e4;
+    --dashboard-header-profile-open-bg-color: #f3f3f3;
     --dashboard-header-profile-open-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-header-avatar-shadow-color: rgba(0, 0, 0, 0.05);
     --dashboard-header-avatar-border-color: #a4a4a4;
@@ -227,7 +231,7 @@
     --message-board-message-bubble-received-bg-color: #464646;
     --message-board-new-chat-color: #000;
 
-    --dashboard-body-bg-color: theme("colors.truegray.100");
+    --dashboard-body-bg-color: #f8f8f8;
 
     --dashboard-toast-bg-color: #fff;
     --dashboard-toast-shadow-color: rgba(0, 0, 0, 0.05);
@@ -236,10 +240,14 @@
     --dashboard-schedule-item-bg-color: #fff;
 
     /* ======================================================= */
-
+    
     --auth-header-color: #000;
     --auth-header-hover-bg-color: theme("colors.primary.400");
     --auth-header-hover-color: #e4e4e4;
-    --auth-box-bg-color: #e4e4e4;
+    --auth-box-bg-color: #f5f5f5;
     --auth-box-shadow-color: rgba(0, 0, 0, 0.03);
+
+    /* ======================================================= */
+
+    --header-wrapper-bg-color: #fcfcfc;
 }

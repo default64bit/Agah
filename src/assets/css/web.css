@@ -1,0 +1,32 @@
+@font-face { font-family: 'Vazir'; src: url('../fonts/Vazir.ttf') format('truetype'); }
+@font-face { font-family: 'B-Nazanin'; src: url('../fonts/B-Nazanin.ttf') format('truetype'); }
+@font-face { font-family: 'CopperplateGothicLight'; src: url('../fonts/CopperplateGothicLight.ttf') format('truetype'); }
+@font-face { font-family: 'Neirizi'; src: url('../fonts/Neirizi.ttf') format('truetype'); }
+
+.main{
+    font-family: 'Vazir','B-Nazanin','CopperplateGothicLight';
+}
+
+/* Header ======================================================== */
+.header_wrapper{
+    width: 100%;
+    background-color: var(--header-wrapper-bg-color);
+}
+.header_wrapper header{
+    width: 100%; max-width: 1440px;
+}
+
+.header_wrapper header .logo{}
+.header_wrapper header .logo img{
+    height: 2.5rem; width: auto;
+}
+.header_wrapper header .logo strong{
+    font-family: 'Neirizi';
+}
+
+.header_wrapper header .nav_toggle{}
+
+.header_wrapper header .menu{}
+.header_wrapper header .menu .main_nav{}
+.header_wrapper header .menu .secondary_nav{}
+/* Header ======================================================== */
