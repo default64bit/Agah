@@ -19,6 +19,9 @@ const _schema: mongoose.Schema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    desc: {
+        type: String,
+    },
     mobile: {
         type: String,
     },
@@ -60,6 +63,7 @@ export interface IAdmin {
     name: string;
     family: string;
     email: string;
+    desc: string;
     mobile: string;
     socialMedias: Array<ISocialMedia>;
     password: string;

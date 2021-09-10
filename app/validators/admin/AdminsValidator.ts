@@ -85,13 +85,17 @@ class Validator extends BaseValidator {
 
             body("family").exists().withMessage("family can't be empty"),
             body("family").notEmpty().withMessage("family can't be empty"),
-            body("family").isString().withMessage("name must be string of characters"),
+            body("family").isString().withMessage("family must be string of characters"),
             body("family").isLength({ max: 100 }).withMessage("max lenght is 100 characters"),
 
             body("email").exists().withMessage("email can't be empty"),
             body("email").notEmpty().withMessage("email can't be empty"),
             body("email").isEmail().withMessage("email format is incorrect"),
             body("email").isLength({ max: 255 }).withMessage("max lenght is 255 characters"),
+
+            body("desc").exists().withMessage("desc can't be empty"),
+            body("desc").notEmpty().withMessage("desc can't be empty"),
+            body("desc").isString().withMessage("desc must be string of characters"),
 
             body("status").exists().withMessage("status can't be empty"),
             body("status").notEmpty().withMessage("status can't be empty"),

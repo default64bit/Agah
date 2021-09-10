@@ -21,7 +21,7 @@ const actions = {
     async getUserInfo({ commit }, Options) {
         let UserAuthToken = Options.UserAuthToken ? Options.UserAuthToken : "";
         await axios
-            .get(`${Options.BaseUrl}/api/v1/user/info`, {
+            .get(`${Options.BaseUrl}/api/v1/web/info`, {
                 headers: {
                     UserAuthToken: UserAuthToken,
                     "csrf-token": Options.csrfToken,
@@ -32,14 +32,14 @@ const actions = {
             .then((response) => {
                 if (!state.refreshOnLoad) {
                     axios
-                        .post(`${Options.BaseUrl}/api/v1/user/auth/refresh`)
+                        .post(`${Options.BaseUrl}/api/v1/web/auth/refresh`)
                         .then(() => commit("setIsUserLoggedIn", true))
                         .catch((e) => {});
                     state.refreshOnLoad = true;
                 }
                 let interval = setInterval(() => {
                     axios
-                        .post(`${Options.BaseUrl}/api/v1/user/auth/refresh`)
+                        .post(`${Options.BaseUrl}/api/v1/web/auth/refresh`)
                         .then(() => commit("setIsUserLoggedIn", true))
                         .catch((error) => {
                             clearInterval(interval);
@@ -58,7 +58,7 @@ const actions = {
     },
     async updateUserInfo({ commit }, Options) {
         await axios
-            .put(`${Options.BaseUrl}/api/v1/user/info`, Options.data, {
+            .put(`${Options.BaseUrl}/api/v1/web/info`, Options.data, {
                 headers: {
                     "csrf-token": Options.csrfToken,
                     "content-type": "application/json",
@@ -74,7 +74,7 @@ const actions = {
 
     async updateUserAvatar({ commit }, Options) {
         await axios
-            .post(`${Options.BaseUrl}/api/v1/user/update_avatar`, Options.data, {
+            .post(`${Options.BaseUrl}/api/v1/web/update_avatar`, Options.data, {
                 headers: {
                     "csrf-token": Options.csrfToken,
                     "content-type": "application/json",
@@ -89,7 +89,7 @@ const actions = {
     },
     async deleteUserAvatar({ commit }, Options) {
         await axios
-            .delete(`${Options.BaseUrl}/api/v1/user/profile_avatar`, {
+            .delete(`${Options.BaseUrl}/api/v1/web/profile_avatar`, {
                 headers: {
                     "csrf-token": Options.csrfToken,
                     "content-type": "application/json",

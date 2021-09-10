@@ -1,5 +1,5 @@
 <template>
-    <div class="main" v-if="!loading">
+    <div class="main" v-show="!loading">
         <main-header></main-header>
         <router-view v-slot="{ Component }">
             <transition name="slidedown" mode="out-in" appear="">
@@ -33,16 +33,16 @@ export default {
     async serverPrefetch() {
         // await this.checkAuthentication();
     },
-    created() {},
-    mounted() {
+    created() {
         // this.checkAuthentication();
         this.loading = false;
     },
-    beforeRouteEnter(to, from, next) {
-        next();
-    },
-    beforeRouteUpdate(to, from, next) {
-        next();
+    mounted() {
+        // set theme
+        if (localStorage.getItem("userTheme")) {
+            let theme = localStorage.getItem("userTheme") == "default_dark" ? "default_dark" : "default_light";
+            window.document.querySelector("body").setAttribute("theme", theme);
+        }
     },
     computed: {
         ...mapGetters(["userInfo", "isLoggedIn"]),

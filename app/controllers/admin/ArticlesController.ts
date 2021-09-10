@@ -337,11 +337,14 @@ class AdminRolesController {
         textJson.blocks.forEach((block) => {
             if (block.type == "imageTool") existingImages.push(block.data.file.url.split("/").pop());
         });
-        // remove any unused image in article folder
-        const articleImages = await fs.readdir(`public/articles/${article._id}`);
-        articleImages.forEach(async (image) => {
-            if (!existingImages.includes(image)) await fs.unlink(`public/articles/${article._id}/${image}`);
-        });
+
+        try{
+            // remove any unused image in article folder
+            const articleImages = await fs.readdir(`public/articles/${article._id}`);
+            articleImages.forEach(async (image) => {
+                if (!existingImages.includes(image)) await fs.unlink(`public/articles/${article._id}/${image}`);
+            });
+        }catch(e){}
 
         return res.end();
     }

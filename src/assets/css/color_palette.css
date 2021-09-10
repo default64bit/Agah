@@ -120,7 +120,23 @@
 
     /* ======================================================= */
 
-    --header-wrapper-bg-color: #fcfcfc;
+    --btn-bg-color: #f4f4f4;
+    --btn-color: #3c3c3c;
+    --btn-hover-bg-color: #e2e2e2;
+    --btn-hover-shadow-color: rgba(0, 0, 0, 0.1);
+
+    --header-wrapper-bg-color: #2f2f2fdd;
+    --header-menu-li-line-bg-color: #ccc4b3;
+
+    --main-gradiant-matt-color: #1d1d1d;
+
+    --theme-toggle-shadow-color: rgba(0, 0, 0, 0.45);
+
+    --home-section-one-bg-color: #242424bb;
+    --home-section-three-consulter-card-border-color: #efefef;
+    --home-section-three-consulter-card-bg-color: #000;
+    --home-section-three-consulter-card-hover-bg-color: #f4f4f4;
+    --home-section-four-bg-color: #1d1d1daa;
 }
 
 [theme="default_dark"] {
@@ -161,7 +177,7 @@
     --tabs-route-exact-active-border-bottom-color: theme("colors.primary.500");
     --tabs-route-exact-active-bg-color: #fff;
 
-    --table-bg-color: #ededed;
+    --table-bg-color: #f3f3f3;
     --table-th-bg-color: theme("colors.warmgray.300");
     --table-th-color: #2a2a2a;
     --table-tr-hover-bg-color: #e2e2e2;
@@ -184,7 +200,7 @@
     --group-button-list-shadow-color: rgba(0, 0, 0, 0.05);
 
     --dialog-color: #000;
-    --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.05);
+    --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.15);
     --dialog-box-bg-color: theme("colors.gray.100");
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.05);
 
@@ -249,5 +265,21 @@
 
     /* ======================================================= */
 
-    --header-wrapper-bg-color: #fcfcfc;
+    --btn-bg-color: #4c4c4c;
+    --btn-color: #f1f1f1;
+    --btn-hover-bg-color: #1c1c1c;
+    --btn-hover-shadow-color: rgba(0, 0, 0, 0.1);
+
+    --header-wrapper-bg-color: #fcfcfcdd;
+    --header-menu-li-line-bg-color: #eee5d6;
+
+    --main-gradiant-matt-color: #f8f8f8;
+
+    --theme-toggle-shadow-color: rgba(0, 0, 0, 0.25);
+
+    --home-section-one-bg-color: #ffffffbb;
+    --home-section-three-consulter-card-border-color: #242424;
+    --home-section-three-consulter-card-bg-color: #fff;
+    --home-section-three-consulter-card-hover-bg-color: #4c4c4c;
+    --home-section-four-bg-color: #f8f8f8aa;
 }

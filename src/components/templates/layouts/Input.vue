@@ -19,7 +19,7 @@
                     :disabled="disabled"
                     :value="value"
                     ref="input"
-                    @keydown="updateValue()"
+                    @input="updateValue()"
                     @focus="toggleFocus()"
                     @blur="toggleFocus()"
                     v-if="inputType != 'textarea'"

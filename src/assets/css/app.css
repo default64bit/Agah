@@ -6,17 +6,19 @@
 @font-face { font-family: 'Vazir'; src: url('../fonts/Vazir.ttf') format('truetype'); }
 
 *::-moz-selection{background: var(--selection-bg-color); color: var(--selection-color);} *::selection{background: var(--selection-bg-color); color: var(--selection-color)};
-*::-webkit-scrollbar-track{background-color: transparent; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.01); border-radius: 10px;}
-*::-webkit-scrollbar{margin-inline-start: .25em; width: 6px; height: 6px; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.01); border-radius: 10px;}
-*::-webkit-scrollbar-track-piece{background-color: transparent; border-radius: 10px;}
-*::-webkit-scrollbar-thumb{background: var(--scroll-thumb-bg-color); border-radius: 10px; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.1);}
+*::-webkit-scrollbar-track{background-color: transparent; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.01); border-radius: 0px;}
+*::-webkit-scrollbar{margin-inline-start: .25em; width: 6px; height: 6px; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.01); border-radius: 0px;}
+*::-webkit-scrollbar-track-piece{background-color: transparent; border-radius: 0px;}
+*::-webkit-scrollbar-thumb{background: var(--scroll-thumb-bg-color); border-radius: 0px; -webkit-box-shadow: inset 0px 0px 5px rgba(0,0,0,.1);}
 
 *,html{
-    font-family: 'consolas','Vazir';
+    font-family: 'Vazir','consolas';
     outline: none !important; border: 0;
     transition: all .15s;
 }
+html{ width: 99.9vw; }
 body{
+    font-family: 'Vazir','consolas';
     max-width: 1920px; margin: 0 auto;
     width: 100%; height: 100vh; overflow-x: hidden;
     display: flex; flex-direction: column;
@@ -46,12 +48,12 @@ hr{
 /* Dashboard Template ========================================= */
 @import url('./web.css');
 
-/* Spacer ======================================== */
+/* Button ======================================== */
 .t_button{
     display: flex; align-items: center; justify-content: center;
     gap: .25rem; font-size: 1rem;
     cursor: pointer; outline: 0;
-    box-shadow: 0px 0px 10px var(--button-shadow-color);
+    box-shadow: 0px 3px 10px -3px var(--button-shadow-color);
     background-color: var(--button-bg-color);
     border-radius: 5px; padding: .5rem;
     border: 2px solid transparent;
@@ -68,7 +70,7 @@ hr{
 .t_button_min{
     padding: .25rem .5rem;
 }
-/* Spacer ======================================== */
+/* Button ======================================== */
 
 /* Spacer ======================================== */
 .t_spacer{
@@ -355,7 +357,7 @@ hr{
 }
 .t_dialog > .box{
     min-width: 20rem; margin: 0 1rem;
-    padding: 1rem; border-radius: 5px; z-index: 2;
+    padding: 1rem; border-radius: 3px; z-index: 2;
     background-color: var(--dialog-box-bg-color);
     box-shadow: 0px 5px 10px var(--dialog-box-shadow-color);
 }
@@ -429,7 +431,7 @@ h6.ce-header{ font-size: .75rem; }
 
 /* Icon Flip ======================================== */
 [dir="rtl"] .fad, [dir="rtl"] .fal, [dir="rtl"] .far, [dir="rtl"] .fas{ transform: rotateY(180deg) !important; }
-[dir="rtl"] .fa-check, [dir="rtl"] .fa-check-square, [dir="rtl"] .fa-check-double{ transform: rotateY(0deg) !important; }
+[dir="rtl"] .fa-check, [dir="rtl"] .fa-check-square, [dir="rtl"] .fa-check-double, [dir="rtl"] .fa-copyright{ transform: rotateY(0deg) !important; }
 [dir="rtl"] .fa-rotate-90{ transform: rotate(270deg) !important; }
 /* Icon Flip ======================================== */
 

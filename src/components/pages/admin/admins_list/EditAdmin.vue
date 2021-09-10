@@ -35,7 +35,10 @@
 
             <hr class="my-4 border-solid" />
 
-            <t-input class="max-w-screen-sm" type="email" label="آدرس ایمیل" :required="true" v-model:value="email" :error="emailError" />
+            <div class="flex flex-col gap-4">
+                <t-input class="max-w-screen-sm" type="email" label="آدرس ایمیل" :required="true" v-model:value="email" :error="emailError" />
+                <t-input class="max-w-screen-sm" type="textarea" label="درباره من" :required="true" v-model:value="desc" :error="descError" />
+            </div>
 
             <hr class="my-4 border-solid" />
 
@@ -138,6 +141,7 @@ export default {
             name: "",
             family: "",
             email: "",
+            desc: "",
             status: { name: "Active", value: "active" },
             role: { name: "", value: "" },
             password: "",
@@ -146,6 +150,7 @@ export default {
             nameError: "",
             familyError: "",
             emailError: "",
+            descError: "",
             statusError: "",
             roleError: "",
             passwordError: "",
@@ -188,6 +193,7 @@ export default {
             formData.append("name", this.name);
             formData.append("family", this.family);
             formData.append("email", this.email);
+            formData.append("desc", this.desc);
             formData.append("status", this.status.value);
             formData.append("role", this.role.value);
             formData.append("password", this.password);
@@ -230,6 +236,7 @@ export default {
                     this.name = response.data.name;
                     this.family = response.data.family;
                     this.email = response.data.email;
+                    this.desc = response.data.desc;
                     this.status = this.statusOptions[response.data.status];
                     this.role = this.roles[response.data.role._id];
                     if (response.data.socialMedias) {

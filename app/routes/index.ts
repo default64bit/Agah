@@ -2,7 +2,7 @@ import { Router } from "express";
 import adminAuth from "./adminAuth";
 import adminPanel from "./adminPanel";
 import userAuth from "./userAuth";
-import userPanel from "./userPanel";
+import web from "./web";
 
 import ListItemsController from "../controllers/ListItemsController";
 const router = Router();
@@ -12,8 +12,8 @@ const listItemsCtl = new ListItemsController();
 router.use("/admin/auth", adminAuth);
 router.use("/admin", adminPanel);
 
-router.use("/user/auth", userAuth);
-router.use("/user", userPanel);
+router.use("/web/auth", userAuth);
+router.use("/web", web);
 
 router.get("/language_options", listItemsCtl.get_language_options.bind(listItemsCtl));
 router.get("/number_format_options", listItemsCtl.get_number_format_options.bind(listItemsCtl));

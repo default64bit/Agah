@@ -236,6 +236,7 @@ class AdminsController {
             name: req.body.name.toString(),
             family: req.body.family.toString(),
             email: req.body.email.toString(),
+            desc: req.body.desc.toString(),
             status: req.body.status.toString(),
             role: roleId,
         };
