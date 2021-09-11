@@ -3,28 +3,55 @@ import { body } from "express-validator";
 import BaseValidator from "../BaseValidator";
 
 class ProfileValidator extends BaseValidator {
+    public static async login(req: Request, res: Response, next) {
+        const validationChain = [
+            body("username").exists().withMessage("پست الکترونیک خود را وارد کنید"),
+            body("username").notEmpty().withMessage("پست الکترونیک خود را وارد کنید"),
+            body("username").isEmail().withMessage("پست الکترونیک نامعتبر"),
+        ];
+
+        return await super.validate(validationChain, req, res, next);
+    }
+
+    public static async verfication(req: Request, res: Response, next) {
+        const validationChain = [
+            body("username").exists().withMessage("پست الکترونیک نامعتبر"),
+            body("username").notEmpty().withMessage("پست الکترونیک نامعتبر"),
+            body("username").isEmail().withMessage("پست الکترونیک نامعتبر"),
+            
+            body("code").exists().withMessage("کد را وارد کنید"),
+            body("code").notEmpty().withMessage("کد را وارد کنید"),
+            body("code").isLength({ max: 6, min:6 }).withMessage("کد 6 رقمی است"),
+        ];
+
+        return await super.validate(validationChain, req, res, next);
+    }
+
     public static async register(req: Request, res: Response, next) {
         const validationChain = [
-            body("name").exists().withMessage("First name can't be empty"),
-            body("name").notEmpty().withMessage("First name can't be empty"),
-            body("name").isLength({ max: 100 }).withMessage("First name max lenght is 100 characters"),
+            body("username").exists().withMessage("پست الکترونیک نامعتبر"),
+            body("username").notEmpty().withMessage("پست الکترونیک نامعتبر"),
+            body("username").isEmail().withMessage("پست الکترونیک نامعتبر"),
+            
+            body("code").exists().withMessage("کد را وارد کنید"),
+            body("code").notEmpty().withMessage("کد را وارد کنید"),
+            body("code").isLength({ max: 6, min:6 }).withMessage("کد 6 رقمی است"),
 
-            body("family").exists().withMessage("Last name can't be empty"),
-            body("family").notEmpty().withMessage("Last name can't be empty"),
-            body("family").isLength({ max: 100 }).withMessage("Last name max lenght is 100 characters"),
+            body("name").exists().withMessage("نام خود را وارد کنید"),
+            body("name").notEmpty().withMessage("نام خود را وارد کنید"),
+            body("name").isLength({ max: 20 }).withMessage("حداکثر 20 کاراکتر"),
 
-            body("email").exists().withMessage("Email can't be empty"),
-            body("email").notEmpty().withMessage("Email can't be empty"),
-            body("email").isLength({ max: 100 }).withMessage("Email max lenght is 100 characters"),
+            body("family").exists().withMessage("نام خانوادگی خود را وارد کنید"),
+            body("family").notEmpty().withMessage("نام خانوادگی خود را وارد کنید"),
+            body("family").isLength({ max: 30 }).withMessage("حداکثر 30 کاراکتر"),
 
-            body("password").exists().withMessage("Password can't be empty"),
-            body("password").notEmpty().withMessage("Password can't be empty"),
-            body("password").isLength({ max: 100 }).withMessage("Password max lenght is 100 characters"),
-            body("password").isLength({ min: 8 }).withMessage("Password must be atleast 8 characters"),
-
-            body("termCheck").exists().withMessage("Please check the terms and policies"),
-            body("termCheck").notEmpty().withMessage("Please check the terms and policies"),
-            body("termCheck").isIn(['true','false']).withMessage("Please check the terms and policies"),
+            body("mobile").exists().withMessage("mobile can't be empty"),
+            body("mobile").notEmpty().withMessage("mobile can't be empty"),
+            body("mobile").trim().custom((value)=>{
+                var regex = new RegExp('^(\\+98|0)?9\\d{9}$');
+                if (!regex.test(value)) throw new Error('شماره موبایل معتبر نیست');
+                return true;
+            }),
         ];
 
         return await super.validate(validationChain, req, res, next);

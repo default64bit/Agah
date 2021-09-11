@@ -4,12 +4,11 @@ const state = {
     isUserLoggedIn: false,
     userInfo: {
         id: "",
-        avatar: "http://localhost:3000/img/avatars/admin.png",
+        avatar: "http://localhost:3000/img/avatars/user.svg",
         name: "",
         family: "",
         email: "",
     },
-    refreshOnLoad: false,
 };
 
 const getters = {
@@ -19,24 +18,12 @@ const getters = {
 
 const actions = {
     async getUserInfo({ commit }, Options) {
-        let UserAuthToken = Options.UserAuthToken ? Options.UserAuthToken : "";
         await axios
             .get(`${Options.BaseUrl}/api/v1/web/info`, {
-                headers: {
-                    UserAuthToken: UserAuthToken,
-                    "csrf-token": Options.csrfToken,
-                    "Cache-Control": "no-cache",
-                    Pragma: "no-cache",
-                },
+                headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
             })
             .then((response) => {
-                if (!state.refreshOnLoad) {
-                    axios
-                        .post(`${Options.BaseUrl}/api/v1/web/auth/refresh`)
-                        .then(() => commit("setIsUserLoggedIn", true))
-                        .catch((e) => {});
-                    state.refreshOnLoad = true;
-                }
+                axios.post(`${Options.BaseUrl}/api/v1/web/auth/refresh`).then(() => commit("setIsUserLoggedIn", true));
                 let interval = setInterval(() => {
                     axios
                         .post(`${Options.BaseUrl}/api/v1/web/auth/refresh`)
@@ -58,12 +45,7 @@ const actions = {
     },
     async updateUserInfo({ commit }, Options) {
         await axios
-            .put(`${Options.BaseUrl}/api/v1/web/info`, Options.data, {
-                headers: {
-                    "csrf-token": Options.csrfToken,
-                    "content-type": "application/json",
-                },
-            })
+            .put(`${Options.BaseUrl}/api/v1/web/info`, Options.data)
             .then((response) => {
                 commit("setUserInfo", response.data);
             })
@@ -74,12 +56,7 @@ const actions = {
 
     async updateUserAvatar({ commit }, Options) {
         await axios
-            .post(`${Options.BaseUrl}/api/v1/web/update_avatar`, Options.data, {
-                headers: {
-                    "csrf-token": Options.csrfToken,
-                    "content-type": "application/json",
-                },
-            })
+            .post(`${Options.BaseUrl}/api/v1/web/update_avatar`, Options.data)
             .then((response) => {
                 commit("setUserAvatar", response.data.avatar);
             })
@@ -89,12 +66,7 @@ const actions = {
     },
     async deleteUserAvatar({ commit }, Options) {
         await axios
-            .delete(`${Options.BaseUrl}/api/v1/web/profile_avatar`, {
-                headers: {
-                    "csrf-token": Options.csrfToken,
-                    "content-type": "application/json",
-                },
-            })
+            .delete(`${Options.BaseUrl}/api/v1/web/profile_avatar`)
             .then((response) => {
                 commit("setUserAvatar", response.data.avatar);
             })

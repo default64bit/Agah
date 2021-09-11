@@ -115,21 +115,6 @@ class ProfileController {
             avatar: newImageLink,
         });
     }
-
-    public async changePassword(req: AuthenticatedRequest, res: Response) {
-        let error = false;
-
-        const user = await User.model.findById(req.user._id);
-        const isOldPasswordValid = await User.checkPass(user.password, req.body.oldPassword);
-        if (!isOldPasswordValid) {
-            return res.status(422).json({ error: "The old password is not correct", field: "oldPassword" });
-        }
-
-        await User.model.updateOne({ _id: req.user._id }, { password: await User.hash(req.body.newPassword) }).catch((e) => (error = true));
-        if (error) return res.status(500).end();
-
-        res.end();
-    }
 }
 
 export default ProfileController;

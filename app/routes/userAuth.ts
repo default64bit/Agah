@@ -8,8 +8,10 @@ import AuthValidator from "../validators/user/AuthValidator";
 const router = Router();
 const auth = new AuthContoller();
 
+router.post("/login", userAuth.ensureGuest, AuthValidator.login, auth.login.bind(auth));
+router.post("/verfication", userAuth.ensureGuest, AuthValidator.verfication, auth.verfication.bind(auth));
 router.post("/register", userAuth.ensureGuest, AuthValidator.register, auth.register.bind(auth));
-router.post("/login", userAuth.ensureGuest, auth.login.bind(auth));
+
 router.post("/logout", userAuth.ensureAuth, auth.logout.bind(auth));
 router.post("/refresh", userAuth.ensureAuth, auth.refresh.bind(auth));
 

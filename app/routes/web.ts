@@ -30,7 +30,6 @@ router.get("/info", profileController.getInfo.bind(profileController));
 router.put("/info", ProfileValidator.updateInfo, profileController.updateInfo.bind(profileController));
 router.post("/update_avatar", upload.single("avatar"), profileController.updateAvatar.bind(profileController));
 router.delete("/profile_avatar", profileController.deleteAvatar.bind(profileController));
-router.post("/change_password", ProfileValidator.changePassword, profileController.changePassword.bind(profileController));
 
 router.get("/notifications", notificationController.getNotifs);
 router.post("/notifications/read", notificationController.readNotifs);

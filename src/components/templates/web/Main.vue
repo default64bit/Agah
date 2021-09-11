@@ -43,6 +43,10 @@ export default {
             let theme = localStorage.getItem("userTheme") == "default_dark" ? "default_dark" : "default_light";
             window.document.querySelector("body").setAttribute("theme", theme);
         }
+
+        // TODO
+        // get userAuthError from cookie
+        // and if it is some error, show it via toast and then clear the error
     },
     computed: {
         ...mapGetters(["userInfo", "isLoggedIn"]),
@@ -50,15 +54,15 @@ export default {
     methods: {
         ...mapActions(["getUserInfo"]),
 
-        // async checkAuthentication() {
-        //     await this.getUserInfo({
-        //         BaseUrl: this.getBaseUrl(),
-        //         csrfToken: this.getCookie("XSRF-TOKEN"),
-        //         UserAuthToken: this.getCookie("UserAuthToken"),
-        //     })
-        //         .then((response) => {})
-        //         .finally(() => (this.loading = false));
-        // },
+        async checkAuthentication() {
+            await this.getUserInfo({
+                BaseUrl: this.getBaseUrl(),
+                csrfToken: this.getCookie("XSRF-TOKEN"),
+                UserAuthToken: this.getCookie("UserAuthToken"),
+            })
+                .then((response) => {})
+                .finally(() => (this.loading = false));
+        },
     },
 };
 </script>

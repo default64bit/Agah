@@ -6,7 +6,7 @@ export default (ModelID, ModelType: string, Channels: Array<string> = ["system"]
     Channels.forEach((channel) => {
         switch (channel) {
             case "email":
-                Email();
+                // Email();
                 break;
             case "sms":
                 Sms();

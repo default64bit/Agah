@@ -95,13 +95,13 @@ export default () => {
             {
                 clientID: process.env.GOOGLE_LOGIN_CLIENT_ID,
                 clientSecret: process.env.GOOGLE_LOGIN_CLIENT_SECRET,
-                callbackURL: "/api/v1/user/auth/google/callback",
+                callbackURL: "/api/v1/web/auth/google/callback",
             },
             async (accessToken, refreshToken, profile, callback) => {
                 let user = await User.model.findOne({ email: profile._json.email });
                 if (user) {
                     if (user.status != "active") {
-                        return callback("You are banned from the system", null);
+                        return callback("امکان ورود به سیستم برای شما نیست", null);
                     }
                     await user.updateOne({ googleID: profile.id });
                     callback(null, user.id);
@@ -110,41 +110,16 @@ export default () => {
                         googleID: profile.id,
                         image: profile._json.picture,
                         email: profile._json.email,
+                        emailVerifiedAt: new Date(Date.now()),
                         name: profile._json.given_name,
                         // family: profile._json.family_name,
                         family: profile.name.familyName,
                         password: await User.hash(profile.id),
+                        status: "active",
                     });
 
                     callback(null, user.id);
                 }
-            }
-        )
-    );
-
-    passport.use(
-        "userLogin",
-        new passportLocal.Strategy(
-            {
-                usernameField: "username",
-                passwordField: "password",
-                session: false,
-            },
-            async (username, password, callback) => {
-                let user = await User.model.findOne({ email: username });
-                if (!user) {
-                    return callback("Invalide Username Or Password", null);
-                }
-                if (user.status != "active") {
-                    return callback("You are banned from the system", null);
-                }
-
-                const validate = await User.checkPass(user.password, password);
-                if (!validate) {
-                    return callback("Invalide Username Or Password", null);
-                }
-
-                callback(null, user.id);
             }
         )
     );

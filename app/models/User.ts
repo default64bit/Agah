@@ -2,59 +2,48 @@ import mongoose from "mongoose";
 import mongodb from "mongodb";
 import bcrypt from "bcrypt";
 
-const _schema: mongoose.Schema = new mongoose.Schema(
-    {
-        image: {
-            type: String,
-            get: (image) => {
-                if (image) return image;
-                return "http://localhost:3000/img/avatars/admin.png";
-            },
-        },
-        name: {
-            type: String,
-            required: true,
-        },
-        family: {
-            type: String,
-            required: true,
-        },
-        email: {
-            type: String,
-            required: true,
-        },
-        emailVerifiedAt: {
-            type: Date,
-        },
-        mobile: {
-            type: String,
-        },
-        mobileVerifiedAt: {
-            type: Date,
-        },
-        password: {
-            type: String,
-            required: true,
-        },
-        googleID: {
-            type: String,
-        },
-        status: {
-            type: String,
-            default: "active",
-            enum: ["active", "deactive", "banned"],
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now(),
-        },
+const _schema: mongoose.Schema = new mongoose.Schema({
+    image: {
+        type: String,
     },
-    { toJSON: { virtuals: true }, toObject: { virtuals: true } }
-);
-_schema.virtual("organizations", {
-    ref: "user_organizations",
-    localField: "_id",
-    foreignField: "user",
+    name: {
+        type: String,
+    },
+    family: {
+        type: String,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    emailVerifiedAt: {
+        type: Date,
+    },
+    mobile: {
+        type: String,
+    },
+    mobileVerifiedAt: {
+        type: Date,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    verficationCodeSentAt: {
+        type: Date,
+    },
+    googleID: {
+        type: String,
+    },
+    status: {
+        type: String,
+        default: "deactive",
+        enum: ["active", "deactive", "banned"],
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 
 export interface IUser {
@@ -67,6 +56,7 @@ export interface IUser {
     mobile: string;
     mobileVerifiedAt: Date;
     password: string;
+    verficationCodeSentAt: Date;
     googleID: string;
     status: string;
     createdAt: Date;
