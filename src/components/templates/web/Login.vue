@@ -38,8 +38,16 @@
                     <i class="far fa-exclamation-circle"></i> <b>{{ codeError }}</b>
                 </div>
                 <div class="flex justify-between items-center gap-4 w-full my-4">
-                    <button class="text-sm text-primary-600 opacity-75 hover:underline">ارسال دوباره کد</button>
-                    <button class="text-sm text-primary-600 opacity-75 hover:underline" @click="page = 'stage1'">ورود با ایمیل دیگر</button>
+                    <button
+                        class="text-sm text-primary-600 hover:underline"
+                        :class="{ 'opacity-75 cursor-not-allowed': !canResend }"
+                        :disabled="!canResend"
+                        @click="resend()"
+                    >
+                        <span> ارسال دوباره کد </span>
+                        <span class="text-xs"> {{ timeLeft }} </span>
+                    </button>
+                    <button class="text-sm text-primary-600 hover:underline" @click="page = 'stage1'">ورود با ایمیل دیگر</button>
                 </div>
                 <button
                     class="btn bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50 w-full"
@@ -99,6 +107,7 @@ export default {
             page: "stage1",
 
             username: "",
+            code: "",
             codeInputs: ["", "", "", "", "", ""],
             name: "",
             family: "",
@@ -110,6 +119,10 @@ export default {
             familyError: "",
             mobileError: "",
 
+            timeLeft: "",
+            timerInterval: null,
+
+            canResend: false,
             submitingLoginForm: false,
             submitingVerficationForm: false,
             submitingRegisterForm: false,
@@ -132,6 +145,7 @@ export default {
                 })
                 .then((response) => {
                     this.page = "stage2";
+                    this.startTimer(response.data.expireIn);
                 })
                 .catch((error) => {
                     if (error.response.data) {
@@ -149,22 +163,28 @@ export default {
 
             this.usernameError = this.codeError = this.nameError = this.familyError = this.mobileError = "";
 
-            let code = "";
-            this.codeInputs.forEach((item, index) => (code += this.$refs[`code_${index}`].value));
+            this.code = "";
+            this.codeInputs.forEach((item, index) => (this.code += this.$refs[`code_${index}`].value));
 
             axios
                 .post(`${this.getBaseUrl()}/api/v1/web/auth/verfication`, {
                     username: this.username,
-                    code: code,
+                    code: this.code,
                 })
                 .then((response) => {
-                    // TODO
-                    // check response to ether refresh page or go to stage3
-                    this.page = "stage3";
+                    if (response.data.register) {
+                        this.page = "stage3";
+                        this.name = response.data.name;
+                        this.family = response.data.family;
+                        this.mobile = response.data.mobile;
+                    } else {
+                        window.location.reload();
+                        this.submitingVerficationForm = true;
+                    }
                 })
                 .catch((error) => {
                     if (error.response.data) {
-                        this.makeToast({ message: error.response.data.error, type: "danger" });
+                        this.makeToast({ message: error.response.data.error, type: "danger", icon: "far fa-exclamation-circle" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {
                             this[error.response.data.field + "Error"] = error.response.data.error;
                         }
@@ -172,19 +192,16 @@ export default {
                 })
                 .finally(() => (this.submitingVerficationForm = false));
         },
-        register(){
+        register() {
             if (this.submitingRegisterForm) return;
             this.submitingRegisterForm = true;
 
             this.usernameError = this.codeError = this.nameError = this.familyError = this.mobileError = "";
 
-            let code = "";
-            this.codeInputs.forEach((item, index) => (code += this.$refs[`code_${index}`].value));
-
             axios
-                .post(`${this.getBaseUrl()}/api/v1/web/auth/verfication`, {
+                .post(`${this.getBaseUrl()}/api/v1/web/auth/register`, {
                     username: this.username,
-                    code: code,
+                    code: this.code,
                     name: this.name,
                     family: this.family,
                     mobile: this.mobile,
@@ -192,6 +209,7 @@ export default {
                 .then((response) => {
                     // reload page
                     window.location.reload();
+                    this.submitingRegisterForm = true;
                 })
                 .catch((error) => {
                     if (error.response.data) {
@@ -218,6 +236,29 @@ export default {
         },
         codeFocus(event, index) {
             event.target.select();
+        },
+
+        startTimer(duration) {
+            this.canResend = false;
+            let timer = parseInt(duration);
+            let minutes, seconds;
+            clearInterval(this.timerInterval);
+            this.timerInterval = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                this.timeLeft = minutes + ":" + seconds;
+                if (--timer < 0) {
+                    this.canResend = true;
+                    this.timeLeft = "";
+                    clearInterval(this.timerInterval);
+                }
+            }, 1000);
+        },
+        resend() {
+            if (!this.canResend) return;
+            this.login();
         },
     },
 };

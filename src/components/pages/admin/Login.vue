@@ -16,7 +16,7 @@
 
                 <div v-if="error" class="t_alert bg-red-100 text-red-700 text-sm">
                     <i class="far fa-exclamation-circle"></i>
-                    <b>{{ error }}</b>
+                    <span>{{ error }}</span>
                 </div>
 
                 <button class="t_button mt-6 bg-primary-500 hover:bg-primary-600 disabled:opacity-50 w-full" :disabled="submitingForm" @click="submit()">

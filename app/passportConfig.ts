@@ -100,10 +100,10 @@ export default () => {
             async (accessToken, refreshToken, profile, callback) => {
                 let user = await User.model.findOne({ email: profile._json.email });
                 if (user) {
-                    if (user.status != "active") {
+                    if (user.status == "banned") {
                         return callback("امکان ورود به سیستم برای شما نیست", null);
                     }
-                    await user.updateOne({ googleID: profile.id });
+                    await user.updateOne({ googleID: profile.id, status: "active" });
                     callback(null, user.id);
                 } else {
                     user = await User.model.create({

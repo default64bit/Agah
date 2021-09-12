@@ -36,7 +36,7 @@ const actions = {
 
                 response.data.userInfo.image = response.data.userInfo.image ? response.data.userInfo.image : state.userInfo.avatar;
                 commit("setUserInfo", response.data);
-                commit("setUserAvatar", response.data.userInfo.image);
+                if(response.data.userInfo.image) commit("setUserAvatar", response.data.userInfo.image);
             })
             .catch((error) => {
                 // console.log(error);

@@ -7,10 +7,10 @@
 
             <i v-if="toastOptions.icon" :class="toastOptions.icon" class="text-lg"></i>
             <div class="flex flex-col gap-1">
-                <h4 v-if="toastOptions.title" class="text-xl max-w-xs text-gray-200">
+                <h4 v-if="toastOptions.title" class="text-xl max-w-xs">
                     <b>{{ toastOptions.title }}</b>
                 </h4>
-                <p v-if="toastOptions.message" class="text-sm max-w-xs text-gray-300">{{ toastOptions.message }}</p>
+                <p v-if="toastOptions.message" class="text-sm max-w-xs">{{ toastOptions.message }}</p>
             </div>
         </div>
     </transition>

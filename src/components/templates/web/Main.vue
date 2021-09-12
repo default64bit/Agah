@@ -1,5 +1,5 @@
 <template>
-    <div class="main" v-show="!loading">
+    <div class="main">
         <main-header></main-header>
         <router-view v-slot="{ Component }">
             <transition name="slidedown" mode="out-in" appear="">
@@ -26,15 +26,13 @@ export default {
         toast: Toast,
     },
     data() {
-        return {
-            loading: true,
-        };
+        return {};
     },
     async serverPrefetch() {
-        // await this.checkAuthentication();
+        await this.checkAuthentication();
     },
-    created() {
-        // this.checkAuthentication();
+    async created() {
+        await this.checkAuthentication();
         this.loading = false;
     },
     mounted() {
@@ -49,7 +47,7 @@ export default {
         // and if it is some error, show it via toast and then clear the error
     },
     computed: {
-        ...mapGetters(["userInfo", "isLoggedIn"]),
+        ...mapGetters(["userInfo", "isUserLoggedIn"]),
     },
     methods: {
         ...mapActions(["getUserInfo"]),
@@ -61,7 +59,7 @@ export default {
                 UserAuthToken: this.getCookie("UserAuthToken"),
             })
                 .then((response) => {})
-                .finally(() => (this.loading = false));
+                .catch((e) => {});
         },
     },
 };

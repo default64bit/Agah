@@ -3,51 +3,89 @@ import path from "path";
 import { Request, Response } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import moment, { now } from "moment";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import User from "../../models/User";
-import EmailSender from "../../Notifications/channels/Email";
+import Email from "../../Notifications/channels/Email";
 
 class AuthController {
+    private verficationCodeExpireTime = 60;
+
     public async login(req: Request, res: Response, next) {
         const username = req.body.username;
+
+        const user = await User.model.findOne({ email: username }).exec();
+        if (user) {
+            // check if user is banned or not
+            if (user.status == "banned") {
+                return res.status(422).json({ error: "امکان ورود به سیستم برای شما نیست", field: "username" });
+            }
+            // check the time of last email sent
+            let sendTime = moment(user.verficationCodeSentAt);
+            let duration = moment.duration(moment(new Date()).diff(sendTime));
+            if (duration.asSeconds() < this.verficationCodeExpireTime) return res.json({ expireIn: this.verficationCodeExpireTime - duration.asSeconds() });
+        }
+
         // generate a 6 digit code
         const code = Math.floor(100000 + Math.random() * 900000);
+
         // if the user does not exists before create the user
-        const user = await User.model
-            .updateOne({ email: username }, { password: code.toString(), verficationCodeSentAt: new Date(Date.now()) }, { upsert: true })
-            .exec();
+        await User.model.updateOne({ email: username }, { password: code.toString(), verficationCodeSentAt: new Date(Date.now()) }, { upsert: true }).exec();
 
         // send the code via email
         let html = await fs
             .readFile(path.join(__dirname, "..", "..", "Notifications", "templates", "verficationEmail.html"))
             .then((buffer) => buffer.toString());
-
         html = html.replace(/{{url}}/g, req.headers.origin);
         html = html.replace("{{code}}", code.toString());
 
-        await EmailSender(`کد ورود ${code} | گروه وکلای آگه`, username, html).catch((e) => {
-            console.log(e);
-        });
+        // await Email(`کد ورود ${code} | گروه وکلای آگه`, username, html).catch((e) => {
+        //     console.log(e);
+        // });
 
-        return res.end();
+        return res.json({ expireIn: this.verficationCodeExpireTime });
     }
+
     public async verfication(req: Request, res: Response, next) {
         const username = req.body.username;
         const code = req.body.code;
-        
-        // TODO
+
+        const user = await User.model.findOne({ email: username, password: code }).exec();
+        if (!user) return res.status(422).json({ error: "کد وارد شده نادرست است", field: "code" });
+
         // check the time with verficationCodeSentAt field
-        // if it passed 5 minutes then don't accept
-        // if code is valid and time is ok then check if the name and family and mobile field is full
-        // if not then send response to go to register page
-        // if user details is ok generate token and let the front know
+        let sendTime = moment(user.verficationCodeSentAt);
+        let duration = moment.duration(moment(new Date()).diff(sendTime));
+        if (duration.asSeconds() > this.verficationCodeExpireTime) {
+            return res.status(422).json({ error: "کد وارد شده منقضی شده، لطفا دوباره تلاش کنید", field: "code" });
+        }
+
+        // check if the name and family and mobile field is full
+        if (!user.name || !user.family || !user.mobile) {
+            return res.json({ register: true, name: user.name ?? "", family: user.family ?? "", mobile: user.mobile ?? "" });
+        }
+
+        // generate token
+        const { response, UserAuthError } = this.generateToken(req, res, null, user._id.toString());
+        return res.json({ register: false });
     }
+
     public async register(req: Request, res: Response, next) {
-        // TODO
-        // get user's name family and mobile / verfication code and email
-        // validate the input
-        // update user's info
+        const username = req.body.username;
+        const code = req.body.code;
+        const name = req.body.name;
+        const family = req.body.family;
+        const mobile = req.body.mobile;
+
+        const user = await User.model.findOne({ email: username, password: code }).exec();
+        if (!user) return res.status(422).json({ error: "کاربر پیدا نشد" });
+
+        // update user's info and set status to active
+        await User.model.updateOne({ email: username, password: code }, { name: name, family: family, mobile: mobile }).exec();
+
         // generate token and let the front know
+        const { response, UserAuthError } = this.generateToken(req, res, null, user._id.toString());
+        return res.end();
     }
 
     public async googleCallback(req: Request, res: Response, next) {

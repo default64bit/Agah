@@ -29,13 +29,22 @@
                         <button class="theme_toggle" @click="changeTheme()">
                             <span class="fad" :class="currentTheme == 'default_light' ? 'fa-moon' : 'fa-sun-haze'"></span>
                         </button>
-                        <button class="btn" @click="loginDialogState = true">ورود / ثبت‌نام</button>
+                        <button class="btn" v-if="!isUserLoggedIn" @click="loginDialogState = true">ورود / ثبت‌نام</button>
+                        <router-link
+                            to="/user/chats"
+                            class="avatar flex items-center gap-2 p-2 py-1 rounded-full border border-solid border-primary-400 border-opacity-40"
+                            v-else
+                        >
+                            <img class="h-8 w-8 rounded-full" :src="userInfo.avatar" alt="" />
+                            <span>{{ `${userInfo.name} ${userInfo.family}` }}</span>
+                            <i class="fal fa-caret-circle-right opacity-60"></i>
+                        </router-link>
                     </nav>
                 </div>
             </transition>
         </header>
 
-        <t-dialog v-model:open="loginDialogState">
+        <t-dialog v-model:open="loginDialogState" v-if="!isUserLoggedIn">
             <template v-slot:body>
                 <login></login>
             </template>
@@ -53,7 +62,7 @@ export default {
     name: "Header",
     components: {
         "t-dialog": Dialog,
-        "login": Login,
+        login: Login,
     },
     data() {
         return {
@@ -69,7 +78,7 @@ export default {
         this.currentTheme = localStorage.getItem("userTheme") ? localStorage.getItem("userTheme") : "default_light";
     },
     computed: {
-        ...mapGetters(["makeToast", "userInfo"]),
+        ...mapGetters(["userInfo", "isUserLoggedIn"]),
     },
     methods: {
         changeTheme() {

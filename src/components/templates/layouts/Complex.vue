@@ -14,7 +14,7 @@
         </div>
         <div v-if="error" class="flex gap-1 items-center rounded bg-red-100 text-red-700 p-1 mt-1 text-xs">
             <i class="far fa-exclamation-circle"></i>
-            <b>{{ error }}</b>
+            <span>{{ error }}</span>
         </div>
     </div>
 </template>
