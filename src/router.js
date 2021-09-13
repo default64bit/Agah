@@ -15,11 +15,14 @@ export default () => {
                 children: [
                     { path: "", component: () => import("./components/pages/web/Home"), name: "Home" },
                     { path: "room/:roomId?", component: () => import("./components/pages/web/Room"), name: "Room" },
+
+                    // { path: "consultation-time-booking", component: () => import("./components/pages/web/Blog") },
+                    { path: "frequently-asked-legal-questions", component: () => import("./components/pages/web/FAQ") },
+                    { path: "blog/:page?", component: () => import("./components/pages/web/Blog") },
+                    { path: "article/:url_code/:title?", component: () => import("./components/pages/web/Article") },
+                    { path: "terms-and-conditions", component: () => import("./components/pages/web/TermsAndConditions") },
                 ],
             },
-            // { path: "/login", component: () => import("./components/pages/web/Login"), name: "Login" },
-            // { path: "/verfication", component: () => import("./components/pages/web/Verfication"), name: "Verfication" },
-            // { path: "/register", component: () => import("./components/pages/web/Register"), name: "Register" },
 
             //=========================================================================================================
             // admin paths
@@ -59,7 +62,7 @@ export default () => {
                         path: "users",
                         component: () => import("./components/pages/admin/users/Users"),
                         children: [
-                            { path: "info/:id?", alias:"", component: () => import("./components/pages/admin/users/Info") },
+                            { path: "info/:id?", alias: "", component: () => import("./components/pages/admin/users/Info") },
                             { path: "chat/:id?", component: () => import("./components/pages/admin/users/Chat") },
                             { path: "schedules/:id?", component: () => import("./components/pages/admin/users/Schedules") },
                             { path: "transactions/:id?", component: () => import("./components/pages/admin/users/Transactions") },

@@ -91,10 +91,10 @@
             </div>
             <div class="flex items-start justify-center flex-wrap gap-10">
                 <div class="article_box" v-if="!!articles[0]">
-                    <router-link :to="`/blog/${articles[0].url_code}/${articles[0].title.replace(/ /g, '-')}`" :title="articles[0].title">
+                    <router-link :to="`/article/${articles[0].url_code}/${articles[0].title.replace(/ /g, '-')}`" :title="articles[0].title">
                         <img :src="articles[0].image" :alt="articles[0].title" />
                     </router-link>
-                    <router-link :to="`/blog/${articles[0].url_code}/${articles[0].title.replace(/ /g, '-')}`" :title="articles[0].title">
+                    <router-link :to="`/article/${articles[0].url_code}/${articles[0].title.replace(/ /g, '-')}`" :title="articles[0].title">
                         <h4 class="f-nazanin text-2xl font-bold">{{ articles[0].title }}</h4>
                     </router-link>
                     <small class="flex justify-between w-full relative">
@@ -104,10 +104,10 @@
                     <p>{{ articles[0].desc }}</p>
                 </div>
                 <div class="article_box" v-if="!!articles[1]">
-                    <router-link :to="`/blog/${articles[1].url_code}/${articles[1].title.replace(/ /g, '-')}`" :title="articles[1].title">
+                    <router-link :to="`/article/${articles[1].url_code}/${articles[1].title.replace(/ /g, '-')}`" :title="articles[1].title">
                         <img :src="articles[1].image" :alt="articles[1].title" />
                     </router-link>
-                    <router-link :to="`/blog/${articles[1].url_code}/${articles[1].title.replace(/ /g, '-')}`" :title="articles[1].title">
+                    <router-link :to="`/article/${articles[1].url_code}/${articles[1].title.replace(/ /g, '-')}`" :title="articles[1].title">
                         <h4 class="f-nazanin text-2xl font-bold">{{ articles[1].title }}</h4>
                     </router-link>
                     <small class="flex justify-between w-full relative">
@@ -118,7 +118,7 @@
                 </div>
                 <div class="flex flex-col gap-6">
                     <div class="article_box" v-if="!!articles[2]">
-                        <router-link :to="`/blog/${articles[2].url_code}/${articles[2].title.replace(/ /g, '-')}`" :title="articles[2].title">
+                        <router-link :to="`/article/${articles[2].url_code}/${articles[2].title.replace(/ /g, '-')}`" :title="articles[2].title">
                             <h4 class="f-nazanin text-2xl font-bold">{{ articles[2].title }}</h4>
                         </router-link>
                         <small class="flex justify-between w-full relative">
@@ -127,7 +127,7 @@
                         </small>
                     </div>
                     <div class="article_box" v-if="!!articles[3]">
-                        <router-link :to="`/blog/${articles[3].url_code}/${articles[3].title.replace(/ /g, '-')}`" :title="articles[3].title">
+                        <router-link :to="`/article/${articles[3].url_code}/${articles[3].title.replace(/ /g, '-')}`" :title="articles[3].title">
                             <h4 class="f-nazanin text-2xl font-bold">{{ articles[3].title }}</h4>
                         </router-link>
                         <small class="flex justify-between w-full relative">
@@ -136,7 +136,7 @@
                         </small>
                     </div>
                     <div class="article_box" v-if="!!articles[4]">
-                        <router-link :to="`/blog/${articles[4].url_code}/${articles[4].title.replace(/ /g, '-')}`" :title="articles[4].title">
+                        <router-link :to="`/article/${articles[4].url_code}/${articles[4].title.replace(/ /g, '-')}`" :title="articles[4].title">
                             <h4 class="f-nazanin text-2xl font-bold">{{ articles[4].title }}</h4>
                         </router-link>
                         <small class="flex justify-between w-full relative">
