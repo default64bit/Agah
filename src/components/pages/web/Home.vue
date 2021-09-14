@@ -92,7 +92,7 @@
             <div class="flex items-start justify-center flex-wrap gap-10">
                 <div class="article_box" v-if="!!articles[0]">
                     <router-link :to="`/article/${articles[0].url_code}/${articles[0].title.replace(/ /g, '-')}`" :title="articles[0].title">
-                        <img :src="articles[0].image" :alt="articles[0].title" />
+                        <img :src="articles[0].metadata.thumbnail" :alt="articles[0].title" />
                     </router-link>
                     <router-link :to="`/article/${articles[0].url_code}/${articles[0].title.replace(/ /g, '-')}`" :title="articles[0].title">
                         <h4 class="f-nazanin text-2xl font-bold">{{ articles[0].title }}</h4>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="article_box" v-if="!!articles[1]">
                     <router-link :to="`/article/${articles[1].url_code}/${articles[1].title.replace(/ /g, '-')}`" :title="articles[1].title">
-                        <img :src="articles[1].image" :alt="articles[1].title" />
+                        <img :src="articles[1].metadata.thumbnail" :alt="articles[1].title" />
                     </router-link>
                     <router-link :to="`/article/${articles[1].url_code}/${articles[1].title.replace(/ /g, '-')}`" :title="articles[1].title">
                         <h4 class="f-nazanin text-2xl font-bold">{{ articles[1].title }}</h4>

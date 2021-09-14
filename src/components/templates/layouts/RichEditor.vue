@@ -5,7 +5,7 @@
             <i class="absolute text-primary-400 fa-xs mx-1 fas fa-star-christmas" v-if="required"></i>
         </label>
         <div class="flex flex-col flex-grow relative">
-            <div class="box" v-show="!loading" @click="focus()">
+            <div class="box" v-show="!loading">
                 <div class="w-full" ref="editor" id="codex-editor" />
             </div>
             <div class="t_card_loading" v-if="loading">
@@ -34,6 +34,7 @@ export default {
     data() {
         return {
             loading: true,
+            isEditorSet: false,
         };
     },
     created() {},
@@ -52,6 +53,9 @@ export default {
     },
     methods: {
         async setEditor() {
+            if(this.isEditorSet) return;
+
+            console.log(1);
             const EditorJS = await import("@editorjs/editorjs");
             const EditorHeader = await import("@editorjs/header");
             const EditorList = await import("@editorjs/list");
@@ -59,6 +63,7 @@ export default {
             const EditorImageTool = await import("@editorjs/image");
             const EditorChecklist = await import("@editorjs/checklist");
             const EditorTable = await import("@editorjs/table");
+            const EditorMarker = await import("@editorjs/marker");
 
             window.editor = new EditorJS.default({
                 logLevel: "ERROR",
@@ -98,8 +103,14 @@ export default {
                         class: EditorTable.default,
                         inlineToolbar: true,
                     },
+                    marker: {
+                        class: EditorMarker.default,
+                        inlineToolbar: true,
+                    },
                 },
             });
+
+            this.isEditorSet = true;
         },
 
         focus() {

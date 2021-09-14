@@ -8,13 +8,13 @@ class NotificationController {
         const randomArticles = [];
         for (let i = 0; i < 5; i++) {
             let random = Math.floor(Math.random() * articlesCount);
-            const faq = await Article.model
+            const article = await Article.model
                 .findOne({ status: "published" })
                 .skip(random)
-                .select("author image title desc url_code publishedAt")
+                .select("author image title desc url_code publishedAt metadata")
                 .populate("author", "image name family -_id")
                 .exec();
-            randomArticles.push(faq);
+            randomArticles.push(article);
         }
 
         res.json(randomArticles);
@@ -45,7 +45,7 @@ class NotificationController {
                     { tags: { $regex: new RegExp(`.*${search}.*`, "i") } },
                 ],
             })
-            .project("-_id author.name author.family url_code image title desc publishedAt")
+            .project("-_id author.name author.family url_code image metadata title desc publishedAt")
             .sort({ publishedAt: "desc" });
 
         // paginating
@@ -65,6 +65,32 @@ class NotificationController {
             page: page,
             total: total,
             pageTotal: Math.ceil(total / pp),
+        });
+    }
+
+    public async getArticle(req: Request, res: Response) {
+        let url_code = 0;
+        try {
+            url_code = parseInt(req.query.url_code.toString());
+        } catch (e) {}
+
+        const article = await Article.model
+            .findOne({ url_code: url_code, status: "published" })
+            .select("-_id -views -status -createdAt")
+            .populate("author", "image name family -_id")
+            .exec();
+        if (!article) return res.status(404).json({ error: "مطلب پیدا نشد" });
+
+        const similarArticles = await Article.model
+            .find({ status: "published", tags: { $in: article.tags }, _id: { $ne: article._id } })
+            .select("-_id -views -status -createdAt")
+            .populate("author", "image name family -_id")
+            .limit(3)
+            .exec();
+
+        res.json({
+            article,
+            similarArticles,
         });
     }
 }

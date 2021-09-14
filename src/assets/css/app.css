@@ -408,7 +408,7 @@ input[type=number] { -moz-appearance: textfield; }
 [dir="rtl"] .ce-inline-toolbar{ left: initial; right: 0; }
 [dir="rtl"] .ce-inline-toolbar.ce-inline-toolbar--showed{ right: initial; }
 [dir="rtl"] .ce-toolbox{ left: 0; }
-.codex-editor__redactor{ padding: 0 !important; }
+/* .codex-editor__redactor{ padding: 0 !important; } */
 .ce-header{ font-weight: bold; }
 h1.ce-header{ font-size: 2.5rem; }
 h2.ce-header{ font-size: 2rem; }
@@ -434,7 +434,11 @@ h6.ce-header{ font-size: .75rem; }
 
 /* Icon Flip ======================================== */
 [dir="rtl"] .fad, [dir="rtl"] .fal, [dir="rtl"] .far, [dir="rtl"] .fas{ transform: rotateY(180deg) !important; }
-[dir="rtl"] .fa-check, [dir="rtl"] .fa-check-square, [dir="rtl"] .fa-check-double, [dir="rtl"] .fa-copyright{ transform: rotateY(0deg) !important; }
+
+[dir="rtl"] .fa-check, [dir="rtl"] .fa-check-square, [dir="rtl"] .fa-check-double, [dir="rtl"] .fa-copyright,
+[dir="rtl"] .fa-check-circle
+{ transform: rotateY(0deg) !important; }
+
 [dir="rtl"] .fa-rotate-90{ transform: rotate(270deg) !important; }
 /* Icon Flip ======================================== */
 

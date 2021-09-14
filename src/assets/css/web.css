@@ -183,3 +183,39 @@ section[name="blog"] .article_box{
     width: 100%;
     box-shadow: 0px 5px 10px -3px var(--article-box-shadow-color);
 }
+section[name="blog"] .article_box_skeleton{
+    box-shadow: 0px 5px 10px -3px var(--article-box-shadow-color);
+    border-radius: 5px; width: 100%; min-height: 10rem;
+}
+section[name="blog"] .article_box_skeleton div[name="skeleton"]{
+    background: linear-gradient(90deg, #ffffff22 0%, #cccccc99 50%, #ffffff22 100%);
+    background-size: 200% 200%;
+    animation: shimmer_skeleton 2s infinite;
+}
+@keyframes shimmer_skeleton {
+    0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+.article_body h1, .article_body h2, .article_body h3, .article_body h4, .article_body h5, .article_body h6{ margin: 1rem 0; margin-top: 2rem; font-weight: bold; }
+.article_body p{ line-height: 1.65rem; }
+.article_body mark{ background-color: #e2dbc1; padding: 0 .5rem; }
+.article_body a{ text-decoration: underline; color: #697dc0; }
+.article_body a:hover{ font-weight: bold; }
+.article_body ul, .article_body ol{ margin: 1rem 0; padding-right: 1rem; }
+.article_body ul li{ list-style: disc; }
+.article_body ol li{ list-style: decimal; }
+.article_body ul[type="checklist"] li{ list-style: none; }
+.article_body ul[type="checklist"] li i{ font-size: 1.2rem; color: #c0b9a1; }
+.article_body table{ margin: 1.5rem 0; border-radius: .25rem; width: 100%; border: 2px solid #a49c7b; }
+.article_body td{ border: 2px solid #dddddd66; padding: .5rem; }
+.article_body div[type="imageTool"]{ display: flex; justify-content: center; width: 100%; }
+.article_body div[type="image"]{ display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.article_body div[type="image"] div{ width: 100%; border-radius: 3px; z-index: 2; }
+.article_body div[type="image"] img{ border-radius: 5px; }
+.article_body div[type="image"] .stretched img{ width: 100%; }
+.article_body div[type="image"] .with_border img{ border: 2px solid #c0b9a1; }
+.article_body div[type="image"] .with_background{ background-color: #dadada44; padding: .5rem; }
+.article_body div[type="image"] .with_background img{ width: 75%; box-shadow: 3px 3px 10px rgba(80,80,80,.12); }
+.article_body div[type="image"] span{ width: auto; display: inline-block; }

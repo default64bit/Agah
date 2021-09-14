@@ -15,15 +15,31 @@
             />
         </header>
         <hr class="w-11/12 border-solid opacity-60 mx-auto my-2" />
-        <div class="flex flex-wrap items-start justify-center md:justify-start gap-4">
-            <div class="flex flex-col gap-4">
+        <div class="flex flex-wrap items-start justify-center md:justify-start gap-4 w-full">
+            <div class="flex flex-col gap-4 w-full max-w-screen-lg">
+                <div class="flex flex-col gap-4 w-full" v-if="loadingArticles">
+                    <div class="article_box_skeleton flex flex-col sm:flex-row gap-4 justify-center p-4" v-for="(article, i) in skeletonArticles" :key="i">
+                        <div class="flex-shrink-0 rounded-sm h-48 sm:h-32 w-full sm:w-48 object-cover" name="skeleton"></div>
+                        <div class="flex flex-col items-start gap-2 w-full">
+                            <div class="w-10/12 h-8 mb-4" name="skeleton"></div>
+                            <div class="w-full h-4" name="skeleton"></div>
+                            <div class="w-full h-4" name="skeleton"></div>
+                            <div class="w-7/12 h-4" name="skeleton"></div>
+                        </div>
+                    </div>
+                </div>
                 <div
                     class="article_box flex flex-col sm:flex-row gap-4 justify-center p-4 rounded-sm max-w-screen-lg"
                     v-for="(article, i) in articles"
                     :key="i"
                 >
                     <router-link class="flex-shrink-0" :to="`/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title">
-                        <img class="rounded-sm h-auto sm:h-28 w-full sm:w-auto object-cover" :src="article.image" :alt="article.title" />
+                        <img
+                            class="rounded-sm h-auto sm:h-28 w-full sm:w-auto object-cover"
+                            width="200"
+                            :src="article.metadata.thumbnail"
+                            :alt="article.title"
+                        />
                     </router-link>
                     <div class="flex flex-col items-start gap-2">
                         <small class="flex items-start gap-2 text-xs opacity-60">
@@ -97,6 +113,9 @@ export default {
         return {
             mostViewdArticles: [],
             articles: [],
+            skeletonArticles: ["", "", "", "", ""],
+
+            loadingArticles: true,
 
             search: "",
             page: 1,
@@ -131,6 +150,8 @@ export default {
         },
 
         async getArticles() {
+            this.loadingArticles = true;
+
             let params = [`page=${this.page}`, `search=${this.search}`];
             params = params.join("&");
 
@@ -146,9 +167,7 @@ export default {
                         this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                 })
-                .finally(() => {
-                    this.isDataLoading = false;
-                });
+                .finally(() => (this.loadingArticles = false));
         },
         searchArticles(e) {
             if (e.keyCode == 13) this.getArticles();

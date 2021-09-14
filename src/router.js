@@ -82,7 +82,7 @@ export default () => {
 
             //=========================================================================================================
             // static paths
-            { path: "/:catchAll(.*)", component: () => import("./components/pages/NotFound") },
+            { path: "/:catchAll(.*)", component: () => import("./components/pages/NotFound"), name: "404" },
         ],
     });
 };

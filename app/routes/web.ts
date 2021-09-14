@@ -26,6 +26,7 @@ router.get("/random_faqs", faqsController.getRandomFaqs.bind(faqsController));
 
 router.get("/random_articles", articlesController.getRandomArticles.bind(articlesController));
 router.get("/articles", articlesController.getArticles.bind(articlesController));
+router.get("/article", articlesController.getArticle.bind(articlesController));
 
 router.use(userAuth.ensureAuth);
 

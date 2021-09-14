@@ -207,7 +207,8 @@ class AdminRolesController {
         const metaTags = req.body.metaTags;
         const text = req.body.text;
 
-        const url_code = (await Article.model.countDocuments().exec()) + 1;
+        const lastArticle = await Article.model.findOne().sort({url_code:'desc'}).exec();
+        const url_code = parseInt(lastArticle.url_code) + 1;
 
         const article = await Article.model
             .create({

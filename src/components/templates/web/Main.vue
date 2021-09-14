@@ -13,6 +13,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import cookies from "js-cookie";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -42,15 +43,14 @@ export default {
             window.document.querySelector("body").setAttribute("theme", theme);
         }
 
-        // TODO
-        // get userAuthError from cookie
-        // and if it is some error, show it via toast and then clear the error
+        // show errors if there's any
+        if (cookies.get("userAuthError")) this.makeToast({ message: cookies.get("AdminAuthError"), type: "danger" });
     },
     computed: {
         ...mapGetters(["userInfo", "isUserLoggedIn"]),
     },
     methods: {
-        ...mapActions(["getUserInfo"]),
+        ...mapActions(["getUserInfo", "makeToast"]),
 
         async checkAuthentication() {
             await this.getUserInfo({
