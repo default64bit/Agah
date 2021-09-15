@@ -82,15 +82,15 @@ class NotificationController {
         if (!article) return res.status(404).json({ error: "مطلب پیدا نشد" });
 
         const similarArticles = await Article.model
-            .find({ status: "published", tags: { $in: article.tags }, _id: { $ne: article._id } })
+            .find({ status: "published", tags: { $in: article.tags }, id: { $ne: article._id } })
             .select("-_id -views -status -createdAt")
             .populate("author", "image name family -_id")
             .limit(3)
             .exec();
 
         res.json({
-            article,
-            similarArticles,
+            article: article,
+            similarArticles: similarArticles,
         });
     }
 }

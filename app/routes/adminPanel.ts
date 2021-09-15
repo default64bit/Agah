@@ -32,6 +32,9 @@ import CallsValidator from "../validators/admin/CallsValidator";
 import ArticlesController from "../controllers/admin/ArticlesController";
 import ArticlesValidator from "../validators/admin/ArticlesValidator";
 
+import FaqsController from "../controllers/admin/FaqsController";
+import FaqsValidator from "../validators/admin/FaqsValidator";
+
 import PanelSettingsController from "../controllers/admin/PanelSettingsController";
 import PanelSettingsValidator from "../validators/admin/PanelSettingsValidator";
 
@@ -47,6 +50,7 @@ const permissionController = new PermissionController();
 const userController = new UserController();
 const callsController = new CallsController();
 const articlesController = new ArticlesController();
+const faqsController = new FaqsController();
 const panelSettingsController = new PanelSettingsController();
 
 router.use(adminAuth.ensureAuth);
@@ -102,6 +106,12 @@ router.post("/articles/:temp/upload_image", multer({ dest: process.env.TEMP_FILE
 router.post("/articles", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("image"), ArticlesValidator.addArticle, articlesController.addArticle);
 router.put("/articles", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("image"), ArticlesValidator.editArticle, articlesController.editArticle);
 router.delete("/article/:id", ArticlesValidator.deleteArticle, articlesController.deleteArticle.bind(articlesController));
+
+router.get("/faqs", FaqsValidator.getFaqs, faqsController.getFaqs.bind(faqsController));
+router.get("/faq/:id", FaqsValidator.getFaq, faqsController.getFaq.bind(faqsController));
+router.post("/faqs", FaqsValidator.addFaq, faqsController.addFaq);
+router.put("/faqs", FaqsValidator.editFaq, faqsController.editFaq);
+router.delete("/faq/:id", FaqsValidator.deleteFaq, faqsController.deleteFaq.bind(faqsController));
 
 router.get("/panel_settings", panelSettingsController.getSettings.bind(panelSettingsController));
 router.post("/panel_settings", PanelSettingsValidator.editAdmin, panelSettingsController.updateSettings.bind(panelSettingsController));

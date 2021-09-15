@@ -18,6 +18,7 @@ export default (args) => {
     app.mixin({
         methods: {
             getBaseUrl() {
+                // TODO : make this dynamic
                 return "http://localhost:3000";
             },
             checkPermissions(PermissionsToCheck = [], Permissions = [], style = "OR") {

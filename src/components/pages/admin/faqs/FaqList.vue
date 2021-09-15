@@ -1,14 +1,14 @@
 <template>
     <div class="dashboard_body">
         <div class="flex flex-wrap justify-between items-center gap-4">
-            <h1 class="text-4xl"><b>مقالات</b></h1>
+            <h1 class="text-4xl"><b>سوالات متداول</b></h1>
             <div class="flex items-center gap-2">
                 <router-link
-                    to="/admin/articles/new"
+                    to="/admin/faqs/new"
                     class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50"
-                    v-if="checkPermissions(['admin.articles.add'], adminInfo.permissions)"
+                    v-if="checkPermissions(['admin.faqs.add'], adminInfo.permissions)"
                 >
-                    <i class="fal fa-plus"></i> <b>مقاله جدید</b>
+                    <i class="fal fa-plus"></i> <b>سوال جدید</b>
                 </router-link>
             </div>
         </div>
@@ -64,30 +64,28 @@
             @update:table="getTableData()"
         >
             <template v-slot:tbody="{ record, index }">
-                <td>{{ record.title }}</td>
+                <td>{{ record.question }}</td>
                 <td>{{ `${record.author[0].name} ${record.author[0].family}` }}</td>
-                <td>{{ record.views }}</td>
                 <td>
                     <span class="p-1 px-2 text-sm rounded-xl bg-lime-100 text-lime-700" v-if="record.status == 'published'"><b>منتشر شده</b></span>
                     <span class="p-1 px-2 text-sm rounded-xl bg-indigo-100 text-indigo-700" v-if="record.status == 'pending'"><b>منتظر انتشار</b></span>
                 </td>
-                <td>{{ new Date(record.publishedAt).toLocaleString("fa") }}</td>
                 <td>{{ new Date(record.createdAt).toLocaleString("fa") }}</td>
                 <td>
                     <div class="flex items-center gap-1">
                         <router-link
-                            :to="`/admin/articles/${record._id}`"
+                            :to="`/admin/faqs/${record._id}`"
                             class="t_button p-2 rounded-full hover:bg-cyan-300 hover:text-black"
                             title="Edit"
-                            v-if="checkPermissions(['admin.articles.edit'], adminInfo.permissions)"
+                            v-if="checkPermissions(['admin.faqs.edit'], adminInfo.permissions)"
                         >
                             <i class="fal fa-pen"></i>
                         </router-link>
                         <button
                             class="t_button p-2 rounded-full hover:bg-red-300 hover:text-black"
                             title="Delete"
-                            @click="askToDelete(record._id, record.title, index)"
-                            v-if="checkPermissions(['admin.articles.delete'], adminInfo.permissions)"
+                            @click="askToDelete(record._id, record.question, index)"
+                            v-if="checkPermissions(['admin.faqs.delete'], adminInfo.permissions)"
                         >
                             <i class="fal fa-trash"></i>
                         </button>
@@ -153,7 +151,7 @@ import Table from "../../../templates/layouts/Table";
 import Dialog from "../../../templates/layouts/Dialog";
 
 export default {
-    name: "ArticleList",
+    name: "FaqList",
     components: {
         "t-input": Input,
         "t-groupbutton": GroupButton,
@@ -179,9 +177,7 @@ export default {
             tableHeads: {
                 عنوان: { sortable: true },
                 نویسنده: { sortable: true },
-                بازدیدها: { sortable: true },
                 وضعیت: { sortable: true },
-                "تاریخ انتشار": { sortable: true },
                 "تاریخ ثبت": { sortable: true },
                 Actions: { sortable: false },
             },
@@ -234,7 +230,7 @@ export default {
             params = params.join("&");
 
             axios
-                .get(`${this.getBaseUrl()}/api/v1/admin/articles?${params}`)
+                .get(`${this.getBaseUrl()}/api/v1/admin/faqs?${params}`)
                 .then((response) => {
                     this.tableData = response.data.records;
                     this.total = response.data.total;
@@ -259,14 +255,14 @@ export default {
         deleteRecord() {
             this.deletingRecord = true;
             axios
-                .delete(`${this.getBaseUrl()}/api/v1/admin/article/${this.deletingRecordId}`)
+                .delete(`${this.getBaseUrl()}/api/v1/admin/faq/${this.deletingRecordId}`)
                 .then((response) => {
-                    this.makeToast({ title: "Delete Article", message: `Article ${this.deletingRecordName} has been deleted successfully`, type: "success" });
+                    this.makeToast({ title: "Delete Faq", message: `Faq ${this.deletingRecordName} has been deleted successfully`, type: "success" });
                     this.tableData.splice(this.deletingRecordIndex, 1);
                 })
                 .catch((error) => {
                     if (error.response.data) {
-                        this.makeToast({ title: "Delete Article", message: error.response.data.error, type: "danger" });
+                        this.makeToast({ title: "Delete Faq", message: error.response.data.error, type: "danger" });
                     }
                 })
                 .finally(() => {

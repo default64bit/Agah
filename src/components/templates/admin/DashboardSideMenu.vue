@@ -96,6 +96,12 @@
                         <span>مقاله ها</span>
                     </li>
                 </router-link>
+                <router-link to="/admin/faqs" title="سوالات متداول" v-if="checkPermissions(['admin.faqs.view'], adminInfo.permissions)">
+                    <li class="nav_item">
+                        <i class="fad fa-question"></i>
+                        <span>سوالات متداول</span>
+                    </li>
+                </router-link>
 
                 <hr class="nav_spacer" />
 

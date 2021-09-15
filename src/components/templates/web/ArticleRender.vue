@@ -12,6 +12,8 @@
 
             <p class="my-2 opacity-75" v-if="block.type == 'paragraph'" v-html="block.data.text"></p>
 
+            <hr class="border-dashed border-2 border-primary-400 border-opacity-50 w-8/12 my-6 mx-auto" v-if="block.type == 'delimiter'" />
+
             <div v-if="block.type == 'list'">
                 <ul v-if="block.data.style == 'unordered'">
                     <li v-for="(item, i) in block.data.items" :key="i" v-html="item"></li>

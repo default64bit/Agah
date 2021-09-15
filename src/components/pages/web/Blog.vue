@@ -14,7 +14,9 @@
                 @keydown="searchArticles($event)"
             />
         </header>
-        <hr class="w-11/12 border-solid opacity-60 mx-auto my-2" />
+
+        <hr class="w-full border-solid opacity-60 mx-auto my-2" />
+
         <div class="flex flex-wrap items-start justify-center md:justify-start gap-4 w-full">
             <div class="flex flex-col gap-4 w-full max-w-screen-lg">
                 <div class="flex flex-col gap-4 w-full" v-if="loadingArticles">
@@ -57,7 +59,7 @@
                 </div>
                 <ul class="flex items-center justify-center md:justify-start gap-2 mt-4 mb-12">
                     <li>
-                        <router-link class="p-3 py-2 text-sm rounded-sm bg-bluegray-700 text-primary-100" :to="`/blog/${Math.max(1, parseInt(page) - 1)}`">
+                        <router-link class="p-3 py-2 text-sm rounded-sm bg-gray-700 text-primary-100" :to="`/blog/${Math.max(1, parseInt(page) - 1)}`">
                             صفحه قبل
                         </router-link>
                     </li>
@@ -66,7 +68,7 @@
                     </li>
                     <li>
                         <router-link
-                            class="p-3 py-2 text-sm rounded-sm bg-bluegray-700 text-primary-100"
+                            class="p-3 py-2 text-sm rounded-sm bg-gray-700 text-primary-100"
                             :to="`/blog/${Math.min(pageTotal, parseInt(page) - 1 + 2)}`"
                         >
                             صفحه بعد

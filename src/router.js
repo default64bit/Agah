@@ -16,11 +16,20 @@ export default () => {
                     { path: "", component: () => import("./components/pages/web/Home"), name: "Home" },
                     { path: "room/:roomId?", component: () => import("./components/pages/web/Room"), name: "Room" },
 
-                    // { path: "consultation-time-booking", component: () => import("./components/pages/web/Blog") },
-                    { path: "frequently-asked-legal-questions", component: () => import("./components/pages/web/FAQ") },
+                    { path: "frequently-asked-legal-questions/:page?", component: () => import("./components/pages/web/FAQ") },
                     { path: "blog/:page?", component: () => import("./components/pages/web/Blog") },
                     { path: "article/:url_code/:title?", component: () => import("./components/pages/web/Article") },
                     { path: "terms-and-conditions", component: () => import("./components/pages/web/TermsAndConditions") },
+
+                    {
+                        path: "consultation-time-booking",
+                        component: () => import("./components/templates/web/Booking"),
+                        children: [
+                            { path: "", component: () => import("./components/pages/web/booking/SelectConsulter") },
+                            { path: "set-date", component: () => import("./components/pages/web/booking/SetDate") },
+                            { path: "payment", component: () => import("./components/pages/web/booking/Payment") },
+                        ],
+                    },
                 ],
             },
 
@@ -75,6 +84,10 @@ export default () => {
                     { path: "articles/new", component: () => import("./components/pages/admin/articles/CreateArticle") },
                     { path: "articles/:id", component: () => import("./components/pages/admin/articles/EditArticle") },
 
+                    { path: "faqs", component: () => import("./components/pages/admin/faqs/FaqList") },
+                    { path: "faqs/new", component: () => import("./components/pages/admin/faqs/CreateFaq") },
+                    { path: "faqs/:id", component: () => import("./components/pages/admin/faqs/EditFaq") },
+
                     { path: "panel_settings", component: () => import("./components/pages/admin/PanelSettings") },
                 ],
             },
@@ -84,5 +97,9 @@ export default () => {
             // static paths
             { path: "/:catchAll(.*)", component: () => import("./components/pages/NotFound"), name: "404" },
         ],
+        scrollBehavior(to, from, savedPosition) {
+            document.querySelector('#app').scrollTop = 0;
+            return { x: 0, y: 0 };
+        },
     });
 };

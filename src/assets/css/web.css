@@ -39,7 +39,7 @@ h1.f-neirizi::after{ top: -2rem; right: -5rem; }
 .heading::before{
     content: ""; position: absolute; top: 50%; opacity: 50%;
     background-color: var(--header-menu-li-line-bg-color);
-    width: 100%; height: 1rem; display: block;
+    width: 100%; height: .75rem; display: block;
 }
 
 .m-gradiant-ttb{
@@ -187,7 +187,7 @@ section[name="blog"] .article_box_skeleton{
     box-shadow: 0px 5px 10px -3px var(--article-box-shadow-color);
     border-radius: 5px; width: 100%; min-height: 10rem;
 }
-section[name="blog"] .article_box_skeleton div[name="skeleton"]{
+section[name="blog"] .article_box_skeleton div[name="skeleton"], .skeleton{
     background: linear-gradient(90deg, #ffffff22 0%, #cccccc99 50%, #ffffff22 100%);
     background-size: 200% 200%;
     animation: shimmer_skeleton 2s infinite;
@@ -219,3 +219,8 @@ section[name="blog"] .article_box_skeleton div[name="skeleton"]{
 .article_body div[type="image"] .with_background{ background-color: #dadada44; padding: .5rem; }
 .article_body div[type="image"] .with_background img{ width: 75%; box-shadow: 3px 3px 10px rgba(80,80,80,.12); }
 .article_body div[type="image"] span{ width: auto; display: inline-block; }
+
+section[name="faq"] .faq_box{
+    width: 100%; padding: 1rem; border-radius: 3px;
+    box-shadow: 0px 5px 10px -3px var(--article-box-shadow-color);
+}

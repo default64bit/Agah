@@ -1,7 +1,30 @@
 <template>
     <div>
         <section class="flex flex-col items-center justify-center gap-8 my-4 mx-auto" name="article">
-            <article class="flex flex-col gap-8 w-full max-w-screen-lg" v-if="article.title">
+            <div class="flex flex-col gap-8 w-full max-w-screen-lg" v-if="loading">
+                <div class="skeleton h-8 w-9/12"></div>
+
+                <div class="flex items-center gap-4">
+                    <div class="skeleton h-10 w-10 rounded-full"></div>
+                    <div class="skeleton h-4 w-40"></div>
+                </div>
+
+                <div class="skeleton w-full h-96 rounded-sm"></div>
+
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-7/12"></div>
+                <br>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-3/12"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-9/12"></div>
+            </div>
+            <article class="flex flex-col gap-8 w-full max-w-screen-lg" v-if="article.title && !loading">
                 <header class="flex flex-col gap-8">
                     <h1 class="f-nazanin font-bold text-5xl" itemprop="headline">{{ article.title }}</h1>
                     <meta itemprop="description" :content="article.metadata.description" />
@@ -23,28 +46,13 @@
                             <meta itemprop="datePublished" :content="article.publishedAt" />
                         </div>
                         <div class="flex items-center gap-4 text-lg">
-                            <a
-                                href="https://twitter.com/share?text=ورود به عنف&url=https://agah-lawyers.com/article/44/ورود به عنف"
-                                :title="article.title"
-                                rel="nofollow"
-                                target="_blank"
-                            >
+                            <a :href="`https://twitter.com/share?text=${article.title}&url=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title" rel="nofollow" target="_blank">
                                 <span class="fab fa-twitter"></span>
                             </a>
-                            <a
-                                href="whatsapp://send?text=https://agah-lawyers.com/article/44/ورود به عنف"
-                                :title="article.title"
-                                rel="nofollow"
-                                target="_blank"
-                            >
+                            <a :href="`whatsapp://send?text=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title" rel="nofollow" target="_blank">
                                 <span class="fab fa-whatsapp"></span>
                             </a>
-                            <a
-                                href="https://telegram.me/share/url?text=ورود به عنف&url=https://agah-lawyers.com/article/44/ورود به عنف"
-                                :title="article.title"
-                                rel="nofollow"
-                                target="_blank"
-                            >
+                            <a :href="`https://telegram.me/share/url?text=${article.title}&url=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title" rel="nofollow" target="_blank">
                                 <span class="fab fa-telegram"></span>
                             </a>
                         </div>
@@ -100,6 +108,8 @@ export default {
     },
     data() {
         return {
+            loading: false,
+
             article: {},
             similarArticles: [],
         };
@@ -120,6 +130,8 @@ export default {
     computed: {},
     methods: {
         async getArticle() {
+            this.loading = true;
+
             await axios
                 .get(`${this.getBaseUrl()}/api/v1/web/article?url_code=${this.$route.params.url_code}`)
                 .then((response) => {
@@ -131,9 +143,10 @@ export default {
                         this.makeToast({ message: error.response.data.error, type: "danger" });
                     }
                     if (error.response.status == 404) {
+                        // TODO
                         // send request to get some random articles and show it in also read
                     }
-                });
+                }).finally(()=> (this.loading = false));
         },
     },
 };

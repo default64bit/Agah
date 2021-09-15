@@ -219,7 +219,7 @@ export default {
                         }
                     }
                     if (error.response.status == 404) {
-                        this.$router.push("/admin/admins_list");
+                        this.$router.push("/admin/articles");
                     }
                 });
         },

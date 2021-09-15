@@ -64,6 +64,7 @@ export default {
             const EditorChecklist = await import("@editorjs/checklist");
             const EditorTable = await import("@editorjs/table");
             const EditorMarker = await import("@editorjs/marker");
+            const EditorDelimiter = await import("@editorjs/delimiter");
 
             window.editor = new EditorJS.default({
                 logLevel: "ERROR",
@@ -105,6 +106,10 @@ export default {
                     },
                     marker: {
                         class: EditorMarker.default,
+                        inlineToolbar: true,
+                    },
+                    delimiter: {
+                        class: EditorDelimiter.default,
                         inlineToolbar: true,
                     },
                 },

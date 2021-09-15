@@ -23,6 +23,7 @@ const upload = multer({ dest: process.env.TEMP_FILE_UPLOAD });
 router.get("/consulters", consultersController.getConsulters.bind(consultersController));
 
 router.get("/random_faqs", faqsController.getRandomFaqs.bind(faqsController));
+router.get("/faqs", faqsController.getFaqs.bind(faqsController));
 
 router.get("/random_articles", articlesController.getRandomArticles.bind(articlesController));
 router.get("/articles", articlesController.getArticles.bind(articlesController));

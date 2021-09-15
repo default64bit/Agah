@@ -211,8 +211,8 @@ export default {
             await axios.get(`${this.getBaseUrl()}/api/v1/web/random_faqs`).then((response) => {
                 let active = true;
                 response.data.forEach((element) => {
+                    this.faqSliders.push({ text: element.question, active: active });
                     if (active) active = false;
-                    this.faqSliders.push({ text: element, active: active });
                 });
             });
         },

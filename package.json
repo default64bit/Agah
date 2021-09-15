@@ -46,6 +46,7 @@
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
+    "@editorjs/delimiter": "^1.2.0",
     "@vue/cli-service": "^4.5.13",
     "@vue/compiler-sfc": "^3.2.4",
     "@vue/server-renderer": "^3.2.4",

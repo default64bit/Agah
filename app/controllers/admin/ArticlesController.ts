@@ -256,7 +256,7 @@ class AdminRolesController {
 
         await Article.model.updateOne({ _id: article._id }, { text: JSON.stringify(textJson) }).exec();
 
-        return res.end(article);
+        return res.json(article);
     }
 
     public async editArticle(req: AuthenticatedRequest, res: Response) {
