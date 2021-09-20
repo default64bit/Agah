@@ -1,7 +1,8 @@
 <template>
     <auth>
         <template v-slot:content>
-            <div class="auth_box">
+            <img class="absolute left-auto -mt-7" src="../../../assets/images/lady_justice.png" alt="lady-justice" />
+            <div class="auth_box z-10">
                 <h1 class="">Admin Login</h1>
 
                 <a class="t_button text-black bg-gray-50 hover:bg-gray-100 w-full" href="/api/v1/admin/auth/google">

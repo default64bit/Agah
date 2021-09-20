@@ -32,6 +32,16 @@ h1.f-neirizi::after{ top: -2rem; right: -5rem; }
     box-shadow: 0px 5px 15px -3px var(--btn-hover-shadow-color);
 }
 
+.btn.reverse{
+    border: 2px solid var(--home-section-three-consulter-card-border-color);
+    background-color: var(--home-section-three-consulter-card-bg-color);
+    color: var(--home-section-three-consulter-card-border-color);
+}
+.btn.reverse:hover{
+    background-color: var(--home-section-three-consulter-card-hover-bg-color);
+    color: var(--home-section-three-consulter-card-bg-color);
+}
+
 .heading{
     position: relative;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem;
@@ -101,7 +111,7 @@ h1.f-neirizi::after{ top: -2rem; right: -5rem; }
 .header_wrapper header .avatar:hover > span{ max-width: 100vw; }
 
 .theme_toggle{
-    width: 2rem; height: 2rem;
+    width: 1.5rem; height: 1.5rem;
     display: flex; align-items: center; justify-content: center;
     padding: .5rem; border-radius: 50%;
     box-shadow: inset 0px 5px 5px var(--theme-toggle-shadow-color);
@@ -119,9 +129,9 @@ h1.f-neirizi::after{ top: -2rem; right: -5rem; }
 }
 
 .footer_wrapper footer nav ul li a::after{
-    content: ""; display: block; width: 100%; height: 3px;
+    content: ""; display: block; width: 100%; height: 2px;
     background-color: var(--header-menu-li-line-bg-color);
-    margin-bottom: .25rem; transition: all .3s;
+    margin-top: .25rem; transition: all .3s;
 }
 /* Footer ======================================================== */
 
@@ -222,5 +232,16 @@ section[name="blog"] .article_box_skeleton div[name="skeleton"], .skeleton{
 
 section[name="faq"] .faq_box{
     width: 100%; padding: 1rem; border-radius: 3px;
+    box-shadow: 0px 5px 10px -3px var(--article-box-shadow-color);
+}
+
+.select_consult_type button, .select_consult_type button:hover{
+    background-color: var(--header-wrapper-bg-color); color: var(--btn-bg-color);
+}
+.select_consult_type button.active, .select_consult_type button.active:hover{
+    background-color: var(--btn-bg-color); color: var(--select-consult-type-active-color);
+}
+
+.base_shadow{
     box-shadow: 0px 5px 10px -3px var(--article-box-shadow-color);
 }

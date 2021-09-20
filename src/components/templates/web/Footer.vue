@@ -24,7 +24,7 @@
                         <img src="../../../assets/images/logo.png" alt="گروه آگه" />
                         <span class="text-2xl">گروه آگه</span>
                     </router-link>
-                    <address class="not-italic">میدان انقلاب، کارگر شمالی، کوچه جعفرزادگان، پلاک 10 طبقه دوم واحد 5</address>
+                    <address class="not-italic">میدان انقلاب، کارگر شمالی، کوچه جعفرزادگان، پلاک 10، طبقه دوم، واحد 5</address>
                 </div>
                 <div class="flex flex-col items-center justify-center md:items-end md:justify-end gap-4">
                     <a href="tel:02166908026" dir="ltr"><span class="far fa-phone-rotary"></span> 021 66908026-27</a>

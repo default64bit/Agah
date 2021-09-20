@@ -25,9 +25,9 @@ export default () => {
                         path: "consultation-time-booking",
                         component: () => import("./components/templates/web/Booking"),
                         children: [
-                            { path: "", component: () => import("./components/pages/web/booking/SelectConsulter") },
-                            { path: "set-date", component: () => import("./components/pages/web/booking/SetDate") },
-                            { path: "payment", component: () => import("./components/pages/web/booking/Payment") },
+                            { path: "", component: () => import("./components/pages/web/booking/SelectConsulter"), name: "consultation-time-booking" },
+                            { path: "select-date/:consulter_id", component: () => import("./components/pages/web/booking/SelectDate"), name: "select-date" },
+                            { path: "payment", component: () => import("./components/pages/web/booking/Payment"), name: "payment" },
                         ],
                     },
                 ],
@@ -98,7 +98,7 @@ export default () => {
             { path: "/:catchAll(.*)", component: () => import("./components/pages/NotFound"), name: "404" },
         ],
         scrollBehavior(to, from, savedPosition) {
-            document.querySelector('#app').scrollTop = 0;
+            document.querySelector("#app").scrollTop = 0;
             return { x: 0, y: 0 };
         },
     });

@@ -21,6 +21,7 @@ const articlesController = new ArticlesController();
 const upload = multer({ dest: process.env.TEMP_FILE_UPLOAD });
 
 router.get("/consulters", consultersController.getConsulters.bind(consultersController));
+router.get("/consulter/:id/schedule", consultersController.getSchedule.bind(consultersController));
 
 router.get("/random_faqs", faqsController.getRandomFaqs.bind(faqsController));
 router.get("/faqs", faqsController.getFaqs.bind(faqsController));

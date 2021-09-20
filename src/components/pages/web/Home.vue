@@ -51,12 +51,12 @@
             </div>
             <div class="flex items-start justify-evenly flex-wrap gap-8 w-full max-w-screen-md">
                 <div class="consulter_card p-6 m-gradiant-btt" v-for="(consulter, i) in consulters" :key="i">
-                    <img class="object-cover rounded-full w-24 h-24" :src="consulter.image" alt="" />
+                    <img class="object-cover rounded-full w-24 h-24" :src="consulter.image" :alt="`${consulter.name} ${consulter.family}`" />
                     <h5 class="text-xl">{{ `${consulter.name} ${consulter.family}` }}</h5>
                     <p class="my-3 w-64 text-sm whitespace-pre-line opacity-80">{{ consulter.desc }}</p>
                     <ul class="flex items-center justify-center flex-wrap gap-4 w-full">
                         <li v-for="(socialMedia, j) in consulter.socialMedias" :key="j">
-                            <a :href="socialMedia.link">
+                            <a :href="socialMedia.link" :title="socialMedia.name" rel="nofollow">
                                 <span class="fab text-xl text-primary-600 hover:text-primary-700" :class="`fa-${socialMedia.name}`"></span>
                             </a>
                         </li>

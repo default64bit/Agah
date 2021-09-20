@@ -8,7 +8,7 @@ export default () => {
         modules: {
             adminProfile,
             userProfile,
-            toast
+            toast,
         },
     });
 };

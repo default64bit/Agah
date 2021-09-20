@@ -26,7 +26,7 @@
                         </ul>
                     </nav>
                     <nav class="flex items-center justify-between flex-row-reverse md:flex-row gap-6 md:gap-4 w-full md:w-auto">
-                        <button class="theme_toggle" @click="changeTheme()">
+                        <button class="theme_toggle text-xs" @click="changeTheme()">
                             <span class="fad" :class="currentTheme == 'default_light' ? 'fa-moon' : 'fa-sun-haze'"></span>
                         </button>
                         <button class="btn" v-if="!isUserLoggedIn" @click="loginDialogState = true">ورود / ثبت‌نام</button>

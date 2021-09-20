@@ -2,27 +2,37 @@ import mongoose from "mongoose";
 import mongodb from "mongodb";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        required: true,
+    },
     admin: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "admins",
         required: true,
     },
-    dayName: {
-        type: String,
-        enum: ["sat", "sun", "mon", "tue", "wed", "thu", "fri"],
+    date: {
+        type: Date,
         required: true,
     },
-    startTime: {
+    time: {
         type: String, // 24H -> 12:00 OR 15:43
         required: true,
     },
-    endTime: {
-        type: String, // 24H -> 12:00 OR 15:43
+    duration: {
+        type: Number, // in hours
+        default: 1,
         required: true,
     },
     type: {
         type: String,
         enum: ["online", "in-person"],
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ["waiting-for-payment", "payed", "canceled"],
         required: true,
     },
     createdAt: {
@@ -31,18 +41,20 @@ const _schema: mongoose.Schema = new mongoose.Schema({
     },
 });
 
-export interface ISchedule {
+export interface IBookedSchedule {
     _id: mongodb.ObjectId;
+    user: mongodb.ObjectId;
     admin: mongodb.ObjectId;
-    dayName: string;
-    startTime: string;
-    endTime: string;
+    date: Date;
+    time: string;
+    duration: number;
     type: string;
+    status: string;
     createdAt: Date;
 }
 
-class Schedule {
-    public static model = mongoose.model<ISchedule>("schedules", _schema);
+class BookedSchedule {
+    public static model = mongoose.model<IBookedSchedule>("booked_schedules", _schema);
 }
 
-export default Schedule;
+export default BookedSchedule;
