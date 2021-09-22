@@ -6,7 +6,7 @@ import Schedule from "../../models/Schedule";
 import TimeOffSchedule from "../../models/TimeOffSchedule";
 import BookedSchedule from "../../models/BookedSchedule";
 
-class NotificationController {
+class Controller {
     public async getConsulters(req: Request, res: Response) {
         const role = await AdminRole.model.findOne({ name: "Consulter" }).exec();
         const consulters = await Admin.model
@@ -22,7 +22,7 @@ class NotificationController {
 
         const consulter = await Admin.model
             .findById(id)
-            .select("-password -status -googleID -role -createdAt")
+            .select("-password -status -googleID -role -createdAt -email -desc -mobile -socialMedias")
             .exec();
         const schedules = await Schedule.model.find({ admin: id }).exec();
         const timeOffSchedules = await TimeOffSchedule.model.find({ admin: id }).exec();
@@ -97,4 +97,4 @@ class NotificationController {
     }
 }
 
-export default NotificationController;
+export default Controller;

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const state = {
+    loginDialogState: false,
     isUserLoggedIn: false,
     userInfo: {
         id: "",
@@ -12,6 +13,7 @@ const state = {
 };
 
 const getters = {
+    loginDialogState: (state) => state.loginDialogState,
     isUserLoggedIn: (state) => state.isUserLoggedIn,
     userInfo: (state) => state.userInfo,
 };
@@ -36,7 +38,7 @@ const actions = {
 
                 response.data.userInfo.image = response.data.userInfo.image ? response.data.userInfo.image : state.userInfo.avatar;
                 commit("setUserInfo", response.data);
-                if(response.data.userInfo.image) commit("setUserAvatar", response.data.userInfo.image);
+                if (response.data.userInfo.image) commit("setUserAvatar", response.data.userInfo.image);
             })
             .catch((error) => {
                 // console.log(error);
@@ -74,9 +76,14 @@ const actions = {
                 throw error;
             });
     },
+
+    async changeLoginDialogState({ commit }, state) {
+        commit("setLoginDialogState", state);
+    },
 };
 
 const mutations = {
+    setLoginDialogState: (state, value) => (state.loginDialogState = !!value),
     setIsUserLoggedIn: (state, value) => (state.isUserLoggedIn = !!value),
     setUserInfo: (state, data) => (state.userInfo = data.userInfo),
     setUserAvatar: (state, avatar) => (state.userInfo.avatar = avatar),

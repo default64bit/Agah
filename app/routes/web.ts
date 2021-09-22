@@ -10,6 +10,7 @@ import NotificationController from "../controllers/web/NotificationController";
 import ConsultersController from "../controllers/web/ConsultersController";
 import FaqsController from "../controllers/web/FaqsController";
 import ArticlesController from "../controllers/web/ArticlesController";
+import BookingController from "../controllers/web/BookingController";
 
 const router = Router();
 const profileController = new ProfileController();
@@ -17,6 +18,7 @@ const notificationController = new NotificationController();
 const consultersController = new ConsultersController();
 const faqsController = new FaqsController();
 const articlesController = new ArticlesController();
+const bookingController = new BookingController();
 
 const upload = multer({ dest: process.env.TEMP_FILE_UPLOAD });
 
@@ -31,6 +33,8 @@ router.get("/articles", articlesController.getArticles.bind(articlesController))
 router.get("/article", articlesController.getArticle.bind(articlesController));
 
 router.use(userAuth.ensureAuth);
+
+router.post("/book", bookingController.bookConsultationSession.bind(bookingController));
 
 router.get("/info", profileController.getInfo.bind(profileController));
 router.put("/info", ProfileValidator.updateInfo, profileController.updateInfo.bind(profileController));

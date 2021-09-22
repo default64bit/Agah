@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Article from "../../models/Article";
 
-class NotificationController {
+class Controller {
     public async getRandomArticles(req: Request, res: Response) {
         const articlesCount = await Article.model.countDocuments().exec();
 
@@ -95,4 +95,4 @@ class NotificationController {
     }
 }
 
-export default NotificationController;
+export default Controller;

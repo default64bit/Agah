@@ -29,7 +29,7 @@
                         <button class="theme_toggle text-xs" @click="changeTheme()">
                             <span class="fad" :class="currentTheme == 'default_light' ? 'fa-moon' : 'fa-sun-haze'"></span>
                         </button>
-                        <button class="btn" v-if="!isUserLoggedIn" @click="loginDialogState = true">ورود / ثبت‌نام</button>
+                        <button class="btn" v-if="!isUserLoggedIn" @click="changeLoginDialogState(true)">ورود / ثبت‌نام</button>
                         <router-link
                             to="/user/chats"
                             class="avatar flex items-center gap-2 p-2 py-1 rounded-full border border-solid border-primary-400 border-opacity-40"
@@ -44,7 +44,7 @@
             </transition>
         </header>
 
-        <t-dialog v-model:open="loginDialogState" v-if="!isUserLoggedIn">
+        <t-dialog :open="loginDialogState" @update:open="updateLoginDialogState" v-if="!isUserLoggedIn">
             <template v-slot:body>
                 <login></login>
             </template>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 import Dialog from "../layouts/Dialog";
 import Login from "./Login";
@@ -67,7 +67,7 @@ export default {
     data() {
         return {
             open: false,
-            loginDialogState: false,
+            // loginDialogState: false,
 
             currentTheme: "",
         };
@@ -78,9 +78,15 @@ export default {
         this.currentTheme = localStorage.getItem("userTheme") ? localStorage.getItem("userTheme") : "default_light";
     },
     computed: {
-        ...mapGetters(["userInfo", "isUserLoggedIn"]),
+        ...mapGetters(["userInfo", "isUserLoggedIn", "loginDialogState"]),
     },
     methods: {
+        ...mapActions(["changeLoginDialogState"]),
+
+        updateLoginDialogState(value){
+            this.changeLoginDialogState(value);
+        },
+
         changeTheme() {
             let newTheme = this.currentTheme == "default_dark" ? "default_light" : "default_dark";
             window.document.querySelector("body").setAttribute("theme", newTheme);

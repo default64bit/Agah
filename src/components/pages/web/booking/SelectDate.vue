@@ -4,16 +4,17 @@
             <img class="w-12 h-12 md:w-24 md:h-24 rounded-full object-cover" :src="consulter.image" :alt="`${consulter.name} ${consulter.family}`" />
             <strong class="text-lg">{{ `${consulter.name} ${consulter.family}` }}</strong>
             <router-link class="btn reverse text-sm w-max md:w-full py-1 md:mt-2" to="/consultation-time-booking" title="تغییر مشاور">
+                <i class="fal fa-pen"></i>
                 تغییر مشاور
             </router-link>
         </div>
         <div class="flex flex-col gap-6 p-4 w-full max-w-4xl rounded-sm base_shadow">
             <div class="select_consult_type flex items-center gap-4">
-                <button class="btn w-full" :class="{ active: type == 'in-person' }" @click="type = 'in-person'">
+                <button class="btn w-full" :class="{ active: type == 'in-person' }" @click="changeType('in-person')">
                     <i class="far fa-landmark"></i>
                     مشاوره حضوری
                 </button>
-                <button class="btn w-full" :class="{ active: type == 'online' }" @click="type = 'online'">
+                <button class="btn w-full" :class="{ active: type == 'online' }" @click="changeType('online')">
                     <i class="far fa-comment-lines"></i>
                     مشاوره آنلاین
                 </button>
@@ -35,11 +36,12 @@
                     <hr class="border-dashed border-t-4 border-primary-500 border-opacity-20 w-full" />
                     <div class="flex items-center justify-between gap-2">
                         <button
-                            class="w-max bg-transparent p-1 px-3 base_shadow text-xl"
+                            class="flex items-center gap-1 w-max bg-transparent p-1 px-3 base_shadow text-xl"
                             :class="{ 'opacity-40 cursor-not-allowed': selectedIndex == dates.length - 1 }"
                             @click="changeDate('next')"
                         >
-                            <span class="fas fa-chevron-left min-w-max pr-1"></span>
+                            <span class="fas fa-chevron-left text-sm"></span>
+                            <small class="text-sm pb-1">روز بعد</small>
                         </button>
                         <b
                             class="flex items-center justify-center flex-grow p-2 bg-gray-300 bg-opacity-10 text-xl rounded-sm border-2 border-solid border-primary-300 border-opacity-40"
@@ -50,11 +52,12 @@
                             {{ new Date(selectedDate.time).toLocaleDateString("fa", { year: "numeric" }) }}
                         </b>
                         <button
-                            class="w-max bg-transparent p-1 px-3 base_shadow text-xl"
+                            class="flex items-center gap-1 w-max bg-transparent p-1 px-3 base_shadow text-xl"
                             :class="{ 'opacity-40 cursor-not-allowed': selectedIndex == 0 }"
                             @click="changeDate('prev')"
                         >
-                            <span class="fas fa-chevron-right min-w-max pl-1"></span>
+                            <small class="text-sm pb-1">روز قبل</small>
+                            <span class="fas fa-chevron-right text-sm"></span>
                         </button>
                     </div>
                     <ul class="flex justify-center flex-wrap gap-3" v-if="!!selectedDate.info[type] && !selectedDate.info.isOffDay">
@@ -68,14 +71,21 @@
                             <b class="text-lg">{{ hour }}</b>
                         </li>
                     </ul>
-                    <div class="flex justify-center items-center" v-if="selectedDate.info.isOffDay">
+                    <div class="flex flex-col gap-2 justify-center items-center" v-if="selectedDate.info.isOffDay">
                         <div class="flex items-start gap-1 rounded-sm bg-rose-100 text-rose-800 w-max px-3 py-1">
                             <span class="fad fa-exclamation mt-1"></span>
                             <b class="opacity-75">روز تعطیل</b>
                         </div>
+                        <button class="btn reverse text-sm" v-if="nextOpenDay != ''" @click="goToNextOpenDate()">
+                            وقت آزاد بعدی،
+                            {{ new Date(nextOpenDay).toLocaleDateString("fa", { weekday: "long" }) }}
+                            {{ new Date(nextOpenDay).toLocaleDateString("fa", { day: "2-digit" }) }}
+                            {{ new Date(nextOpenDay).toLocaleDateString("fa", { month: "long" }) }}
+                            {{ new Date(nextOpenDay).toLocaleDateString("fa", { year: "numeric" }) }}
+                        </button>
                     </div>
                     <hr class="border-dashed border-t-4 border-primary-500 border-opacity-20 w-full" />
-                    <button class="btn w-max py-1" @click="goToPayment()">
+                    <button class="btn w-max py-1" @click="goToPayment()" v-show="selectedTime!=''">
                         <span>تایید و ادامه</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </button>
@@ -99,6 +109,8 @@ export default {
             loading: false,
             consulter: {},
             dates: [],
+            nextOpenDay: "",
+            nextOpenDayIndex: 0,
 
             selectedIndex: 0,
             selectedDate: {
@@ -114,6 +126,17 @@ export default {
     },
     async mounted() {
         await this.getConsulterSchedule();
+
+        window.addEventListener("keydown", (e) => {
+            switch (e.key) {
+                case "ArrowLeft":
+                    this.changeDate("prev");
+                    break;
+                case "ArrowRight":
+                    this.changeDate("next");
+                    break;
+            }
+        });
     },
     methods: {
         ...mapActions(["makeToast"]),
@@ -131,6 +154,14 @@ export default {
                         });
                     }
                     this.selectedDate = this.dates[this.selectedIndex];
+
+                    for (let i = 0; i < this.dates.length; i++) {
+                        if (!this.dates[i].info.isOffDay) {
+                            this.nextOpenDay = this.dates[i].time;
+                            this.nextOpenDayIndex = i;
+                            break;
+                        }
+                    }
                 })
                 .finally(() => (this.loading = false));
         },
@@ -142,10 +173,34 @@ export default {
             this.selectedTime = "";
         },
 
+        goToNextOpenDate(){
+            this.selectedIndex = this.nextOpenDayIndex;
+            this.selectedDate = this.dates[this.selectedIndex];
+            this.selectedTime = "";
+        },
+
+        changeType(newType) {
+            this.selectedIndex = 0;
+            this.selectedDate = this.dates[this.selectedIndex];
+            this.selectedTime = "";
+            this.type = newType;
+        },
+
         goToPayment(consulter) {
-            // TODO
             // set selected time and date and other info into localStorage and go to payment page
-            // befoe redirecting to payment gateway check if no one booked that day before
+            if (!this.selectedTime) {
+                this.makeToast({ message: "لطفا یک ساعت برای مشاوره انتخاب کنید", type: "danger" });
+                return;
+            }
+            localStorage.setItem(
+                "consultationBookingInfo",
+                JSON.stringify({
+                    consulter: this.consulter,
+                    date: this.selectedDate.time,
+                    time: this.selectedTime,
+                    type: this.type,
+                })
+            );
             this.$router.push(`/consultation-time-booking/payment`);
         },
     },

@@ -30,6 +30,27 @@ const _schema: mongoose.Schema = new mongoose.Schema({
         enum: ["online", "in-person"],
         required: true,
     },
+    transaction: new mongoose.Schema({
+        amount: {
+            type: Number, // in Toman
+            required: true,
+        },
+        payedAmount: {
+            type: Number, // in Toman
+        },
+        transactionCode: { type: String },
+        identifier: { type: String },
+        status: {
+            type: String,
+            enum: ["ok", "failed", "canceled"],
+            required: true,
+        },
+        error: { type: String },
+        ip: {
+            type: String,
+            required: true,
+        },
+    }),
     status: {
         type: String,
         enum: ["waiting-for-payment", "payed", "canceled"],
@@ -49,8 +70,18 @@ export interface IBookedSchedule {
     time: string;
     duration: number;
     type: string;
+    transaction: ITransaction;
     status: string;
     createdAt: Date;
+}
+export interface ITransaction {
+    amount: number;
+    payedAmount: number;
+    transactionCode: string;
+    identifier: string;
+    status: string;
+    error: string;
+    ip: string;
 }
 
 class BookedSchedule {

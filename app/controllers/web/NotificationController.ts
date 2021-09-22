@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import Notification from "../../models/Notification";
 
-class NotificationController {
+class Controller {
     public async getNotifs(req: AuthenticatedRequest, res: Response) {
         const page = req.query.page ? parseInt(req.query.page.toString()) : 1;
         const pp = 25;
@@ -54,4 +54,4 @@ class NotificationController {
     }
 }
 
-export default NotificationController;
+export default Controller;

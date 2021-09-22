@@ -30,7 +30,7 @@ class AuthController {
         const code = Math.floor(100000 + Math.random() * 900000);
 
         // if the user does not exists before create the user
-        await User.model.updateOne({ email: username }, { password: code.toString(), verficationCodeSentAt: new Date(Date.now()) }, { upsert: true }).exec();
+        await User.model.updateOne({ email: username }, { password: code.toString() }, { upsert: true }).exec();
 
         // send the code via email
         let html = await fs
@@ -39,9 +39,13 @@ class AuthController {
         html = html.replace(/{{url}}/g, req.headers.origin);
         html = html.replace("{{code}}", code.toString());
 
-        // await Email(`کد ورود ${code} | گروه وکلای آگه`, username, html).catch((e) => {
-        //     console.log(e);
-        // });
+        await Email(`کد ورود ${code} | گروه وکلای آگه`, username, html)
+            .then(async () => {
+                await User.model.updateOne({ email: username }, { verficationCodeSentAt: new Date(Date.now()) }).exec();
+            })
+            .catch((e) => {
+                console.log(e);
+            });
 
         return res.json({ expireIn: this.verficationCodeExpireTime });
     }
