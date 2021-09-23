@@ -66,6 +66,7 @@ export interface IAdmin {
     desc: string;
     mobile: string;
     socialMedias: Array<ISocialMedia>;
+    consultPricePerHour: number;
     password: string;
     status: string;
     googleID: string;

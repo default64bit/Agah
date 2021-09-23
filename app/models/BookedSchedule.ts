@@ -7,13 +7,13 @@ const _schema: mongoose.Schema = new mongoose.Schema({
         ref: "users",
         required: true,
     },
-    admin: {
+    consulter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "admins",
         required: true,
     },
     date: {
-        type: Date,
+        type: String,
         required: true,
     },
     time: {
@@ -42,8 +42,8 @@ const _schema: mongoose.Schema = new mongoose.Schema({
         identifier: { type: String },
         status: {
             type: String,
-            enum: ["ok", "failed", "canceled"],
-            required: true,
+            enum: ["pending", "ok", "failed", "canceled"],
+            default: "pending",
         },
         error: { type: String },
         ip: {
@@ -53,8 +53,8 @@ const _schema: mongoose.Schema = new mongoose.Schema({
     }),
     status: {
         type: String,
-        enum: ["waiting-for-payment", "payed", "canceled"],
-        required: true,
+        enum: ["waiting-for-payment", "payed", "finished", "canceled"],
+        default: "waiting-for-payment",
     },
     createdAt: {
         type: Date,
@@ -65,8 +65,8 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 export interface IBookedSchedule {
     _id: mongodb.ObjectId;
     user: mongodb.ObjectId;
-    admin: mongodb.ObjectId;
-    date: Date;
+    consulter: mongodb.ObjectId;
+    date: String;
     time: string;
     duration: number;
     type: string;

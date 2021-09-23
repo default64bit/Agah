@@ -51,6 +51,8 @@ class Controller {
                         offReason = "timeOff";
                         break;
                     }
+                }
+                if(!isOffDay){
                     // TODO
                     // send request to check the day
                 }

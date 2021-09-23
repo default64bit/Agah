@@ -173,7 +173,6 @@ export default {
                     this.$router.push("/admin/articles");
                 })
                 .catch((error) => {
-                    console.log(error);
                     if (error.response.data) {
                         this.makeToast({ message: error.response.data.error, type: "danger" });
                         if (error.response.data.field && typeof this[error.response.data.field + "Error"] !== "undefined") {

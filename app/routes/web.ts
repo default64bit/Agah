@@ -10,7 +10,9 @@ import NotificationController from "../controllers/web/NotificationController";
 import ConsultersController from "../controllers/web/ConsultersController";
 import FaqsController from "../controllers/web/FaqsController";
 import ArticlesController from "../controllers/web/ArticlesController";
+
 import BookingController from "../controllers/web/BookingController";
+import BookingValidator from "../validators/user/BookingValidator";
 
 const router = Router();
 const profileController = new ProfileController();
@@ -32,9 +34,12 @@ router.get("/random_articles", articlesController.getRandomArticles.bind(article
 router.get("/articles", articlesController.getArticles.bind(articlesController));
 router.get("/article", articlesController.getArticle.bind(articlesController));
 
+router.get("/book/callback", bookingController.bookConsultationSessionCallback.bind(bookingController));
+
+// auth middleware =============
 router.use(userAuth.ensureAuth);
 
-router.post("/book", bookingController.bookConsultationSession.bind(bookingController));
+router.post("/book", BookingValidator.book, bookingController.bookConsultationSession.bind(bookingController));
 
 router.get("/info", profileController.getInfo.bind(profileController));
 router.put("/info", ProfileValidator.updateInfo, profileController.updateInfo.bind(profileController));

@@ -1,10 +1,10 @@
 <template>
     <section class="flex flex-wrap items-center justify-center gap-4 mb-8 mx-auto" name="booking-stage-3">
         <div class="flex flex-col gap-2">
-            <small class="p-1 px-2 bg-gray-100 text-gray-700 rounded-sm text-sm" v-if="!error">
+            <small class="p-1 px-2 bg-rose-100 text-rose-800 rounded-sm text-sm" v-if="error">{{ error }}</small>
+            <small class="p-1 px-2 bg-gray-100 text-gray-700 rounded-sm text-sm">
                 توجه داشته باشید فقط پس از پرداخت مبلغ، مشاوره برای شما رزرو خواهد شد.
             </small>
-            <small class="p-1 px-2 bg-rose-100 text-rose-800 rounded-sm text-sm" v-else>{{ error }}</small>
 
             <div class="flex flex-col gap-4 p-4 max-w-md flex-grow rounded-sm base_shadow">
                 <div class="flex flex-wrap justify-between items-center gap-4" v-if="!!consulter.name">
@@ -53,7 +53,8 @@
                 <small>تومان</small>
             </div>
             <button class="btn text-xl" @click="redirectToPaymentGateway()" style="background-color:#58c5aa;">
-                تایید و پرداخت
+                <b class="font-normal text-xl" v-if="!redirectingToGateway">تایید و پرداخت</b>
+                <b v-else class="fad fa-spinner fa-spin text-xl"></b>
             </button>
         </div>
     </section>
@@ -68,6 +69,7 @@ export default {
     data() {
         return {
             loading: false,
+            redirectingToGateway: false,
             consultationBookingInfo: null,
 
             consulter: {},
@@ -96,18 +98,34 @@ export default {
     methods: {
         ...mapActions(["makeToast", "changeLoginDialogState"]),
 
-        redirectToPaymentGateway() {
+        async redirectToPaymentGateway() {
             // before redirecting to payment gateway check if user is logged in or not
             if (!this.isUserLoggedIn) {
                 this.changeLoginDialogState(true);
                 return;
             }
 
-            // TODO
-            // make api route that do above comments and then generates an identifer and returns it to front...
-            // front should redirect to payment gateway with that identifier or show any error that may accures
+            if (this.redirectingToGateway) return;
+            this.redirectingToGateway = true;
 
-            // then rediect to gateway
+            await axios
+                .post(`${this.getBaseUrl()}/api/v1/web/book`, {
+                    consulter: this.consulter._id,
+                    date: this.date,
+                    time: this.time,
+                    type: this.type,
+                })
+                .then((response) => {
+                    // then rediect to gateway
+                    window.location.href = `https://pay.ir/pg/${response.data.identifier}`;
+                })
+                .catch((error) => {
+                    this.redirectingToGateway = false;
+                    if (error.response.data) {
+                        this.makeToast({ message: error.response.data.error, type: "danger" });
+                        this.error = error.response.data.error;
+                    }
+                });
         },
     },
 };
