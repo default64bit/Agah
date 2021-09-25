@@ -36,10 +36,19 @@ class Controller {
 
         const dates = {};
 
-        let startDate = moment(Date.now());
+        let startDate = moment(Date.now()).add(1, "day");
         let endDate = moment(Date.now()).add(30, "days");
 
-        const bookedSchedules = await BookedSchedule.model.find({ admin: id, date: { $gt: startDate, $lt: endDate }, status: { $ne: "canceled" } }).exec();
+        const bookedSchedules = await BookedSchedule.model
+            .find({
+                consulter: id,
+                dateRaw: {
+                    $gte: new Date(startDate.format("yyyy-MM-DD")),
+                    $lte: new Date(endDate.format("yyyy-MM-DD")),
+                },
+                $and: [{ status: { $ne: "finished" } }, { status: { $ne: "canceled" } }],
+            })
+            .exec();
 
         while (startDate < endDate) {
             if (!!schedulesByDay[startDate.format("ddd").toLowerCase()]) {
@@ -52,7 +61,7 @@ class Controller {
                         break;
                     }
                 }
-                if(!isOffDay){
+                if (!isOffDay) {
                     // TODO
                     // send request to check the day
                 }
@@ -80,8 +89,10 @@ class Controller {
                     onlineHours = [...new Set(onlineHours)];
 
                     bookedSchedules.forEach((bookedSchedule) => {
-                        if (onlineHours.indexOf(bookedSchedule.time) !== -1) onlineHours.splice(onlineHours.indexOf(bookedSchedule.time), 1);
-                        if (inPersonHours.indexOf(bookedSchedule.time) !== -1) inPersonHours.splice(inPersonHours.indexOf(bookedSchedule.time), 1);
+                        if (startDate.format("yyyy-MM-DD") == bookedSchedule.date) {
+                            if (onlineHours.indexOf(bookedSchedule.time) !== -1) onlineHours.splice(onlineHours.indexOf(bookedSchedule.time), 1);
+                            if (inPersonHours.indexOf(bookedSchedule.time) !== -1) inPersonHours.splice(inPersonHours.indexOf(bookedSchedule.time), 1);
+                        }
                     });
                 }
 
@@ -95,7 +106,7 @@ class Controller {
             startDate.add(1, "day");
         }
 
-        res.json({ consulter, dates });
+        res.json({ consulter, dates, bookedSchedules });
     }
 }
 

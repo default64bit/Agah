@@ -31,7 +31,7 @@
                         </button>
                         <button class="btn" v-if="!isUserLoggedIn" @click="changeLoginDialogState(true)">ورود / ثبت‌نام</button>
                         <router-link
-                            to="/user/chats"
+                            to="/profile/chat"
                             class="avatar flex items-center gap-2 p-2 py-1 rounded-full border border-solid border-primary-400 border-opacity-40"
                             v-else
                         >

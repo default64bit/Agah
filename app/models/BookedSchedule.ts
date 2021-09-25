@@ -12,6 +12,10 @@ const _schema: mongoose.Schema = new mongoose.Schema({
         ref: "admins",
         required: true,
     },
+    dateRaw: {
+        type: Date,
+        required: true,
+    },
     date: {
         type: String,
         required: true,
@@ -66,6 +70,7 @@ export interface IBookedSchedule {
     _id: mongodb.ObjectId;
     user: mongodb.ObjectId;
     consulter: mongodb.ObjectId;
+    dateRaw: Date;
     date: String;
     time: string;
     duration: number;

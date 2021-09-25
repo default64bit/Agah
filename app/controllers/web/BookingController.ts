@@ -27,7 +27,7 @@ class Controller {
         let notInSchedule = false;
         const schedules = await Schedule.model.find({ admin: consulter_id, type: type, dayName: dayName }).exec();
         schedules.forEach((schedule) => {
-            if (schedule.startTime < time && time < schedule.endTime) {
+            if (schedule.startTime <= time && time <= schedule.endTime) {
             } else notInSchedule = true;
         });
         if (notInSchedule) return res.status(422).json({ error: "زمان و تاریخ انتخاب شده برای این مشاور وجود ندارد" });
@@ -42,6 +42,9 @@ class Controller {
 
         // TODO
         // check if the time is not holiday
+
+        // TODO
+        // limit user to max 2 active consultation resserves only
 
         // check if anyone is booked this time before or not
         const isBookedBefore = await BookedSchedule.model.exists({
@@ -79,6 +82,7 @@ class Controller {
             await BookedSchedule.model.create({
                 user: user._id,
                 consulter: consulter._id,
+                dateRaw: new Date(moment(date).format("yyyy-MM-DD")),
                 date: moment(date).format("yyyy-MM-DD"),
                 time: time,
                 duration: 1,
@@ -99,9 +103,12 @@ class Controller {
         const status = req.query.status;
         const token = req.query.token;
 
+        let paymentStatus = 0;
+        let message = "";
+
         if (status == "1") {
             // send a request to pay.ir to verify the transaction
-            axios
+            await axios
                 .post("https://pay.ir/pg/verify", {
                     api: process.env.PAY_IR_KEY,
                     token: token,
@@ -122,15 +129,21 @@ class Controller {
                                 "transaction.status": "ok",
                             }
                         );
-                    } else {
                         // TODO
+                        // also make a chat record from the consulter to user so that user can see the consulter in their chat page
+
+                        paymentStatus = 1;
+                        message = "مشاوره در تاریخ و زمان مورد نظر برای شما رزرو شد.";
+                    } else {
                         // if there is one that means user is triyng to buy twice: inform the user that service is booked already
+                        paymentStatus = -1;
+                        message = "مشاوره برای شما از قبلا رزرو شده.";
                     }
                 })
                 .catch(async (error) => {
-                    // TODO
                     // if verfication failed then inform the user that transaction failed and payed amount will be back to their bank card
-
+                    paymentStatus = -2;
+                    message = "تراکنش به درستی انجام نشد. مبلغ پرداخت شده تا چند ساعت دیگر به حساب شما واریز میشود.";
                     // change the booked record status and save error
                     await BookedSchedule.model.updateOne(
                         { "transaction.identifier": token },
@@ -140,15 +153,15 @@ class Controller {
         } else {
             // if status is not 1 then some error accured
             // eather user canceled the payment or something
+            paymentStatus = -3;
+            message = "تراکنش لغو شد.";
             // cancel the booked record and change its status and save the error
             await BookedSchedule.model.updateOne({ "transaction.identifier": token }, { status: "canceled", "transaction.status": "canceled" });
         }
 
-        // TODO
         // redirect to users profile page and Toast or print the result of payment and errors if any
-        // also make a chat record from the consulter to user so that user can see the consulter in their chat page
-
-        return res.end();
+        res.cookie("PaymentResults", JSON.stringify({ status: paymentStatus, message: message }), { sameSite: "lax", path: "/", maxAge: 60000 });
+        return res.redirect("/profile");
     }
 }
 

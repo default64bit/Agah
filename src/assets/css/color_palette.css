@@ -141,6 +141,8 @@
     --article-box-shadow-color: rgba(0, 0, 0, 0.9);
 
     --select-consult-type-active-color: #645337;
+
+    --profile-menu-li-bg-color: #383838;
 }
 
 [theme="default_dark"] {
@@ -290,4 +292,6 @@
     --article-box-shadow-color: rgba(0, 0, 0, 0.1);
 
     --select-consult-type-active-color: #f0e2cb;
+
+    --profile-menu-li-bg-color: #f1f1f1;
 }

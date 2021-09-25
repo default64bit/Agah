@@ -30,6 +30,22 @@ export default () => {
                             { path: "payment", component: () => import("./components/pages/web/booking/Payment"), name: "payment" },
                         ],
                     },
+
+                    {
+                        path: "profile",
+                        component: () => import("./components/templates/web/Profile"),
+                        children: [
+                            {
+                                path: "booked-schedules",
+                                alias: "",
+                                component: () => import("./components/pages/web/profile/BookedSchedulesList"),
+                                name: "booked-schedules",
+                            },
+                            { path: "chat/:consulter_id?", component: () => import("./components/pages/web/profile/Chats"), name: "chats" },
+                            { path: "notifications", component: () => import("./components/pages/web/profile/Notifications"), name: "notifications" },
+                            { path: "settings", component: () => import("./components/pages/web/profile/Settings"), name: "profile-settings" },
+                        ],
+                    },
                 ],
             },
 
