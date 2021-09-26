@@ -4,19 +4,20 @@ import AuthenticatedRequest from "../interfaces/AuthenticatedRequest";
 import moment from "moment";
 import WebSocket from "ws";
 import Call from "../models/Call";
+import UserChatMessages from "../models/UserChatMessages";
+import UserChat from "../models/UserChat";
 
 const router = Router();
 router.use(userAuth.ensureAuth);
 
 interface msgObj {
-    roomId: string;
     event: string;
     data: any;
 }
 
 let users: Object = {};
-router.ws("/ISM", (socket: WebSocket, req: AuthenticatedRequest) => {
-    console.log(`ISM connect: ${req.user._id.toHexString()}`);
+router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
+    console.log(`ISC connect: ${req.user._id.toHexString()}`);
 
     users[req.user._id.toHexString()] = socket;
     socket.send(
@@ -106,8 +107,144 @@ router.ws("/ISM", (socket: WebSocket, req: AuthenticatedRequest) => {
     socket.on("close", (ws) => {
         if (users.hasOwnProperty(req.user._id.toHexString())) {
             delete users[req.user._id.toHexString()];
-            console.log(`ISM disconnected: ${req.user._id.toHexString()}`);
+            console.log(`ISC disconnected: ${req.user._id.toHexString()}`);
         }
+    });
+});
+
+let sockets = {};
+router.ws("/ISM", (socket: WebSocket, req: AuthenticatedRequest) => {
+    sockets[req.user.email] = socket;
+
+    socket.on("message", async (ws) => {
+        let msg: msgObj = JSON.parse(ws.toString());
+        switch (msg.event) {
+            case "startTyping":
+                if (!msg.data.userId || !msg.data.email) break;
+                // send a startTypingCB event to reciver if he/she is online
+                if (sockets[msg.data.email]) {
+                    sockets[msg.data.email].send(
+                        JSON.stringify({
+                            event: "startTypingCB",
+                            userId: req.user._id,
+                            userEmail: req.user.email,
+                        })
+                    );
+                }
+                break;
+            case "stopTyping":
+                if (!msg.data.userId || !msg.data.email) break;
+                // send a stopTypingCB event to reciver if he/she is online
+                if (sockets[msg.data.email]) {
+                    sockets[msg.data.email].send(
+                        JSON.stringify({
+                            event: "stopTypingCB",
+                            userId: req.user._id,
+                            userEmail: req.user.email,
+                        })
+                    );
+                }
+                break;
+            case "message":
+                if (!msg.data.userId || !msg.data.email) break;
+
+                let message = await UserChatMessages.model.create({
+                    sender: req.user._id,
+                    receiver: msg.data.userId,
+                    message: msg.data.message,
+                });
+                message = await UserChatMessages.model
+                    .findById(message.id)
+                    .populate("sender", ["image", "email", "name", "family"])
+                    .populate("receiver", ["image", "email", "name", "family"])
+                    .exec();
+
+                // update the lastMessage and lastMessageDate in chat
+                await UserChat.model
+                    .updateOne(
+                        {
+                            $or: [
+                                { userOne: req.user._id, userTwo: msg.data.userId },
+                                { userOne: msg.data.userId, userTwo: req.user._id },
+                            ],
+                        },
+                        {
+                            userOne: req.user._id,
+                            userTwo: msg.data.userId,
+                            lastMessage: message,
+                            lastMessageDate: message.createdAt,
+                        },
+                        { upsert: true }
+                    )
+                    .exec();
+
+                // send the message to sender and reciver if he/she is online
+                if (sockets[msg.data.email]) {
+                    sockets[msg.data.email].send(
+                        JSON.stringify({
+                            event: "messageCB",
+                            message,
+                        })
+                    );
+                }
+                if (sockets[req.user.email]) {
+                    sockets[req.user.email].send(
+                        JSON.stringify({
+                            event: "messageCB",
+                            message,
+                        })
+                    );
+                }
+
+                break;
+            case "seen":
+                if (!msg.data.userId || !msg.data.email) break;
+
+                // set the readAt of all chat messages that the user is the reciver to date().now
+                const now = new Date(Date.now());
+                await UserChatMessages.model
+                    .updateMany(
+                        {
+                            sender: msg.data.userId,
+                            receiver: req.user._id,
+                            readAt: { $exists: false },
+                        },
+                        {
+                            readAt: now,
+                        }
+                    )
+                    .exec();
+
+                // send request to let senders know the messages are seen
+                if (sockets[msg.data.email]) {
+                    sockets[msg.data.email].send(
+                        JSON.stringify({
+                            event: "seenCB",
+                            userId: req.user._id,
+                            userEmail: req.user.email,
+                            callerEmail: req.user.email,
+                            time: now,
+                        })
+                    );
+                }
+                if (sockets[req.user.email]) {
+                    sockets[req.user.email].send(
+                        JSON.stringify({
+                            event: "seenCB",
+                            userId: msg.data.userId,
+                            userEmail: msg.data.email,
+                            callerEmail: req.user.email,
+                            time: now,
+                        })
+                    );
+                }
+
+                break;
+        }
+    });
+
+    socket.on("close", (ws) => {
+        delete sockets[req.user.email];
     });
 });
 

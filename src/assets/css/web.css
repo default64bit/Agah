@@ -246,10 +246,14 @@ section[name="faq"] .faq_box{
     box-shadow: 0px 5px 10px -3px var(--article-box-shadow-color);
 }
 
-.profile_menu{}
-.profile_menu li{}
 .profile_menu li:hover{ background-color: var(--profile-menu-li-bg-color); }
 .profile_menu li.active{
     background-color: var(--profile-menu-li-bg-color);
     box-shadow: 4px 0px 0px 0px #eee5d6;
 }
+
+/* Profile Messages ======================================================== */
+.profile_messages{
+    height: 40rem;
+}
+/* Profile Messages ======================================================== */

@@ -223,7 +223,7 @@ export default {
 
             let url = this.getBaseUrl().replace("http", "ws");
             try {
-                this.connection = new WebSocket(`${url}/sock/v2/ISM`);
+                this.connection = new WebSocket(`${url}/sock/v2/ISC`);
                 this.connection.onopen = this.socketOnOpen;
                 this.connection.onclose = this.socketOnClose;
                 this.connection.onmessage = this.socketOnMessage;

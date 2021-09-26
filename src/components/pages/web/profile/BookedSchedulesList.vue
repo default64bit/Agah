@@ -42,7 +42,7 @@
                         <span>-</span>
                         <span class="text-lg">ساعت {{ schedule.time }}</span>
                     </div>
-                    <button class="btn reverse text-sm py-1" @click="showDetails(schedule)">اطلاعت سفارش</button>
+                    <button class="btn reverse text-sm py-1" @click="showDetails(schedule)">مشاهده جزئیات</button>
                 </div>
             </li>
         </ul>
@@ -51,8 +51,75 @@
             <button class="btn reverse w-max py-1" @click="loadMore()" v-else>مشاوره های قدیمی تر</button>
         </div>
 
-        <t-dialog v-model:open="bookingDetailsDialogState">
-            <template v-slot:body> </template>
+        <t-dialog v-model:open="bookingDetailsDialogState" title="جزئیات رزرو مشاوره">
+            <template v-slot:body>
+                <div class="flex flex-col gap-4 max-w-3xl" v-if="!!selectedSchedule.status">
+                    <span class="w-max text-sm rounded-sm p-1 px-2 text-white bg-amber-500" v-if="selectedSchedule.status == 'waiting-for-payment'">
+                        رزرو نشده
+                    </span>
+                    <span class="w-max text-sm rounded-sm p-1 px-2 text-white bg-emerald-500" v-if="selectedSchedule.status == 'payed'">رزرو شده</span>
+                    <span class="w-max text-sm rounded-sm p-1 px-2 text-white bg-indigo-500" v-if="selectedSchedule.status == 'finished'">انجام شده</span>
+                    <span class="w-max text-sm rounded-sm p-1 px-2 text-white bg-rose-500" v-if="selectedSchedule.status == 'canceled'">لغو شده</span>
+
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <img class="w-10 h-10 rounded-full object-cover" :src="selectedSchedule.consulter[0].image" alt="" />
+                            <strong>{{ `${selectedSchedule.consulter[0].name} ${selectedSchedule.consulter[0].family}` }}</strong>
+                        </div>
+                        <small class="py-1 px-2 rounded-sm bg-gray-200 text-black text-xs">{{ `به مدت ${selectedSchedule.duration} ساعت` }}</small>
+                        <small class="py-1 px-2 rounded-sm bg-gray-700 text-primary-100 text-xs" v-if="selectedSchedule.type == 'online'">آنلاین</small>
+                        <small class="py-1 px-2 rounded-sm bg-gray-700 text-primary-100 text-xs" v-else>حضوری</small>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <span class="text-lg">
+                            {{ new Date(selectedSchedule.date).toLocaleDateString("fa", { weekday: "long" }) }}
+                            {{ new Date(selectedSchedule.date).toLocaleDateString("fa", { day: "2-digit" }) }}
+                            {{ new Date(selectedSchedule.date).toLocaleDateString("fa", { month: "long" }) }}
+                            {{ new Date(selectedSchedule.date).toLocaleDateString("fa", { year: "numeric" }) }}
+                        </span>
+                        <span>-</span>
+                        <span class="text-lg">ساعت {{ selectedSchedule.time }}</span>
+                    </div>
+                    <hr class="w-10/12 mx-auto border-solid border-gray-500 border-opacity-50" />
+                    <ul class="flex flex-col gap-4">
+                        <li class="flex items-center gap-1">
+                            <label>هزینه مشاوره:</label>
+                            <b>{{ new Intl.NumberFormat("fa").format(selectedSchedule.transaction.amount * 10) }} <small>ریال</small></b>
+                        </li>
+                        <li class="flex items-center gap-1">
+                            <label>مبلغ پرداخت شده:</label>
+                            <b v-if="selectedSchedule.transaction.payedAmount">
+                                {{ new Intl.NumberFormat("fa").format(selectedSchedule.transaction.payedAmount) }} <small>ریال</small>
+                            </b>
+                            <b v-else>---</b>
+                        </li>
+                        <li class="flex items-center gap-1">
+                            <label>وضعیت تراکنش:</label>
+                            <b class="text-sm p-1 px-2 rounded-sm bg-amber-100 text-amber-700" v-if="selectedSchedule.transaction.status == 'pending'">
+                                نا معلوم
+                            </b>
+                            <b class="text-sm p-1 px-2 rounded-sm bg-emerald-100 text-emerald-700" v-if="selectedSchedule.transaction.status == 'ok'">
+                                پرداخت موفق
+                            </b>
+                            <b class="text-sm p-1 px-2 rounded-sm bg-red-100 text-red-700" v-if="selectedSchedule.transaction.status == 'failed'">
+                                خطا
+                            </b>
+                            <b class="text-sm p-1 px-2 rounded-sm bg-rose-100 text-rose-700" v-if="selectedSchedule.transaction.status == 'canceled'">
+                                لغو شده
+                            </b>
+                        </li>
+                        <li class="flex items-center gap-1">
+                            <label>کد تراکنش:</label>
+                            <b v-if="selectedSchedule.transaction.transactionCode">{{ selectedSchedule.transaction.transactionCode }}</b>
+                            <b v-else>---</b>
+                        </li>
+                        <li class="flex items-center gap-1">
+                            <label>تاریخ ثبت:</label>
+                            <b v-if="selectedSchedule.createdAt">{{ new Date(selectedSchedule.createdAt).toLocaleDateString("fa") }}</b>
+                        </li>
+                    </ul>
+                </div>
+            </template>
         </t-dialog>
 
         <t-dialog v-model:open="paymentResultsDialogState">
@@ -103,6 +170,8 @@ export default {
             page: 1,
             total: 0,
             pageTotal: 1,
+
+            selectedSchedule: {},
         };
     },
     async mounted() {
@@ -152,7 +221,7 @@ export default {
         },
 
         showDetails(schedule) {
-            // TODO
+            this.selectedSchedule = schedule;
             this.bookingDetailsDialogState = true;
         },
     },

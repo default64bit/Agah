@@ -14,7 +14,6 @@ interface msgObj {
 
 let sockets = {};
 router.ws("/ISM", (socket, req: AuthenticatedRequest) => {
-    // TODO : refactor
     sockets[req.admin.email] = socket;
 
     socket.on("message", async (ws) => {
