@@ -1,25 +1,40 @@
-import { Router } from "express";
-import userAuth from "../middlewares/userAuth";
-import AuthenticatedRequest from "../interfaces/AuthenticatedRequest";
+import { Router, Request } from "express";
 import moment from "moment";
+import mongodb from "mongodb";
+import AuthenticatedRequest from "../interfaces/AuthenticatedRequest";
+import { getPayload } from "../helpers/authHelper";
 import WebSocket from "ws";
 import Call from "../models/Call";
 import UserChatMessages from "../models/UserChatMessages";
 import UserChat from "../models/UserChat";
+import User from "../models/User";
+import Admin from "../models/Admin";
 
 const router = Router();
-router.use(userAuth.ensureAuth);
 
 interface msgObj {
     event: string;
     data: any;
 }
 
-let users: Object = {};
+interface Person {
+    _id: mongodb.ObjectId;
+    image: string;
+    name: string;
+    family: string;
+    email: string;
+}
+
+let ISC_users: Object = {};
+let ISC_admins: Object = {};
 router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
+    // TODO
+    // check if req.user or req.admin exists
+    // if not then do nothing
+
     console.log(`ISC connect: ${req.user._id.toHexString()}`);
 
-    users[req.user._id.toHexString()] = socket;
+    ISC_users[req.user._id.toHexString()] = socket;
     socket.send(
         JSON.stringify({
             event: "userUniqueId",
@@ -31,7 +46,7 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
         let msg: msgObj = JSON.parse(ws.toString());
         switch (msg.event) {
             case "makeCall":
-                if (!users.hasOwnProperty(msg.data.userToCall)) {
+                if (!ISC_users.hasOwnProperty(msg.data.userToCall)) {
                     socket.send(JSON.stringify({ event: "userNotOnline" }));
                     return;
                 }
@@ -40,7 +55,7 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
                     .create({ offer: msg.data.offer, callerType: "users", caller: req.user._id, calleeType: "users", callee: msg.data.userToCall })
                     .then((call) => call);
 
-                users[msg.data.userToCall].send(
+                ISC_users[msg.data.userToCall].send(
                     JSON.stringify({
                         event: "calleeOfferUpdate",
                         callId: newCall._id,
@@ -55,8 +70,8 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
             case "updateCallOfferCandidates":
                 // update offerCandidate in DB
                 await Call.model.updateOne({ _id: msg.data.callId }, { offerCandidate: msg.data.offerCandidates }).exec();
-                if (users.hasOwnProperty(msg.data.userToCall)) {
-                    users[msg.data.userToCall].send(
+                if (ISC_users.hasOwnProperty(msg.data.userToCall)) {
+                    ISC_users[msg.data.userToCall].send(
                         JSON.stringify({
                             event: "calleeOfferCandidateUpdate",
                             callId: msg.data.callId,
@@ -67,33 +82,33 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
                 }
                 break;
             case "answerCall":
-                if (!users.hasOwnProperty(msg.data.callerId)) return;
+                if (!ISC_users.hasOwnProperty(msg.data.callerId)) return;
                 // update answer in DB
                 await Call.model.updateOne({ _id: msg.data.callId }, { answer: msg.data.answer, startedAt: new Date(Date.now()) }).exec();
-                users[msg.data.callerId].send(JSON.stringify({ event: "callerAnswerUpdate", callId: msg.data.callId, answer: msg.data.answer }));
+                ISC_users[msg.data.callerId].send(JSON.stringify({ event: "callerAnswerUpdate", callId: msg.data.callId, answer: msg.data.answer }));
                 break;
             case "updateCallAnswerCandidates":
                 // update answerCandidate in DB
                 await Call.model.updateOne({ _id: msg.data.callId }, { answerCandidate: msg.data.answerCandidates }).exec();
-                users[msg.data.callerId].send(
+                ISC_users[msg.data.callerId].send(
                     JSON.stringify({ event: "callerAnswerCandidateUpdate", callId: msg.data.callId, answerCandidates: msg.data.answerCandidates })
                 );
                 break;
 
             case "calleeIsBusy":
-                if (!users.hasOwnProperty(msg.data.callerId)) return;
-                users[msg.data.callerId].send(JSON.stringify({ event: "calleeIsBusy" }));
+                if (!ISC_users.hasOwnProperty(msg.data.callerId)) return;
+                ISC_users[msg.data.callerId].send(JSON.stringify({ event: "calleeIsBusy" }));
                 break;
             case "callRejected":
-                if (users.hasOwnProperty(msg.data.callerId)) users[msg.data.callerId].send(JSON.stringify({ event: "callRejected" }));
+                if (ISC_users.hasOwnProperty(msg.data.callerId)) ISC_users[msg.data.callerId].send(JSON.stringify({ event: "callRejected" }));
                 break;
             case "hungupCall":
                 // get call from db and send caller and callee the hungupCall msg
                 if (!msg.data.callId) return;
                 let call = await Call.model.findOne({ _id: msg.data.callId }).exec();
                 if (call) {
-                    if (users.hasOwnProperty(call.caller.toHexString())) users[call.caller.toHexString()].send(JSON.stringify({ event: "hungupCall" }));
-                    if (users.hasOwnProperty(call.callee.toHexString())) users[call.callee.toHexString()].send(JSON.stringify({ event: "hungupCall" }));
+                    if (ISC_users.hasOwnProperty(call.caller.toHexString())) ISC_users[call.caller.toHexString()].send(JSON.stringify({ event: "hungupCall" }));
+                    if (ISC_users.hasOwnProperty(call.callee.toHexString())) ISC_users[call.callee.toHexString()].send(JSON.stringify({ event: "hungupCall" }));
                     // record the call duration
                     let startedAt = moment(call.startedAt);
                     let endedAt = moment(new Date());
@@ -105,58 +120,80 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
     });
 
     socket.on("close", (ws) => {
-        if (users.hasOwnProperty(req.user._id.toHexString())) {
-            delete users[req.user._id.toHexString()];
+        if (ISC_users.hasOwnProperty(req.user._id.toHexString())) {
+            delete ISC_users[req.user._id.toHexString()];
             console.log(`ISC disconnected: ${req.user._id.toHexString()}`);
         }
     });
 });
 
-let sockets = {};
-router.ws("/ISM", (socket: WebSocket, req: AuthenticatedRequest) => {
-    sockets[req.user.email] = socket;
+let ISM_sockets = {
+    users: {},
+    admins: {},
+};
+// let ISM_users: Object = {};
+// let ISM_admins: Object = {};
+router.ws("/ISM", async (socket: WebSocket, req: Request) => {
+    let person: Person;
+    let senderType = "";
+    let receiverType = "";
+
+    let userID = getPayload(req, "UserAuthToken", process.env.JWT_SECRET);
+    let adminID = getPayload(req, "AdminAuthToken", process.env.JWT_SECRET);
+
+    // check if req.user or req.admin exists
+    if (!!adminID) {
+        let admin = (person = await Admin.model.findById(adminID));
+        if (admin) ISM_sockets.admins[admin._id] = socket;
+        senderType = "admins";
+        receiverType = "users";
+    } else if (!!userID) {
+        let user = (person = await User.model.findById(userID));
+        if (user) ISM_sockets.users[user._id] = socket;
+        senderType = "users";
+        receiverType = "admins";
+    } else return;
 
     socket.on("message", async (ws) => {
         let msg: msgObj = JSON.parse(ws.toString());
         switch (msg.event) {
             case "startTyping":
-                if (!msg.data.userId || !msg.data.email) break;
+                if (!msg.data.chatId || !msg.data.receiverId) break;
                 // send a startTypingCB event to reciver if he/she is online
-                if (sockets[msg.data.email]) {
-                    sockets[msg.data.email].send(
+                if (ISM_sockets[receiverType][msg.data.receiverId]) {
+                    ISM_sockets[receiverType][msg.data.receiverId].send(
                         JSON.stringify({
                             event: "startTypingCB",
-                            userId: req.user._id,
-                            userEmail: req.user.email,
+                            chatId: msg.data.chatId,
                         })
                     );
                 }
                 break;
             case "stopTyping":
-                if (!msg.data.userId || !msg.data.email) break;
+                if (!msg.data.chatId || !msg.data.receiverId) break;
                 // send a stopTypingCB event to reciver if he/she is online
-                if (sockets[msg.data.email]) {
-                    sockets[msg.data.email].send(
+                if (ISM_sockets[receiverType][msg.data.receiverId]) {
+                    ISM_sockets[receiverType][msg.data.receiverId].send(
                         JSON.stringify({
                             event: "stopTypingCB",
-                            userId: req.user._id,
-                            userEmail: req.user.email,
+                            chatId: msg.data.chatId,
                         })
                     );
                 }
                 break;
             case "message":
-                if (!msg.data.userId || !msg.data.email) break;
+                if (!msg.data.chatId || !msg.data.receiverId || !msg.data.message) break;
 
                 let message = await UserChatMessages.model.create({
-                    sender: req.user._id,
-                    receiver: msg.data.userId,
+                    sender: person._id,
+                    senderType: senderType,
+                    receiver: msg.data.receiverId,
+                    receiverType: receiverType,
                     message: msg.data.message,
                 });
                 message = await UserChatMessages.model
                     .findById(message.id)
-                    .populate("sender", ["image", "email", "name", "family"])
-                    .populate("receiver", ["image", "email", "name", "family"])
+                    .select("sender receiver message file readAt createdAt")
                     .exec();
 
                 // update the lastMessage and lastMessageDate in chat
@@ -164,13 +201,13 @@ router.ws("/ISM", (socket: WebSocket, req: AuthenticatedRequest) => {
                     .updateOne(
                         {
                             $or: [
-                                { userOne: req.user._id, userTwo: msg.data.userId },
-                                { userOne: msg.data.userId, userTwo: req.user._id },
+                                { user: person._id, consulter: msg.data.receiverId },
+                                { user: msg.data.receiverId, consulter: person._id },
                             ],
                         },
                         {
-                            userOne: req.user._id,
-                            userTwo: msg.data.userId,
+                            user: person._id,
+                            consulter: msg.data.receiverId,
                             lastMessage: message,
                             lastMessageDate: message.createdAt,
                         },
@@ -179,61 +216,40 @@ router.ws("/ISM", (socket: WebSocket, req: AuthenticatedRequest) => {
                     .exec();
 
                 // send the message to sender and reciver if he/she is online
-                if (sockets[msg.data.email]) {
-                    sockets[msg.data.email].send(
-                        JSON.stringify({
-                            event: "messageCB",
-                            message,
-                        })
-                    );
+                if (ISM_sockets[receiverType][msg.data.receiverId]) {
+                    ISM_sockets[receiverType][msg.data.receiverId].send(JSON.stringify({ event: "messageCB", chatId: msg.data.chatId, message }));
                 }
-                if (sockets[req.user.email]) {
-                    sockets[req.user.email].send(
-                        JSON.stringify({
-                            event: "messageCB",
-                            message,
-                        })
-                    );
+                if (ISM_sockets[senderType][person._id]) {
+                    ISM_sockets[senderType][person._id].send(JSON.stringify({ event: "messageCB", chatId: msg.data.chatId, message }));
                 }
 
                 break;
             case "seen":
-                if (!msg.data.userId || !msg.data.email) break;
+                if (!msg.data.chatId || !msg.data.receiverId) break;
 
                 // set the readAt of all chat messages that the user is the reciver to date().now
                 const now = new Date(Date.now());
                 await UserChatMessages.model
-                    .updateMany(
-                        {
-                            sender: msg.data.userId,
-                            receiver: req.user._id,
-                            readAt: { $exists: false },
-                        },
-                        {
-                            readAt: now,
-                        }
-                    )
+                    .updateMany({ sender: msg.data.receiverId, receiver: person._id, readAt: { $exists: false } }, { readAt: now })
                     .exec();
 
                 // send request to let senders know the messages are seen
-                if (sockets[msg.data.email]) {
-                    sockets[msg.data.email].send(
+                if (ISM_sockets[receiverType][msg.data.receiverId]) {
+                    ISM_sockets[receiverType][msg.data.receiverId].send(
                         JSON.stringify({
                             event: "seenCB",
-                            userId: req.user._id,
-                            userEmail: req.user.email,
-                            callerEmail: req.user.email,
+                            otherUserId: person._id,
+                            senderId: person._id,
                             time: now,
                         })
                     );
                 }
-                if (sockets[req.user.email]) {
-                    sockets[req.user.email].send(
+                if (ISM_sockets[senderType][person._id]) {
+                    ISM_sockets[senderType][person._id].send(
                         JSON.stringify({
                             event: "seenCB",
-                            userId: msg.data.userId,
-                            userEmail: msg.data.email,
-                            callerEmail: req.user.email,
+                            otherUserId: msg.data.receiverId,
+                            senderId: person._id,
                             time: now,
                         })
                     );
@@ -244,7 +260,7 @@ router.ws("/ISM", (socket: WebSocket, req: AuthenticatedRequest) => {
     });
 
     socket.on("close", (ws) => {
-        delete sockets[req.user.email];
+        delete ISM_sockets[senderType][person._id];
     });
 });
 

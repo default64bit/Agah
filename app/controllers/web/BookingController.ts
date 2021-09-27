@@ -7,6 +7,8 @@ import Admin from "../../models/Admin";
 import Schedule from "../../models/Schedule";
 import TimeOffSchedule from "../../models/TimeOffSchedule";
 import BookedSchedule from "../../models/BookedSchedule";
+import UserChat from "../../models/UserChat";
+import UserChatMessages from "../../models/UserChatMessages";
 
 class Controller {
     public async bookConsultationSession(req: AuthenticatedRequest, res: Response) {
@@ -129,8 +131,27 @@ class Controller {
                                 "transaction.status": "ok",
                             }
                         );
-                        // TODO
+
                         // also make a chat record from the consulter to user so that user can see the consulter in their chat page
+                        const bookedSchedule = await BookedSchedule.model.findOne({ "transaction.identifier": token }).exec();
+                        if (bookedSchedule.type == "online") {
+                            const doesChatExists = await UserChat.model.exists({ user: bookedSchedule.user, consulter: bookedSchedule.consulter });
+                            if (!doesChatExists) {
+                                await UserChat.model.create({
+                                    user: bookedSchedule.user,
+                                    consulter: bookedSchedule.consulter,
+                                    lastMessageDate: new Date(Date.now()),
+                                    newMessage: 1,
+                                });
+                                await UserChatMessages.model.create({
+                                    senderType: "admins",
+                                    sender: bookedSchedule.consulter,
+                                    receiverType: "users",
+                                    receiver: bookedSchedule.user,
+                                    message: "سلام، با تشکر از رزرو وقت مشاوره، لطفا در تاریخ و ساعت مشخص شده به همین قسمت مراجعه کنید.",
+                                });
+                            }
+                        }
 
                         paymentStatus = 1;
                         message = "مشاوره در تاریخ و زمان مورد نظر برای شما رزرو شد.";

@@ -16,6 +16,8 @@ import BookingValidator from "../validators/user/BookingValidator";
 
 import BookedSchedulesController from "../controllers/web/BookedSchedulesController";
 
+import ChatController from "../controllers/web/ChatController";
+
 const router = Router();
 const profileController = new ProfileController();
 const notificationController = new NotificationController();
@@ -24,6 +26,7 @@ const faqsController = new FaqsController();
 const articlesController = new ArticlesController();
 const bookingController = new BookingController();
 const bookedSchedulesController = new BookedSchedulesController();
+const chatController = new ChatController();
 
 const upload = multer({ dest: process.env.TEMP_FILE_UPLOAD });
 
@@ -43,6 +46,7 @@ router.get("/book/callback", bookingController.bookConsultationSessionCallback.b
 router.use(userAuth.ensureAuth);
 
 router.post("/book", BookingValidator.book, bookingController.bookConsultationSession.bind(bookingController));
+
 router.get("/booked_schedules", bookedSchedulesController.getBookedSchedules.bind(bookedSchedulesController));
 
 router.get("/info", profileController.getInfo.bind(profileController));
@@ -53,5 +57,9 @@ router.delete("/profile_avatar", profileController.deleteAvatar.bind(profileCont
 router.get("/notifications", notificationController.getNotifs);
 router.post("/notifications/read", notificationController.readNotifs);
 router.delete("/notifications", notificationController.clearNotifs);
+
+router.get("/chats", chatController.getChats.bind(chatController));
+router.get("/chat/:id/messages", chatController.getChatMessages.bind(chatController));
+router.post("/chat/:id/upload", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("file"), chatController.uploadAttachment.bind(chatController));
 
 export default router;

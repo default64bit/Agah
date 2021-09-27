@@ -1,12 +1,12 @@
 <template>
     <section class="flex flex-wrap items-start justify-center gap-8 my-4 mx-auto" v-if="!loading">
-        <div class="flex flex-col justify-center items-center gap-6 p-4 py-6 base_shadow w-full md:max-w-xs lg:sticky lg:top-24">
+        <div class="flex flex-col justify-center items-center gap-6 p-4 py-6 base_shadow w-full lg:w-max md:max-w-xs lg:sticky lg:top-24">
             <header class="flex flex-wrap justify-between items-center gap-3 w-full cursor-pointer" @click="menuOpen = !menuOpen">
                 <div class="flex flex-wrap items-center gap-3">
                     <img class="w-10 h-10 rounded-full object-cover" :src="userInfo.avatar" alt="" />
                     <div class="flex flex-col">
                         <strong>{{ `${userInfo.name} ${userInfo.family}` }}</strong>
-                        <small class="opacity-60">{{ userInfo.email }}</small>
+                        <small class="opacity-60" v-show="menuOpen">{{ userInfo.email }}</small>
                     </div>
                 </div>
                 <span class="far fa-caret-down text-2xl" :class="menuOpen ? 'fa-caret-down' : 'fa-caret-left'"></span>
@@ -24,6 +24,7 @@
                         <router-link to="/profile/chat" class="flex items-center gap-1 w-full">
                             <i class="far fa-comments"></i>
                             تماس و پیام ها
+                            <small class="mr-auto p-1 px-2 rounded-sm bg-gray-700 text-primary-100 text-xs">0</small>
                         </router-link>
                     </li>
                     <li class="p-2 rounded-sm" :class="{ active: $route.name == 'notifications' }">
@@ -42,7 +43,7 @@
                 </ul>
             </transition>
         </div>
-        <div class="max-w-3xl flex-grow">
+        <div class="max-w-4xl flex-grow">
             <router-view v-slot="{ Component }">
                 <transition name="slideright" mode="out-in" appear="">
                     <component :is="Component" />
@@ -73,6 +74,9 @@ export default {
         await this.getUserInfo({ BaseUrl: this.getBaseUrl() })
             .then((response) => (this.loading = false))
             .catch((e) => this.$router.push("/"));
+
+        // TODO
+        // get user's unread message count and notif count
     },
     computed: {
         ...mapGetters(["userInfo", "isUserLoggedIn"]),

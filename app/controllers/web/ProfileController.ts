@@ -1,10 +1,8 @@
 import fs from "fs/promises";
-import mongoose from "mongoose";
 import { Request, Response } from "express";
 import randStr from "../../helpers/randStr";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import User from "../../models/User";
-import Permission from "../../models/Permission";
 
 class ProfileController {
     public async getInfo(req: AuthenticatedRequest, res: Response) {

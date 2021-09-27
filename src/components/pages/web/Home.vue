@@ -61,7 +61,11 @@
                             </a>
                         </li>
                     </ul>
-                    <router-link class="btn w-full" :to="`/consultation-time-booking/${consulter.name}-${consulter.family}-${consulter._id}`">
+                    <router-link
+                        class="btn w-full"
+                        :to="`/consultation-time-booking/select-date/${consulter._id}`"
+                        :title="`دریافت مشاوره با ${consulter.name} ${consulter.family}`"
+                    >
                         دریافت مشاوره
                     </router-link>
                 </div>

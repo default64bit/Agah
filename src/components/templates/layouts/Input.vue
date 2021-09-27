@@ -11,7 +11,7 @@
             <div class="input_group" :class="{ focus: focus, disabled: disabled }">
                 <i class="text-gray-400" :class="icon" v-if="icon"></i>
                 <input
-                    dir="auto"
+                    :dir="dir"
                     class=""
                     :name="name"
                     :type="inputType"
@@ -25,7 +25,7 @@
                     v-if="inputType != 'textarea'"
                 />
                 <textarea
-                    dir="auto"
+                    :dir="dir"
                     class=""
                     :name="name"
                     :placeholder="placeholder"
@@ -61,6 +61,7 @@ import IMask from "imask";
 export default {
     name: "Input",
     props: {
+        dir: { type: String, default: "auto" },
         type: { type: String },
         name: { type: String },
         label: { type: String },

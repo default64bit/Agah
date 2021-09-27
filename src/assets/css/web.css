@@ -255,5 +255,37 @@ section[name="faq"] .faq_box{
 /* Profile Messages ======================================================== */
 .profile_messages{
     height: 40rem;
+    background-color: var(--profile-messages-bg-color);
+}
+.profile_messages ul[name="message_ul"]{
+    display: flex; flex-direction: column; gap: 1rem;
+    height: 100%; overflow: auto; overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+.profile_messages ul[name="message_ul"] li{ display: flex; }
+.profile_messages ul[name="message_ul"] li .message_bubble{ max-width: 70%; padding: .5rem; }
+
+.profile_messages ul[name="message_ul"] li .message_bubble.sent{
+    position: relative;
+    margin-left: auto; border-radius: 5px 5px 0 5px; border-radius: 5px;
+    background-color: var(--profile-messages-bubble-sent-bg-color);
+    color: var(--profile-messages-bubble-sent-color);
+}
+.profile_messages ul[name="message_ul"] li .message_bubble.sent::after{
+    position: absolute; font-family: "Font Awesome 5 Duotone"; inset-inline-start: 0px; bottom: -15px;
+    display: inline-block; color: var(--profile-messages-bubble-sent-bg-color);
+    content: '\f2ec'; transform: rotate(30deg); font-size: 1.5rem;
+}
+
+.profile_messages ul[name="message_ul"] li .message_bubble.received{
+    position: relative;
+    margin-right: auto; border-radius: 5px 5px 5px 0; border-radius: 5px;
+    background-color: var(--profile-messages-bubble-received-bg-color);
+    color: var(--profile-messages-bubble-received-color);
+}
+.profile_messages ul[name="message_ul"] li .message_bubble.received::after{
+    position: absolute; font-family: "Font Awesome 5 Duotone"; inset-inline-end: 0px; bottom: -15px;
+    display: inline-block; color: var(--profile-messages-bubble-received-bg-color);
+    content: '\f2ec'; transform: rotate(-30deg); font-size: 1.5rem;
 }
 /* Profile Messages ======================================================== */

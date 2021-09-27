@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import mongodb from "mongodb";
 import UserChatMessages, { IUserChatMessages } from "./UserChatMessages";
+import { IAdmin } from "./Admin";
 
 const _schema: mongoose.Schema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
     },
-    admin: {
+    consulter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "admins",
     },
@@ -26,7 +27,7 @@ const _schema: mongoose.Schema = new mongoose.Schema({
 export interface IUserChat {
     _id: mongodb.ObjectId;
     user: mongodb.ObjectId;
-    admin: mongodb.ObjectId;
+    consulter: IAdmin;
     lastMessage: IUserChatMessages;
     lastMessageDate: Date;
     newMessage: Number;

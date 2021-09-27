@@ -143,6 +143,11 @@
     --select-consult-type-active-color: #645337;
 
     --profile-menu-li-bg-color: #383838;
+    --profile-messages-bg-color: #242424;
+    --profile-messages-bubble-sent-bg-color: #efefef;
+    --profile-messages-bubble-sent-color:#121212;
+    --profile-messages-bubble-received-bg-color: #434343;
+    --profile-messages-bubble-received-color: #f9f9f9;
 }
 
 [theme="default_dark"] {
@@ -294,4 +299,9 @@
     --select-consult-type-active-color: #f0e2cb;
 
     --profile-menu-li-bg-color: #f1f1f1;
+    --profile-messages-bg-color: #fff;
+    --profile-messages-bubble-sent-bg-color: #efefef;
+    --profile-messages-bubble-sent-color:#121212;
+    --profile-messages-bubble-received-bg-color: #434343;
+    --profile-messages-bubble-received-color: #f9f9f9;
 }
