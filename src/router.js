@@ -95,6 +95,7 @@ export default () => {
                     },
 
                     { path: "calls", component: () => import("./components/pages/admin/calls/Calls") },
+                    { path: "transactions", component: () => import("./components/pages/admin/transactions/Transactions") },
 
                     { path: "articles", component: () => import("./components/pages/admin/articles/ArticleList") },
                     { path: "articles/new", component: () => import("./components/pages/admin/articles/CreateArticle") },

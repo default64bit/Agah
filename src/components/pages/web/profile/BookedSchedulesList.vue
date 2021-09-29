@@ -81,19 +81,19 @@
                         <span class="text-lg">ساعت {{ selectedSchedule.time }}</span>
                     </div>
                     <hr class="w-10/12 mx-auto border-solid border-gray-500 border-opacity-50" />
-                    <ul class="flex flex-col gap-4">
-                        <li class="flex items-center gap-1">
+                    <ul class="flex flex-col gap-4 bg-white text-black p-2 rounded-sm">
+                        <li class="flex items-center justify-between gap-1">
                             <label>هزینه مشاوره:</label>
                             <b>{{ new Intl.NumberFormat("fa").format(selectedSchedule.transaction.amount * 10) }} <small>ریال</small></b>
                         </li>
-                        <li class="flex items-center gap-1">
+                        <li class="flex items-center justify-between gap-1">
                             <label>مبلغ پرداخت شده:</label>
                             <b v-if="selectedSchedule.transaction.payedAmount">
                                 {{ new Intl.NumberFormat("fa").format(selectedSchedule.transaction.payedAmount) }} <small>ریال</small>
                             </b>
                             <b v-else>---</b>
                         </li>
-                        <li class="flex items-center gap-1">
+                        <li class="flex items-center justify-between gap-1">
                             <label>وضعیت تراکنش:</label>
                             <b class="text-sm p-1 px-2 rounded-sm bg-amber-100 text-amber-700" v-if="selectedSchedule.transaction.status == 'pending'">
                                 نا معلوم
@@ -108,12 +108,12 @@
                                 لغو شده
                             </b>
                         </li>
-                        <li class="flex items-center gap-1">
+                        <li class="flex items-center justify-between gap-1">
                             <label>کد تراکنش:</label>
                             <b v-if="selectedSchedule.transaction.transactionCode">{{ selectedSchedule.transaction.transactionCode }}</b>
                             <b v-else>---</b>
                         </li>
-                        <li class="flex items-center gap-1">
+                        <li class="flex items-center justify-between gap-1">
                             <label>تاریخ ثبت:</label>
                             <b v-if="selectedSchedule.createdAt">{{ new Date(selectedSchedule.createdAt).toLocaleDateString("fa") }}</b>
                         </li>

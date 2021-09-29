@@ -65,10 +65,10 @@ h1.f-neirizi::after{ top: -2rem; right: -5rem; }
 
 /* Header ======================================================== */
 .header_wrapper{
-    position: sticky; top: 0; z-index: 5;
+    position: sticky; top: 0; z-index: 11;
     display: flex; align-items: center; justify-content: center;
     width: 100%; background-color: var(--header-wrapper-bg-color);
-    backdrop-filter: blur(4px);
+    /* backdrop-filter: blur(4px); */
 }
 .header_wrapper header{
     width: 100%; max-width: 1440px;
@@ -257,13 +257,17 @@ section[name="faq"] .faq_box{
     height: 40rem;
     background-color: var(--profile-messages-bg-color);
 }
+.profile_messages > div{
+    background-color: var(--profile-messages-bg-color);
+}
+
 .profile_messages ul[name="message_ul"]{
     display: flex; flex-direction: column; gap: 1rem;
     height: 100%; overflow: auto; overflow-x: hidden;
     scroll-behavior: smooth;
 }
 .profile_messages ul[name="message_ul"] li{ display: flex; }
-.profile_messages ul[name="message_ul"] li .message_bubble{ max-width: 70%; padding: .5rem; }
+.profile_messages ul[name="message_ul"] li .message_bubble{ max-width: 70%; min-width: 210px; padding: .5rem; }
 
 .profile_messages ul[name="message_ul"] li .message_bubble.sent{
     position: relative;

@@ -7,8 +7,15 @@
 
         <small class="" v-if="!connectionReady"><i class="fal fa-spinner fa-spin text-xs text-primary-500"></i> درحال اتصال...</small>
 
-        <div class="profile_messages flex p-2 w-full rounded-sm base_shadow relative">
-            <div class="pl-2 border-l-2 border-solid border-gray-300 border-opacity-30 flex-shrink-0">
+        <div class="profile_messages flex p-2 rounded-sm base_shadow w-full z-10">
+            <div
+                class="pl-2 border-l-2 border-solid border-gray-300 border-opacity-30 flex-shrink-0 lg:w-max"
+                :class="!showMessages ? 'w-full' : 'hidden lg:block'"
+            >
+                <span class="flex flex-col gap-2 mt-2" v-if="chats.length == 0 && !loadingChat">
+                    <p>برای دریافت مشاوره آنلاین باید ابتدا وقت مشاوره رزرو کنید</p>
+                    <router-link class="btn py-2 text-sm" to="/consultation-time-booking">رزرو وقت مشاوره</router-link>
+                </span>
                 <ul class="flex flex-col gap-2" ref="chat_ul">
                     <li
                         class="flex items-center gap-2 p-2 cursor-pointer rounded-sm"
@@ -26,10 +33,19 @@
                     <i class="fal fa-spinner fa-pulse pt-1 text-primary-500 text-3xl"></i>
                 </div>
             </div>
-            <div class="lg:flex flex-col gap-2 min-h-full flex-grow absolute lg:relative pr-2" :class="{ hidden: !showMessages }">
-                <button class="btn p-1 w-max text-rose-500 lg:hidden" @click="showMessages = false"><i class="far fa-times"></i></button>
-                <div></div>
-                <ul class="pl-2" ref="message_ul" name="message_ul">
+            <div class="flex flex-col gap-2 min-h-full flex-grow pr-2 lg:w-full" :class="showMessages ? 'w-full' : 'hidden lg:flex'">
+                <div class="flex flex-wrap items-center gap-2 w-full" v-show="!!selectedMessageBoard.chatId">
+                    <button class="btn p-1 w-max text-rose-500 lg:hidden" @click="showMessages = false"><i class="far fa-times"></i></button>
+                    <button class="btn p-1 w-max bg-emerald-400 hover:bg-emerald-500 text-white" @click="call()" title="تماس">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                    <span class="far fa-horizontal-rule fa-rotate-90 text-gray-400 opacity-25"></span>
+                    <strong v-if="!!selectedMessageBoard.timeRemained">
+                        <i class="fad fa-hourglass-half fa-spin"></i>
+                        {{ new Date(selectedMessageBoard.timeRemained * 1000).toISOString().substr(11, 8) }}
+                    </strong>
+                </div>
+                <ul class="pl-2 pt-2 border-t-2 border-solid border-gray-300 border-opacity-20" ref="message_ul" name="message_ul">
                     <div class="flex items-center justify-center" v-if="selectedMessageBoard.loading">
                         <i class="fad fa-spinner fa-pulse pt-1 my-4 text-primary-500 text-2xl"></i>
                     </div>
@@ -51,17 +67,44 @@
                     </transition>
                 </ul>
                 <hr class="w-full border-b-2 border-solid border-gray-300 border-opacity-30" />
-                <!-- TODO : upload attachment -->
-                <div class="flex items-center gap-2 p-2 rounded-sm bg-gray-300 bg-opacity-20" v-show="!!selectedMessageBoard.chatId">
-                    <button class="far fa-paperclip p-2 text-lg"></button>
-                    <input
-                        class="flex-grow w-full h-full bg-transparent"
-                        type="text"
-                        placeholder="متن پیام..."
-                        v-model="selectedMessageBoard.draftText"
-                        @keyup="messageInputKeyup"
-                    />
-                    <button class="btn w-8 h-8 px-2 fad fa-paper-plane" @click="sendMessage()"></button>
+                <div class="flex flex-col w-full" v-show="!!selectedMessageBoard.chatId">
+                    <!-- TODO : upload attachment -->
+                    <div class="flex items-center gap-2 p-2 rounded-sm bg-gray-300 bg-opacity-20" v-if="!!selectedMessageBoard.canSendMessage">
+                        <button class="far fa-paperclip p-2 text-lg"></button>
+                        <input
+                            class="flex-grow w-full h-full bg-transparent"
+                            type="text"
+                            placeholder="متن پیام..."
+                            v-model="selectedMessageBoard.draftText"
+                            @keyup="messageInputKeyup"
+                        />
+                        <button class="btn w-8 h-8 px-2 fad fa-paper-plane" @click="sendMessage()"></button>
+                    </div>
+                    <div
+                        class="flex flex-col gap-2 bg-gray-300 bg-opacity-25 p-2"
+                        v-if="!selectedMessageBoard.canSendMessage && !!selectedMessageBoard.bookedSchedule.date"
+                    >
+                        <span class="flex items-center flex-wrap gap-2">
+                            <p>زمان رزرو شده برای مشاوره آنلاین شما تاریخ</p>
+                            <span class="bg-gray-700 text-primary-100 px-2 py-1 rounded-sm">
+                                {{ new Date(selectedMessageBoard.bookedSchedule.date).toLocaleDateString("fa", { weekday: "long" }) }}
+                                {{ new Date(selectedMessageBoard.bookedSchedule.date).toLocaleDateString("fa", { day: "2-digit" }) }}
+                                {{ new Date(selectedMessageBoard.bookedSchedule.date).toLocaleDateString("fa", { month: "long" }) }}
+                                {{ new Date(selectedMessageBoard.bookedSchedule.date).toLocaleDateString("fa", { year: "numeric" }) }}
+                            </span>
+                            <p>در ساعت</p>
+                            <span class="bg-gray-700 text-primary-100 px-2 py-1 rounded-sm">{{ selectedMessageBoard.bookedSchedule.time }}</span>
+                            <p>است</p>
+                        </span>
+                        <p class="text-sm">شما فقط در تاریخ و زمان رزرو شده امکان ارسال پیام یا تماس با مشاور را دارید.</p>
+                    </div>
+                    <div
+                        class="flex items-center gap-1 bg-gray-300 bg-opacity-25 p-2"
+                        v-if="!selectedMessageBoard.canSendMessage && !selectedMessageBoard.bookedSchedule.date"
+                    >
+                        <i class="far fa-info-circle"></i>
+                        <p class="mb-1 text-sm">زمان مشاوره شما به پایان رسیده! برای ادامه مشاوره لطفا یک زمان رزرو کنید.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,6 +150,10 @@ export default {
 
         this.openSocket();
 
+        setInterval(() => {
+            if (this.selectedMessageBoard.timeRemained) this.selectedMessageBoard.timeRemained = Math.max(0, this.selectedMessageBoard.timeRemained - 1);
+        }, 1000);
+
         this.$refs.chat_ul.addEventListener("scroll", this.onChatScroll);
         this.$refs.message_ul.addEventListener("scroll", this.onMessagesScroll);
     },
@@ -128,6 +175,9 @@ export default {
                 draftText: "",
                 loading: false,
                 typing: false,
+                canSendMessage: false,
+                bookedSchedule: {},
+                timeRemained: 0,
             };
         },
 
@@ -159,6 +209,7 @@ export default {
             if (e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight - 10) this.loadChatList();
         },
         async selectChat(chat) {
+            this.showMessages = true;
             if (chat.id != this.selectedChat.id) {
                 this.selectedChat = chat;
 
@@ -189,12 +240,28 @@ export default {
             await axios
                 .get(`${this.getBaseUrl()}/api/v1/web/chat/${this.selectedMessageBoard.chatId}/messages?page=${this.selectedMessageBoard.page}`)
                 .then((response) => {
-                    if (response.data.length == 0) {
+                    switch (response.data.bookings.status) {
+                        case 1:
+                            this.selectedMessageBoard.canSendMessage = true;
+                            this.selectedMessageBoard.bookedSchedule = response.data.bookings.bookedSchedule;
+                            this.selectedMessageBoard.timeRemained = response.data.bookings.timeRemained;
+                            break;
+                        case 0:
+                            this.selectedMessageBoard.canSendMessage = false;
+                            this.selectedMessageBoard.bookedSchedule = response.data.bookings.bookedSchedule;
+                            break;
+                        case -1:
+                            this.selectedMessageBoard.canSendMessage = false;
+                            this.selectedMessageBoard.bookedSchedule = {};
+                            break;
+                    }
+
+                    if (response.data.messages.length == 0) {
                         this.selectedMessageBoard.messagesEnded = true;
                         return;
                     }
 
-                    let newMessages = response.data;
+                    let newMessages = response.data.messages;
                     newMessages = newMessages.concat(this.selectedMessageBoard.messages);
                     this.selectedMessageBoard.messages = newMessages;
 
@@ -357,7 +424,6 @@ export default {
                     break;
                 case "startTypingCB":
                     isMessagesOpen = data.chatId == this.selectedMessageBoard.chatId;
-
                     if (isMessagesOpen) {
                         // if user is in the messages update "typing" of selectedMessageBoard
                         this.selectedMessageBoard.typing = true;
@@ -374,7 +440,6 @@ export default {
                     break;
                 case "stopTypingCB":
                     isMessagesOpen = data.chatId == this.selectedMessageBoard.email;
-
                     if (isMessagesOpen) {
                         // if user is in the messages update "typing" of selectedMessageBoard
                         this.selectedMessageBoard.typing = false;
@@ -383,9 +448,29 @@ export default {
                         if (this.messageBoard[data.chatId]) this.messageBoard[data.chatId].typing = false;
                     }
                     break;
+                case "stopCB":
+                    isMessagesOpen = data.chatId == this.selectedMessageBoard.email;
+                    if (isMessagesOpen) {
+                        this.selectedMessageBoard.canSendMessage = false;
+                        this.selectedMessageBoard.bookedSchedule = {};
+                        this.selectedMessageBoard.timeRemained = 0;
+                    } else {
+                        if (this.messageBoard[data.chatId]) {
+                            this.messageBoard[data.chatId].canSendMessage = false;
+                            this.messageBoard[data.chatId].bookedSchedule = {};
+                            this.messageBoard[data.chatId].timeRemained = 0;
+                        }
+                    }
+                    break;
             }
         },
         // socket managment section ===========================================
+
+        // webRTC call section ===========================================
+        call() {
+            // TODO
+        },
+        // webRTC call section ===========================================
     },
 };
 </script>

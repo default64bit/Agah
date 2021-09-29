@@ -3,6 +3,7 @@
         <span class="heading mb-4 w-max">
             <h4 class="f-nazanin font-bold text-3xl">اعلانیه ها</h4>
             <small class="f-copgoth text-xs">Notifications</small>
+            <!-- TODO -->
         </span>
     </div>
 </template>

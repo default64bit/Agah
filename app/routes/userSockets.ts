@@ -9,6 +9,7 @@ import UserChatMessages from "../models/UserChatMessages";
 import UserChat from "../models/UserChat";
 import User from "../models/User";
 import Admin from "../models/Admin";
+import BookedSchedule from "../models/BookedSchedule";
 
 const router = Router();
 
@@ -183,6 +184,33 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                 break;
             case "message":
                 if (!msg.data.chatId || !msg.data.receiverId || !msg.data.message) break;
+
+                // check that user is in it's booked time with this consulter/receiver
+                if (senderType == "users") {
+                    let canSendMessage = false;
+                    const bookedSchedules = await BookedSchedule.model
+                        .find({
+                            user: person._id,
+                            consulter: msg.data.receiverId,
+                            type: "online",
+                            status: "payed",
+                            date: moment(Date.now()).format("yyyy-MM-DD"),
+                        })
+                        .exec();
+                    for (let i = 0; i < bookedSchedules.length; i++) {
+                        // check if current time is in between of schedule time and schedule time + duration
+                        let bookedTime = moment(`${bookedSchedules[i].date} ${bookedSchedules[i].time}`);
+                        let timeDiff = moment.duration(moment(Date.now()).diff(bookedTime));
+                        if (0 < timeDiff.asMinutes() && timeDiff.asMinutes() < bookedSchedules[i].duration * 60) canSendMessage = true;
+                    }
+                    if (!canSendMessage) {
+                        // send a stopCB to sender
+                        if (ISM_sockets[senderType][person._id.toHexString()]) {
+                            ISM_sockets[senderType][person._id.toHexString()].send(JSON.stringify({ event: "stopCB", chatId: msg.data.chatId }));
+                        }
+                        break;
+                    }
+                }
 
                 let message = await UserChatMessages.model.create({
                     sender: person._id,

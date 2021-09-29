@@ -356,7 +356,8 @@ input[type=number] { -moz-appearance: textfield; }
 }
 .t_dialog .backdrop{
     position: fixed; top: 0; right: 0; left: 0; bottom: 0;
-    backdrop-filter: blur(3px); background-color: var(--dialog-backdrop-bg-color);
+    /* backdrop-filter: blur(3px); */
+    background-color: var(--dialog-backdrop-bg-color);
 }
 .t_dialog > .box{
     min-width: 20rem; margin: 0 1rem;

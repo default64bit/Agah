@@ -125,7 +125,7 @@
     --btn-hover-bg-color: #e2e2e2;
     --btn-hover-shadow-color: rgba(0, 0, 0, 0.1);
 
-    --header-wrapper-bg-color: #2f2f2fdd;
+    --header-wrapper-bg-color: #2f2f2ff1;
     --header-menu-li-line-bg-color: #ccc4b3;
 
     --main-gradiant-matt-color: #1d1d1d;
@@ -211,7 +211,7 @@
     --group-button-list-shadow-color: rgba(0, 0, 0, 0.05);
 
     --dialog-color: #000;
-    --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.15);
+    --dialog-backdrop-bg-color: rgba(0, 0, 0, 0.35);
     --dialog-box-bg-color: theme("colors.gray.100");
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.05);
 
@@ -281,7 +281,7 @@
     --btn-hover-bg-color: #1c1c1c;
     --btn-hover-shadow-color: rgba(0, 0, 0, 0.1);
 
-    --header-wrapper-bg-color: #fcfcfcdd;
+    --header-wrapper-bg-color: #fcfcfcf1;
     --header-menu-li-line-bg-color: #eee5d6;
 
     --main-gradiant-matt-color: #f8f8f8;

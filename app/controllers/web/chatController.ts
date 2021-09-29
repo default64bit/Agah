@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
+import moment from "moment";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import UserChat from "../../models/UserChat";
 import UserChatMessages from "../../models/UserChatMessages";
+import BookedSchedule from "../../models/BookedSchedule";
 
 class Controller {
     public async getChats(req: AuthenticatedRequest, res: Response) {
@@ -59,9 +61,39 @@ class Controller {
             .limit(pp)
             .skip((page - 1) * pp)
             .exec();
-
         messages.reverse();
-        return res.json(messages);
+
+        // get nearest online booked schedule
+        const bookedSchedule = await BookedSchedule.model
+            .findOne({
+                user: req.user._id,
+                consulter: chat.consulter,
+                type: "online",
+                status: "payed",
+                dateRaw: { $gte: new Date(moment(Date.now()).format("yyyy-MM-DD")) },
+            })
+            .select("dateRaw date time duration type status")
+            .sort({ dateRaw: "desc" })
+            .exec();
+
+        let bookings = { status: 0, bookedSchedule: null, timeRemained: 0 };
+
+        if (bookedSchedule) {
+            // if the bookedSchedule date is today
+            if (bookedSchedule.date == moment(Date.now()).format("yyyy-MM-DD")) {
+                // check if the current time is less than a duration from booked time
+                let bookedTime = moment(`${bookedSchedule.date} ${bookedSchedule.time}`);
+                let timeDiff = moment.duration(moment(Date.now()).diff(bookedTime));
+                if (0 < timeDiff.asMinutes() && timeDiff.asMinutes() < bookedSchedule.duration * 60) {
+                    // then user can send message
+                    bookings.status = 1;
+                    bookings.bookedSchedule = bookedSchedule;
+                    bookings.timeRemained = bookedSchedule.duration * 3600 - timeDiff.asSeconds();
+                } else bookings.bookedSchedule = bookedSchedule;
+            } else bookings.bookedSchedule = bookedSchedule;
+        } else bookings.status = -1;
+
+        return res.json({ messages, bookings });
     }
 
     public async uploadAttachment(req: AuthenticatedRequest, res: Response) {
