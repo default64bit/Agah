@@ -1,6 +1,19 @@
 <template>
-    <div class="dashboard_header h-auto md:h-16">
-        <div></div>
+    <div class="dashboard_header h-auto flex-shrink-0">
+        <header class="flex items-center">
+            <div class="flex justify-between items-center gap-2">
+                <button class="sidemenu_toggle t_button hover:bg-gray-700 hover:text-bluegray-50" @click="toggleSidemneu()">
+                    <i class="fas" :class="sideMenuOpen ? 'fa-align-right' : 'fa-ellipsis-v'"></i>
+                </button>
+                <div class="flex items-center justify-start gap-1 w-full">
+                    <img src="../../../assets/images/settings.png" alt="" />
+                    <h2 class="text-2xl">
+                        <b class="text-primary-400">A</b>
+                        <b class="">gah</b>
+                    </h2>
+                </div>
+            </div>
+        </header>
         <div class="flex flex-wrap-reverse md:flex-nowrap items-end md:items-start gap-2">
             <div class="flex flex-wrap items-center gap-1">
                 <div class="messages">
@@ -21,13 +34,13 @@
                 </div>
             </div>
             <div class="profile" :class="{ open: isProfileOpen }" @click="toggleProfile(true)" @blur="profileBlur" tabindex="0">
-                <div class="flex gap-2">
+                <div class="flex items-center gap-2">
                     <span class="avatar">
                         <img class="object-cover" :src="adminInfo.avatar" alt="" />
                     </span>
                     <div class="text flex-col justify-center">
                         <h6 class="-mb-1 whitespace-normal">{{ `${adminInfo.name} ${adminInfo.family}` }}</h6>
-                        <small class="text-xs text-gray-400">{{ adminInfo.email }}</small>
+                        <small class="text-xs text-gray-400 hidden md:inline-block">{{ adminInfo.email }}</small>
                     </div>
                 </div>
                 <ul>
@@ -55,7 +68,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
 import NotificationList from "./NotificationList2";
@@ -89,9 +102,11 @@ export default {
     created() {},
     mounted() {},
     computed: {
-        ...mapGetters(["makeToast", "adminInfo"]),
+        ...mapGetters(["makeToast", "adminInfo", "sideMenuOpen"]),
     },
     methods: {
+        ...mapActions(["changeSideMenuOpen"]),
+
         toggleProfile(state) {
             this.isProfileOpen = state;
         },
@@ -101,6 +116,11 @@ export default {
             } else {
                 event.currentTarget.focus();
             }
+        },
+
+        toggleSidemneu() {
+            this.changeSideMenuOpen(!this.sideMenuOpen);
+            localStorage.setItem("sideMenuOpen", this.sideMenuOpen);
         },
 
         logout() {

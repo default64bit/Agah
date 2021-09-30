@@ -6,7 +6,7 @@
                 <button class="t_button t_button_min bg-gray-200 hover:bg-gray-300 text-black"><i class="fas fa-print"></i> Export</button>
                 <router-link
                     to="/admin/admins_list/create_admin"
-                    class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50"
+                    class="t_button t_button_min bg-secondary-300 hover:bg-secondary-200 text-bluegray-700"
                     v-if="checkPermissions(['admin.admins.add'], adminInfo.permissions)"
                 >
                     <i class="fal fa-plus"></i> <b>New Admin</b>
@@ -41,10 +41,10 @@
                 </t-groupbutton>
             </div>
             <div class="flex justify-center items-center gap-1">
-                <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'list'">
+                <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'list'">
                     <i class="fas fa-th-list fa-lg"></i>
                 </button>
-                <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'card'">
+                <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'card'">
                     <i class="fas fa-th-large fa-lg"></i>
                 </button>
             </div>
@@ -75,22 +75,22 @@
                 <td>{{ record.email }}</td>
                 <td>{{ record.role.name }}</td>
                 <td>
-                    <span class="p-1 px-2 text-sm rounded-xl bg-lime-100 text-lime-700" v-if="record.status == 'active'"><b>Active</b></span>
-                    <span class="p-1 px-2 text-sm rounded-xl bg-rose-100 text-rose-700" v-if="record.status == 'deactive'"><b>Deactive</b></span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="record.status == 'active'"><b>Active</b></span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-rose-100 text-rose-700" v-if="record.status == 'deactive'"><b>Deactive</b></span>
                 </td>
                 <td>{{ new Date(record.createdAt).toLocaleString("en") }}</td>
                 <td>
                     <div class="flex items-center gap-1">
                         <router-link
                             :to="`/admin/admins_list/admin/${record._id}`"
-                            class="t_button p-2 rounded-full hover:bg-cyan-300 hover:text-black"
+                            class="t_button p-2 rounded-md hover:bg-blue-300 hover:text-black"
                             title="Edit"
                             v-if="checkPermissions(['admin.admins.edit'], adminInfo.permissions)"
                         >
                             <i class="fal fa-pen"></i>
                         </router-link>
                         <button
-                            class="t_button p-2 rounded-full hover:bg-red-300 hover:text-black"
+                            class="t_button p-2 rounded-md hover:bg-red-300 hover:text-black"
                             title="Delete"
                             @click="askToDelete(record._id, `${record.name} ${record.family}`, index)"
                             v-if="checkPermissions(['admin.admins.delete'], adminInfo.permissions)"

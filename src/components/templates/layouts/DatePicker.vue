@@ -110,8 +110,9 @@ export default {
     },
     created() {},
     mounted() {
-        if (this.value) this.date = Jmoment(this.value).locale("fa");
-        else this.date = Jmoment(Date.now()).locale("fa");
+        if (this.value) {
+            this.date = Jmoment(this.value).locale("fa");
+        } else this.date = Jmoment(Date.now()).locale("fa");
 
         this.year = this.date.format("jYYYY");
         this.month = this.months[this.date.format("jM") - 1];

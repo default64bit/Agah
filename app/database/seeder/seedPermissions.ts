@@ -27,7 +27,12 @@ export default async () => {
                     { _id: "admin.users.edit", label: "Edit Users", group: "users", type: "AdminOnly" },
                     { _id: "admin.users.delete", label: "Delete Users", group: "users", type: "AdminOnly" },
 
+                    { _id: "admin.booked_schedules.view", label: "View Booked Schedules", group: "booked_schedules", type: "AdminOnly" },
+                    { _id: "admin.booked_schedules.edit", label: "Edit Booked Schedules", group: "booked_schedules", type: "AdminOnly" },
+
                     { _id: "admin.calls.view", label: "View Calls", group: "calls", type: "AdminOnly" },
+
+                    { _id: "admin.transactions.view", label: "View Transactions", group: "transactions", type: "AdminOnly" },
 
                     { _id: "admin.articles.view", label: "View Articles", group: "articles", type: "AdminOnly" },
                     { _id: "admin.articles.add", label: "Create New Articles", group: "articles", type: "AdminOnly" },

@@ -24,7 +24,7 @@
         <hr class="my-4 mt-auto border-solid" />
         <div class="flex flex-wrap items-center gap-4">
             <button
-                class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50"
+                class="t_button t_button_min bg-secondary-300 hover:bg-secondary-200 text-bluegray-700 disabled:opacity-50"
                 :disabled="editingFaq"
                 @click="edit()"
             >

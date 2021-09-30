@@ -11,7 +11,7 @@ class ProfileController {
             .select(["image", "name", "family", "email", "status"])
             .populate({
                 path: "role",
-                select: ["name","permissions"],
+                select: ["name", "permissions"],
                 // populate: {
                 //     path: "permissions",
                 //     select: ["name"],
@@ -30,13 +30,14 @@ class ProfileController {
         await Admin.model.updateOne({ _id: req.admin._id }, { name: req.body.firstName, family: req.body.lastName }).catch((e) => (error = true));
         if (error) return res.status(500).json({ error: "Updating info failed, try again later" });
 
-        const admin = await Admin.model.findById(req.admin._id);
+        const admin = await Admin.model.findById(req.admin._id).populate({ path: "role", select: ["name", "permissions"] });
         res.json({
             adminInfo: {
                 avatar: admin.image,
                 name: admin.name,
                 family: admin.family,
                 email: admin.email,
+                role: admin.role,
             },
         });
     }

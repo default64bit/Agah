@@ -47,7 +47,7 @@
     --select-box-arrow-color: theme("colors.primary.400");
     --select-list-bg-color: #434343;
     --select-list-shadow-color: rgba(0, 0, 0, 0.25);
-    --select-list-li-hover-bg-color: #555;
+    --select-list-li-hover-bg-color: #5557;
     --select-list-li-selected-bg-color: #555;
     --select-list-li-selected-shadow-color: theme("colors.primary.400");
 
@@ -98,7 +98,7 @@
     --message-board-color: #fff;
     --message-board-chat-ul-border-color: #3a3a3a;
     --message-board-chat-avatar-shadow-color: rgb(0, 0, 0, 0.35);
-    --message-board-message-bubble-sent-bg-color: theme("colors.primary.800");
+    --message-board-message-bubble-sent-bg-color: theme("colors.secondary.700");
     --message-board-message-bubble-received-bg-color: #464646;
     --message-board-new-chat-color: #000;
 
@@ -132,7 +132,7 @@
 
     --theme-toggle-shadow-color: rgba(0, 0, 0, 0.45);
 
-    --home-section-one-bg-color: #242424bb;
+    --home-section-one-bg-color: #24242499;
     --home-section-three-consulter-card-border-color: #efefef;
     --home-section-three-consulter-card-bg-color: #000;
     --home-section-three-consulter-card-hover-bg-color: #f4f4f4;
@@ -176,7 +176,7 @@
 
     --card-bg-color: theme("colors.truegray.300");
     --card-footer-border-top-color: #c4c4c4;
-    --card-footer-bg-color: theme("colors.warmgray.300");
+    --card-footer-bg-color: theme("colors.warmgray.200");
     --card-loading-bg-color: #e4e4e477;
 
     --loading-bg-color: #e4e4e477;
@@ -203,11 +203,11 @@
     --select-box-arrow-color: theme("colors.primary.400");
     --select-list-bg-color: #fafafa;
     --select-list-shadow-color: rgba(0, 0, 0, 0.05);
-    --select-list-li-hover-bg-color: #ccc;
+    --select-list-li-hover-bg-color: #ccc7;
     --select-list-li-selected-bg-color: #ccc;
     --select-list-li-selected-shadow-color: theme("colors.primary.400");
 
-    --group-button-list-bg-color: #e3e3e3;
+    --group-button-list-bg-color: #f4f4f4;
     --group-button-list-shadow-color: rgba(0, 0, 0, 0.05);
 
     --dialog-color: #000;
@@ -223,7 +223,7 @@
     /* ======================================================= */
 
     --dashboard-template-color: #000;
-    --dashboard-sidemenu-bg-color: #fcfcfc;
+    --dashboard-sidemenu-bg-color: #fff;
     --dashboard-sidemenu-shadow-color: rgba(0, 0, 0, 0.15);
     --dashboard-sidemenu-nav-item-hover-bg-color: #e1e1e1;
     --dashboard-sidemenu-nav-item-active-bg-color: #e1e1e1;
@@ -254,7 +254,7 @@
     --message-board-color: #000;
     --message-board-chat-ul-border-color: #3a3a3a;
     --message-board-chat-avatar-shadow-color: rgb(0, 0, 0, 0.15);
-    --message-board-message-bubble-sent-bg-color: theme("colors.primary.400");
+    --message-board-message-bubble-sent-bg-color: theme("colors.secondary.300");
     --message-board-message-bubble-received-bg-color: #464646;
     --message-board-new-chat-color: #000;
 
@@ -288,7 +288,7 @@
 
     --theme-toggle-shadow-color: rgba(0, 0, 0, 0.25);
 
-    --home-section-one-bg-color: #ffffffbb;
+    --home-section-one-bg-color: #ffffff99;
     --home-section-three-consulter-card-border-color: #242424;
     --home-section-three-consulter-card-bg-color: #fff;
     --home-section-three-consulter-card-hover-bg-color: #4c4c4c;

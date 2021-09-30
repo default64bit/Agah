@@ -92,9 +92,9 @@
                                 {{ new Date(selectedMessageBoard.bookedSchedule.date).toLocaleDateString("fa", { month: "long" }) }}
                                 {{ new Date(selectedMessageBoard.bookedSchedule.date).toLocaleDateString("fa", { year: "numeric" }) }}
                             </span>
-                            <p>در ساعت</p>
+                            <p>ساعت</p>
                             <span class="bg-gray-700 text-primary-100 px-2 py-1 rounded-sm">{{ selectedMessageBoard.bookedSchedule.time }}</span>
-                            <p>است</p>
+                            <p>می باشد</p>
                         </span>
                         <p class="text-sm">شما فقط در تاریخ و زمان رزرو شده امکان ارسال پیام یا تماس با مشاور را دارید.</p>
                     </div>

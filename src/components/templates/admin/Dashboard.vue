@@ -1,8 +1,8 @@
 <template>
     <div class="dashboard_template" theme="dark" v-if="!loading">
-        <dashboard-side-menu :loading="loading"></dashboard-side-menu>
-        <div class="dashboard_bh flex flex-col h-full">
-            <dashboard-header :loading="loading"></dashboard-header>
+        <dashboard-header :loading="loading"></dashboard-header>
+        <div class="dashboard_main">
+            <dashboard-side-menu :loading="loading"></dashboard-side-menu>
             <router-view v-slot="{ Component }">
                 <transition name="slidedown" mode="out-in" appear="">
                     <component :is="Component" />

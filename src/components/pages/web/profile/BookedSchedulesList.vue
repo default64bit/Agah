@@ -140,6 +140,7 @@
                             مشاوره حضور داشته باشید.
                         </small>
                     </div>
+                    <!-- TODO : show transaction code to user in order for in-person sessions -->
                 </div>
             </template>
         </t-dialog>

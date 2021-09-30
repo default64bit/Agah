@@ -36,7 +36,7 @@
                 </div>
                 <div class="t_card_footer">
                     <button
-                        class="t_button t_button_min bg-primary-500 hover:bg-primary-600 text-bluegray-50 disabled:opacity-50"
+                        class="t_button t_button_min bg-secondary-300 hover:bg-secondary-200 text-bluegray-700 disabled:opacity-50"
                         :disabled="editingProfile"
                         @click="editProfile()"
                     >

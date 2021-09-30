@@ -34,10 +34,10 @@
                 </t-groupbutton>
             </div>
             <div class="flex justify-center items-center gap-1">
-                <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'list'">
+                <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'list'">
                     <i class="fas fa-th-list fa-lg"></i>
                 </button>
-                <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'card'">
+                <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'card'">
                     <i class="fas fa-th-large fa-lg"></i>
                 </button>
             </div>
@@ -62,22 +62,22 @@
                     <span class="title">گیرنده:</span>
                     <span v-if="record.caller_user[0]" dir="ltr">
                         {{ `${record.caller_user[0].name} ${record.caller_user[0].family}` }}
-                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
+                        <small class="p-1 rounded bg-gray-300 text-primary-900">User</small>
                     </span>
                     <span v-if="record.caller_admin[0]" dir="ltr">
                         {{ `${record.caller_admin[0].name} ${record.caller_admin[0].family}` }}
-                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
+                        <small class="p-1 rounded bg-warmgray-300 text-primary-900">Admin</small>
                     </span>
                 </td>
                 <td>
                     <span class="title">مخاطب:</span>
                     <span v-if="record.callee_user[0]" dir="ltr">
                         {{ `${record.callee_user[0].name} ${record.callee_user[0].family}` }}
-                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
+                        <small class="p-1 rounded bg-gray-300 text-primary-900">User</small>
                     </span>
                     <span v-if="record.callee_admin[0]" dir="ltr">
                         {{ `${record.callee_admin[0].name} ${record.callee_admin[0].family}` }}
-                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
+                        <small class="p-1 rounded bg-warmgray-300 text-primary-900">Admin</small>
                     </span>
                 </td>
                 <td>

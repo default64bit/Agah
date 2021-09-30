@@ -94,6 +94,9 @@ export default () => {
                         ],
                     },
 
+                    { path: "booked_schedules", component: () => import("./components/pages/admin/booked_schedules/BookedSchedules") },
+                    { path: "booked_schedules/:id", component: () => import("./components/pages/admin/booked_schedules/EditSchedule") },
+
                     { path: "calls", component: () => import("./components/pages/admin/calls/Calls") },
                     { path: "transactions", component: () => import("./components/pages/admin/transactions/Transactions") },
 

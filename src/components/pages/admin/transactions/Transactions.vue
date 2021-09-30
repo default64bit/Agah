@@ -34,10 +34,10 @@
                 </t-groupbutton>
             </div>
             <div class="flex justify-center items-center gap-1">
-                <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'list'">
+                <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'list'">
                     <i class="fas fa-th-list fa-lg"></i>
                 </button>
-                <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-400'" @click="tableView = 'card'">
+                <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'card'">
                     <i class="fas fa-th-large fa-lg"></i>
                 </button>
             </div>
@@ -59,32 +59,35 @@
         >
             <template v-slot:tbody="{ record, index }" :index="index">
                 <td>
-                    <span class="title">گیرنده:</span>
-                    <span v-if="record.caller_user[0]" dir="ltr">
-                        {{ `${record.caller_user[0].name} ${record.caller_user[0].family}` }}
-                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
-                    </span>
-                    <span v-if="record.caller_admin[0]" dir="ltr">
-                        {{ `${record.caller_admin[0].name} ${record.caller_admin[0].family}` }}
-                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
-                    </span>
+                    <span class="title">کاربر:</span>
+                    <span>{{ `${record.user[0].name} ${record.user[0].family}` }}</span>
                 </td>
                 <td>
-                    <span class="title">مخاطب:</span>
-                    <span v-if="record.callee_user[0]" dir="ltr">
-                        {{ `${record.callee_user[0].name} ${record.callee_user[0].family}` }}
-                        <small class="p-1 rounded bg-primary-300 text-gray-700">User</small>
-                    </span>
-                    <span v-if="record.callee_admin[0]" dir="ltr">
-                        {{ `${record.callee_admin[0].name} ${record.callee_admin[0].family}` }}
-                        <small class="p-1 rounded bg-secondary-300 text-gray-700">Admin</small>
-                    </span>
+                    <span class="title">مبلغ:</span>
+                    <span>{{ new Intl.NumberFormat("fa").format(record.transaction.amount * 10) }} <small>ریال</small></span>
                 </td>
                 <td>
-                    <span class="title">مدت تماس:</span>
-                    <span>{{ record.duration }}</span>
+                    <span class="title">مبلغ پرداختی:</span>
+                    <span>{{ new Intl.NumberFormat("fa").format(record.transaction.payedAmount) }} <small>ریال</small></span>
                 </td>
-                <td>{{ new Date(record.createdAt).toLocaleString("fa") }}</td>
+                <td>
+                    <span class="title">کد تراکنش:</span>
+                    <span>{{ record.transaction.transactionCode }}</span>
+                </td>
+                <td>
+                    <span class="title">وضعیت:</span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-indigo-100 text-indigo-700" v-if="record.transaction.status == 'pending'">درحال پرداخت</span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="record.transaction.status == 'ok'">پرداخت شده</span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-red-100 text-red-700" v-if="record.transaction.status == 'failed'">خطا</span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-rose-100 text-rose-700" v-if="record.transaction.status == 'canceled'">لغو شده</span>
+                </td>
+                <td>
+                    <span class="title">ip:</span>
+                    <span>{{ record.transaction.ip }}</span>
+                </td>
+                <td>
+                    <span>{{ new Date(record.createdAt).toLocaleString("fa") }}</span>
+                </td>
             </template>
         </t-table>
 
@@ -114,24 +117,6 @@
                 <button class="t_button py-1 bg-primary-500 hover:bg-primary-600 text-bluegray-50" @click="filter()">فیلتر</button>
             </template>
         </t-dialog>
-
-        <t-dialog v-model:open="deleteDialogState" title="Delete">
-            <template v-slot:body>
-                <div class="flex flex-col">
-                    <i class="fad fa-exclamation-triangle text-red-500 my-4 mx-auto text-6xl"></i>
-                    <span class="text-lg">Do you want to <b class="text-rose-300">DELETE</b> record "{{ deletingRecordName }}" هستید؟</span>
-                    <small class="opacity-50">This action is permanent and can't be undone</small>
-                </div>
-                <hr class="border-solid my-4" />
-                <div class="flex gap-2">
-                    <button class="t_button py-1 bg-rose-400 hover:bg-rose-500" :disabled="deletingRecord" @click="deleteRecord()">
-                        <b v-if="!deletingRecord">Delete</b>
-                        <b v-else class="fad fa-spinner fa-spin text-xl"></b>
-                    </button>
-                    <button class="t_button py-1 border-primary-400 hover:bg-primary-500" @click="deleteDialogState = false">Cancel</button>
-                </div>
-            </template>
-        </t-dialog>
     </div>
 </template>
 
@@ -145,7 +130,7 @@ import Table from "../../../templates/layouts/Table";
 import Dialog from "../../../templates/layouts/Dialog";
 
 export default {
-    name: "AdminsList",
+    name: "TransactionList",
     components: {
         "t-input": Input,
         "t-groupbutton": GroupButton,
@@ -162,17 +147,20 @@ export default {
                 toRegisterDate: "",
                 status: [],
             },
-            sort: { col: "تاریخ تماس", type: "asc" },
+            sort: { col: "تاریخ", type: "desc" },
             page: 1,
             pp: 25,
             total: 0,
             pageTotal: 0,
 
             tableHeads: {
-                گیرنده: { sortable: true },
-                مخاطب: { sortable: true },
-                "مدت تماس": { sortable: true },
-                "تاریخ تماس": { sortable: true },
+                کاربر: { sortable: true },
+                مبلغ: { sortable: true },
+                "مبلغ پرداختی": { sortable: true },
+                "کد تراکنش": { sortable: true },
+                وضعیت: { sortable: true },
+                ip: { sortable: true },
+                تاریخ: { sortable: true },
             },
             tableData: [],
             tableView: "list",
@@ -223,7 +211,7 @@ export default {
             params = params.join("&");
 
             axios
-                .get(`${this.getBaseUrl()}/api/v1/admin/calls?${params}`)
+                .get(`${this.getBaseUrl()}/api/v1/admin/transactions?${params}`)
                 .then((response) => {
                     this.tableData = response.data.records;
                     this.total = response.data.total;

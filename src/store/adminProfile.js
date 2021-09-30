@@ -72,6 +72,12 @@ const actions = {
             })
             .then((response) => {
                 commit("setAdminInfo", response.data);
+                
+                let permissions = [];
+                for (let i = 0; i < response.data.adminInfo.role.permissions.length; i++) {
+                    permissions.push(response.data.adminInfo.role.permissions[i]);
+                }
+                commit("setAdminPermissions", permissions);
             })
             .catch((error) => {
                 throw error;

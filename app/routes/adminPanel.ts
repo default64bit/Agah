@@ -26,8 +26,14 @@ import PermissionController from "../controllers/admin/PermissionController";
 import UserController from "../controllers/admin/UserController";
 import UserValidator from "../validators/admin/UserValidator";
 
+import BookedSchedulesController from "../controllers/admin/BookedSchedulesController";
+import BookedSchedulesValidator from "../validators/admin/BookedSchedulesValidator";
+
 import CallsController from "../controllers/admin/CallsController";
 import CallsValidator from "../validators/admin/CallsValidator";
+
+import TransactionsController from "../controllers/admin/TransactionsController";
+import TransactionsValidator from "../validators/admin/TransactionsValidator";
 
 import ArticlesController from "../controllers/admin/ArticlesController";
 import ArticlesValidator from "../validators/admin/ArticlesValidator";
@@ -48,7 +54,9 @@ const timeOffSchedulesController = new TimeOffSchedulesController();
 const adminRolesController = new AdminRolesController();
 const permissionController = new PermissionController();
 const userController = new UserController();
+const bookedSchedulesController = new BookedSchedulesController();
 const callsController = new CallsController();
+const transactionsController = new TransactionsController();
 const articlesController = new ArticlesController();
 const faqsController = new FaqsController();
 const panelSettingsController = new PanelSettingsController();
@@ -98,7 +106,13 @@ router.get("/user/:id/transactions", UserValidator.getUser, userController.getUs
 router.put("/user/:id", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"), UserValidator.editUser, userController.editUser.bind(userController));
 router.delete("/user/:id", UserValidator.deleteUser, userController.deleteUser.bind(userController));
 
+router.get("/booked_schedules", BookedSchedulesValidator.getBookedSchedules, bookedSchedulesController.getBookedSchedules.bind(bookedSchedulesController));
+router.get("/booked_schedule/:id", BookedSchedulesValidator.getBookedSchedule, bookedSchedulesController.getBookedSchedule.bind(bookedSchedulesController));
+router.put("/booked_schedule", BookedSchedulesValidator.editBookedSchedule, bookedSchedulesController.editBookedSchedule.bind(bookedSchedulesController));
+
 router.get("/calls", CallsValidator.getCalls, callsController.getCalls.bind(callsController));
+
+router.get("/transactions", TransactionsValidator.getCalls, transactionsController.getTransactions.bind(transactionsController));
 
 router.get("/articles", ArticlesValidator.getArticles, articlesController.getArticles.bind(articlesController));
 router.get("/article/:id", ArticlesValidator.getArticle, articlesController.getArticle.bind(articlesController));
