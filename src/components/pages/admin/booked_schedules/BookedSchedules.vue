@@ -33,10 +33,10 @@
             </div>
             <div class="flex justify-center items-center gap-1">
                 <button class="t_button p-2 text-sm" :class="tableView == 'list' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'list'">
-                    <i class="fas fa-th-list fa-lg"></i>
+                    <i class="far fa-th-list fa-lg"></i>
                 </button>
                 <button class="t_button p-2 text-sm" :class="tableView == 'card' ? 'text-primary-500' : 'text-gray-300'" @click="tableView = 'card'">
-                    <i class="fas fa-th-large fa-lg"></i>
+                    <i class="far fa-th-large fa-lg"></i>
                 </button>
             </div>
         </div>

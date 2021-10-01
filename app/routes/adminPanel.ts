@@ -112,7 +112,7 @@ router.put("/booked_schedule", BookedSchedulesValidator.editBookedSchedule, book
 
 router.get("/calls", CallsValidator.getCalls, callsController.getCalls.bind(callsController));
 
-router.get("/transactions", TransactionsValidator.getCalls, transactionsController.getTransactions.bind(transactionsController));
+router.get("/transactions", TransactionsValidator.getTransactions, transactionsController.getTransactions.bind(transactionsController));
 
 router.get("/articles", ArticlesValidator.getArticles, articlesController.getArticles.bind(articlesController));
 router.get("/article/:id", ArticlesValidator.getArticle, articlesController.getArticle.bind(articlesController));

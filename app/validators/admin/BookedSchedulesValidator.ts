@@ -21,6 +21,12 @@ class Validator extends BaseValidator {
             );
         }
 
+        if (req.query.user_id) {
+            validationChain.push(
+                query("user_id").isMongoId().escape().blacklist("\\[\\]\"'").withMessage("user id is not valid")
+            );
+        }
+
         return await super.validate(validationChain, req, res, next);
     }
 

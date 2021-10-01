@@ -1,6 +1,6 @@
 <template>
-    <transition name="slideright" mode="out-in" appear="">
-        <div class="dashboard_sidemenu absolute md:relative" :class="{ min: !sideMenuOpen }" v-show="sideMenuOpen">
+    <transition name="fade" mode="out-in" appear="">
+        <div class="dashboard_sidemenu absolute md:relative flex-shrink-0" :class="{ min: !sideMenuOpen }" v-show="sideMenuOpen">
             <nav>
                 <ul>
                     <router-link to="/admin/dashboard" title="داشبورد" v-if="checkPermissions(['admin.dashboard.view'], adminInfo.permissions)">

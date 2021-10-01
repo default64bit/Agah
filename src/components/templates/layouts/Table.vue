@@ -6,7 +6,7 @@
                 <small class="opacity-50">results per page</small>
                 <t-select
                     class="w-auto"
-                    inputClass="text-sm w-max py-1 h-7"
+                    inputClass="text-sm py-1"
                     :options="ppOptions"
                     v-model:selectedOption="selectedPP"
                     @update:selectedOption="updatePerPage()"

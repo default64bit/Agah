@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import adminPermissionCheck from "../../helpers/adminPermissionCheck";
 import BookedSchedule from "../../models/BookedSchedule";
@@ -12,7 +13,7 @@ class TransactionsController {
         let sort = "";
         switch (req.query.sort) {
             case "کاربر":
-                sort = "user";
+                sort = "user.family";
                 break;
             case "مبلغ":
                 sort = "transaction.amount";
@@ -37,42 +38,49 @@ class TransactionsController {
         const search = req.query.search.toString();
 
         // the base query object including search params
-        let query = {};
+        let query = { $and: [] };
 
         // date range filter query
         if (req.query.from_register_date && req.query.to_register_date) {
-            query["createdAt"] = {
-                $gte: new Date(req.query.from_register_date.toString()),
-                $lte: new Date(req.query.to_register_date.toString()),
-            };
+            query.$and.push({
+                createdAt: {
+                    $gte: new Date(req.query.from_register_date.toString()),
+                    $lte: new Date(req.query.to_register_date.toString()),
+                },
+            });
         }
+        if (req.query.user_id) {
+            query.$and.push({
+                "user._id": mongoose.Types.ObjectId(req.query.user_id.toString()),
+            });
+        }
+        query.$and.push({
+            $or: [
+                { "user.name": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "user.family": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "user.email": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "user.mobile": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "transaction.amount": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "transaction.payedAmount": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "transaction.transactionCode": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "transaction.status": { $regex: new RegExp(`.*${search}.*`, "i") } },
+                { "transaction.ip": { $regex: new RegExp(`.*${search}.*`, "i") } },
+            ],
+        });
 
         // making the model with query
         let data = BookedSchedule.model
             .aggregate()
-            .match(query)
             .lookup({
                 from: "users",
                 localField: "user",
                 foreignField: "_id",
                 as: "user",
             })
-            .match({
-                $or: [
-                    { "user.name": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "user.family": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "user.email": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "user.mobile": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "transaction.amount": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "transaction.payedAmount": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "transaction.transactionCode": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "transaction.status": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                    { "transaction.ip": { $regex: new RegExp(`.*${search}.*`, "i") } },
-                ],
-            });
-        data = data.project(
-            "user.name user.family transaction.amount transaction.payedAmount transaction.transactionCode transaction.status transaction.ip createdAt"
-        );
+            .match(query)
+            .project(
+                "user.name user.family transaction.amount transaction.payedAmount transaction.transactionCode transaction.status transaction.ip createdAt"
+            );
 
         // sorting
         if (sort) {

@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard_header h-auto flex-shrink-0">
+    <div class="dashboard_header h-auto md:max-h-20 flex-shrink-0">
         <header class="flex items-center">
             <div class="flex justify-between items-center gap-2">
                 <button class="sidemenu_toggle t_button hover:bg-gray-700 hover:text-bluegray-50" @click="toggleSidemneu()">

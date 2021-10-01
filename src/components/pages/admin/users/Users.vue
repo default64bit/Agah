@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button class="t_button text-white bg-emerald-400 hover:bg-emerald-500 rounded-xl"><i class="fas fa-phone-alt"></i></button>
+                        <button class="t_button text-white bg-emerald-400 hover:bg-emerald-500"><i class="fas fa-phone-alt"></i></button>
                     </div>
                 </div>
                 <ul class="t_tabs flex-shrink-0 mt-0">
@@ -117,12 +117,13 @@ export default {
         selecteUser(user) {
             this.selected_user = user;
             this.viewInfo = true;
-            this.$router.replace(`/admin/users/info/${user._id}`);
-            // this.$router.push(`/admin/users/info/${user._id}`);
+            if (this.$route.path.split("/")[3]) {
+                this.$router.replace(`/admin/users/${this.$route.path.split("/")[3]}/${user._id}`);
+            } else this.$router.replace(`/admin/users/info/${user._id}`);
         },
 
         async loadUsers(reload = false) {
-            if (this.loadingUser || this.usersEnded) return;
+            if (this.loadingUser) return;
             this.loadingUser = true;
 
             if (reload) {
