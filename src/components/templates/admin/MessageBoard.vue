@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
@@ -162,9 +162,11 @@ export default {
         this.$refs.people_ul.removeEventListener("scroll", this.onPeopleScroll);
     },
     computed: {
-        ...mapGetters(["makeToast", "adminInfo"]),
+        ...mapGetters(["adminInfo"]),
     },
     methods: {
+        ...mapActions(["makeToast"]),
+
         defaultSelectedMessageBoard() {
             return {
                 userId: "",

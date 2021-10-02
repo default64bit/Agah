@@ -5,6 +5,8 @@ import randStr from "../../helpers/randStr";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import adminPermissionCheck from "../../helpers/adminPermissionCheck";
 import User from "../../models/User";
+import UserChat from "../../models/UserChat";
+import UserChatMessages from "../../models/UserChatMessages";
 
 class CallsController {
     public async getUsers(req: AuthenticatedRequest, res: Response) {
@@ -87,11 +89,61 @@ class CallsController {
         return res.json(user);
     }
 
-    public async getUserChats(req: AuthenticatedRequest, res: Response) {}
+    public async getChat(req: AuthenticatedRequest, res: Response) {
+        if (!adminPermissionCheck(req, req.admin)) return res.status(403).end();
 
-    public async getUserSchedules(req: AuthenticatedRequest, res: Response) {}
+        const id = req.params.id ? req.params.id : 0;
+        const user = await User.model.findById(id).exec();
+        if (!user) return res.status(404).end();
 
-    public async getUserTransactions(req: AuthenticatedRequest, res: Response) {}
+        const chat = await UserChat.model.findOne({ user: user._id, consulter: req.admin._id }).exec();
+        if (!chat) return res.status(404).json({ error: "پیامی وجود ندارد" });
+
+        const hasNew = await UserChatMessages.model.exists({
+            readAt: { $exists: false },
+            sender: user._id,
+            receiver: req.admin._id,
+        });
+
+        return res.json({
+            id: chat._id,
+            receiver: user._id,
+            image: user.image,
+            fullName: `${user.name} ${user.family}`,
+            lastMsg: chat.lastMessage,
+            hasNew: hasNew,
+        });
+    }
+
+    public async getUserMessages(req: AuthenticatedRequest, res: Response) {
+        if (!adminPermissionCheck(req, req.admin)) return res.status(403).end();
+
+        const id = req.params.id ? req.params.id : 0;
+        const user = await User.model.findById(id).exec();
+        if (!user) return res.status(404).end();
+
+        const page = req.query.page ? parseInt(req.query.page.toString()) : 1;
+        const pp = 50;
+
+        const chat = await UserChat.model.findOne({ user: user._id, consulter: req.admin._id }).exec();
+        if (!chat) return res.status(404).json({ error: "پیامی وجود ندارد" });
+
+        const messages = await UserChatMessages.model
+            .find({
+                $or: [
+                    { sender: chat.user, receiver: chat.consulter },
+                    { sender: chat.consulter, receiver: chat.user },
+                ],
+            })
+            .select("sender receiver message file readAt createdAt")
+            .sort({ createdAt: "desc" })
+            .limit(pp)
+            .skip((page - 1) * pp)
+            .exec();
+        messages.reverse();
+
+        return res.json({ messages });
+    }
 
     public async editUser(req: AuthenticatedRequest, res: Response) {
         if (!adminPermissionCheck(req, req.admin)) return res.status(403).end();

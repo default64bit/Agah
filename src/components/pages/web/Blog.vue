@@ -17,7 +17,7 @@
 
         <hr class="w-full border-solid opacity-60 mx-auto my-2" />
 
-        <div class="flex flex-wrap items-start justify-center md:justify-start gap-4 w-full">
+        <div class="flex flex-wrap items-start justify-center md:justify-between gap-4 w-full">
             <div class="flex flex-col gap-4 w-full max-w-screen-lg">
                 <div class="flex flex-col gap-4 w-full" v-if="loadingArticles">
                     <div class="article_box_skeleton flex flex-col sm:flex-row gap-4 justify-center p-4" v-for="(article, i) in skeletonArticles" :key="i">

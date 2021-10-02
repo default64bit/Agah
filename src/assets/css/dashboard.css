@@ -325,3 +325,11 @@
     transition: all .3s;
     transform: scale(2,2);
 }
+
+.simple_table{
+    border-spacing: 0 1.5rem; padding: 0 .25rem;
+}
+.simple_table tr{
+    background-color: var(--dashboard-sidemenu-bg-color);
+    box-shadow: 0px 5px 10px -3px var(--input-group-shadow-color);
+}

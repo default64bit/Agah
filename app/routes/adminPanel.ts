@@ -100,9 +100,8 @@ router.get("/permissions", permissionController.getPermissions.bind(permissionCo
 
 router.get("/users", UserValidator.getUsers, userController.getUsers.bind(userController));
 router.get("/user/:id/info", UserValidator.getUser, userController.getUserInfo.bind(userController));
-router.get("/user/:id/chats", UserValidator.getUser, userController.getUserChats.bind(userController));
-router.get("/user/:id/schedules", UserValidator.getUser, userController.getUserSchedules.bind(userController));
-router.get("/user/:id/transactions", UserValidator.getUser, userController.getUserTransactions.bind(userController));
+router.get("/user/:id/chat", UserValidator.getUser, userController.getChat.bind(userController));
+router.get("/user/:id/messages", UserValidator.getUser, userController.getUserMessages.bind(userController));
 router.put("/user/:id", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"), UserValidator.editUser, userController.editUser.bind(userController));
 router.delete("/user/:id", UserValidator.deleteUser, userController.deleteUser.bind(userController));
 

@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col gap-4 w-full">
-        <table class="w-full border-separate" style="border-spacing: .5rem 1.5rem;">
-            <tbody class="p-2">
-                <tr class="rounded-md shadow-md" v-for="(data, i) in transactions" :key="i">
+        <table class="simple_table w-full border-separate">
+            <tbody>
+                <tr class="rounded-md" v-for="(data, i) in transactions" :key="i">
                     <td class="p-4">
                         <span>{{ data.transaction.ip }}</span>
                     </td>

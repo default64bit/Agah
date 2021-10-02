@@ -1,5 +1,5 @@
 <template>
-    <section class="flex flex-wrap items-start justify-center gap-4 mb-8 mx-auto" name="booking-stage-2">
+    <section class="flex flex-wrap items-start justify-center gap-4 mb-8 mx-auto p-0" name="booking-stage-2">
         <div class="flex items-center justify-center gap-4 flex-row md:flex-col p-4 rounded-sm base_shadow md:max-w-xs">
             <img class="w-12 h-12 md:w-24 md:h-24 rounded-full object-cover" :src="consulter.image" :alt="`${consulter.name} ${consulter.family}`" />
             <strong class="text-lg">{{ `${consulter.name} ${consulter.family}` }}</strong>
@@ -8,13 +8,13 @@
                 تغییر مشاور
             </router-link>
         </div>
-        <div class="flex flex-col gap-6 p-4 w-full max-w-4xl rounded-sm base_shadow">
+        <div class="flex flex-col gap-6 p-4 w-full max-w-2xl rounded-sm base_shadow">
             <div class="select_consult_type flex items-center gap-4">
-                <button class="btn w-full" :class="{ active: type == 'in-person' }" @click="changeType('in-person')">
+                <button class="btn w-full text-xs md:text-base" :class="{ active: type == 'in-person' }" @click="changeType('in-person')">
                     <i class="far fa-landmark"></i>
                     مشاوره حضوری
                 </button>
-                <button class="btn w-full" :class="{ active: type == 'online' }" @click="changeType('online')">
+                <button class="btn w-full text-xs md:text-base" :class="{ active: type == 'online' }" @click="changeType('online')">
                     <i class="far fa-comment-lines"></i>
                     مشاوره آنلاین
                 </button>
@@ -33,7 +33,7 @@
             </div>
             <transition name="fade" mode="out-in" appear="">
                 <div class="flex flex-col gap-6" v-if="!loading">
-                    <hr class="border-dashed border-t-4 border-primary-500 border-opacity-20 w-full" />
+                    <hr class="border-solid border-t-2 border-primary-500 border-opacity-20 w-full" />
                     <div class="flex items-center justify-between gap-2">
                         <button
                             class="flex items-center gap-1 w-max bg-transparent p-1 px-3 base_shadow text-xl"
@@ -44,7 +44,7 @@
                             <small class="text-sm pb-1">روز بعد</small>
                         </button>
                         <b
-                            class="flex items-center justify-center flex-grow p-2 bg-gray-300 bg-opacity-10 text-xl rounded-sm border-2 border-solid border-primary-300 border-opacity-40"
+                            class="flex items-center justify-center flex-grow p-2 bg-gray-300 bg-opacity-20 text-center md:text-xl rounded-sm"
                         >
                             {{ new Date(selectedDate.time).toLocaleDateString("fa", { weekday: "long" }) }}
                             {{ new Date(selectedDate.time).toLocaleDateString("fa", { day: "2-digit" }) }}
@@ -67,8 +67,8 @@
                             :key="i"
                             @click="selectedTime = hour"
                         >
-                            <i class="text-primary-500 text-xl" :class="selectedTime == hour ? 'fas fa-check-circle' : 'fal fa-circle'"></i>
-                            <b class="text-lg">{{ hour }}</b>
+                            <i class="text-primary-500 text-xl" :class="selectedTime == hour ? 'fad fa-square-full' : 'fal fa-square-full'"></i>
+                            <b class=""><i class="fal fa-clock"></i> {{ hour }}</b>
                         </li>
                     </ul>
                     <div class="flex flex-col gap-2 justify-center items-center" v-if="selectedDate.info.isOffDay">
@@ -84,8 +84,8 @@
                             {{ new Date(nextOpenDay).toLocaleDateString("fa", { year: "numeric" }) }}
                         </button>
                     </div>
-                    <hr class="border-dashed border-t-4 border-primary-500 border-opacity-20 w-full" />
-                    <button class="btn w-max py-1" @click="goToPayment()" v-show="selectedTime!=''">
+                    <hr class="border-solid border-t-2 border-primary-500 border-opacity-20 w-full" />
+                    <button class="btn w-max py-1" @click="goToPayment()" v-show="selectedTime != ''">
                         <span>تایید و ادامه</span>
                         <i class="fas fa-arrow-right text-sm"></i>
                     </button>
@@ -173,7 +173,7 @@ export default {
             this.selectedTime = "";
         },
 
-        goToNextOpenDate(){
+        goToNextOpenDate() {
             this.selectedIndex = this.nextOpenDayIndex;
             this.selectedDate = this.dates[this.selectedIndex];
             this.selectedTime = "";

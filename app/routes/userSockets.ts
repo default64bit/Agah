@@ -234,8 +234,8 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                             ],
                         },
                         {
-                            user: person._id,
-                            consulter: msg.data.receiverId,
+                            user: senderType=='users' ? person._id : msg.data.receiverId,
+                            consulter: senderType=='users' ? msg.data.receiverId : person._id,
                             lastMessage: message,
                             lastMessageDate: message.createdAt,
                         },
@@ -246,7 +246,13 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                 // send the message to sender and reciver if he/she is online
                 if (ISM_sockets[receiverType][msg.data.receiverId]) {
                     ISM_sockets[receiverType][msg.data.receiverId].send(JSON.stringify({ event: "messageCB", chatId: msg.data.chatId, message }));
+                }else{
+                    // TODO
+                    // if receiver was not online then make it a notification for receiver
+                    // keep count of notification and send it per connection connect
+                    // so that if a sender is connected and doesnt send a notif to a receiver send the notif but if that sneder already sent a notif to a receiver dont send a new notif
                 }
+
                 if (ISM_sockets[senderType][person._id]) {
                     ISM_sockets[senderType][person._id].send(JSON.stringify({ event: "messageCB", chatId: msg.data.chatId, message }));
                 }

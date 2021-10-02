@@ -1,8 +1,8 @@
 <template>
     <section class="flex flex-wrap items-center justify-center gap-4 mb-8 mx-auto" name="booking-stage-3">
         <div class="flex flex-col gap-2">
-            <small class="p-1 px-2 bg-rose-100 text-rose-800 rounded-sm text-sm" v-if="error">{{ error }}</small>
-            <small class="p-1 px-2 bg-gray-100 text-gray-700 rounded-sm text-sm">
+            <small class="p-1 px-2 bg-rose-100 text-rose-800 rounded-sm text-xs" v-if="error">{{ error }}</small>
+            <small class="p-1 px-2 bg-gray-100 text-gray-700 rounded-sm text-xs">
                 توجه داشته باشید فقط پس از پرداخت مبلغ، مشاوره برای شما رزرو خواهد شد.
             </small>
 

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
@@ -55,7 +55,7 @@ export default {
         this.$refs.notif_ul.removeEventListener("scroll", this.onScroll);
     },
     computed: {
-        ...mapGetters(["makeToast", "adminInfo"]),
+        ...mapGetters(["adminInfo"]),
     },
     watch: {
         isOpen(newValue) {
@@ -71,6 +71,8 @@ export default {
         },
     },
     methods: {
+        ...mapActions(["makeToast"]),
+
         async loadNotifList() {
             if (this.loading || this.ended) return;
             this.loading = true;

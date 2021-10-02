@@ -84,7 +84,12 @@ export default {
     methods: {
         ...mapActions(["getUserInfo"]),
 
-        logout() {},
+        logout() {
+            axios.post(`${this.getBaseUrl()}/api/v1/web/auth/logout`).then((response) => {
+                // this.$router.push("/");
+                window.location.reload();
+            });
+        },
     },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard_body bg-transparent">
         <div class="flex flex-wrap lg:flex-nowrap justify-between h-full gap-7 relative">
-            <div class="dashboard_body max-w-screen-2sm shadow-xl">
+            <div class="dashboard_body max-w-screen-2sm shadow-md">
                 <t-input type="search" icon="fad fa-search" placeholder="جستجو..." v-model:value="search" @keydown="searchUsers($event)" />
                 <hr class="my-4 border-solid" />
                 <ul ref="users_ul" name="users_ul">
@@ -23,7 +23,7 @@
                     </transition-group>
                 </ul>
             </div>
-            <div class="dashboard_body min-h-screen md:min-h-full shadow-xl flex-grow absolute lg:relative lg:flex" :class="{ hidden: !viewInfo }">
+            <div class="dashboard_body min-h-screen md:min-h-full shadow-md flex-grow absolute lg:relative lg:flex" :class="{ hidden: !viewInfo }">
                 <button class="t_button p-1 mb-4 w-max text-rose-500 opacity-60 lg:hidden" @click="viewInfo = false"><i class="fas fa-times"></i></button>
                 <div class="flex items-center justify-between flex-wrap gap-4 mb-4" v-if="selected_user.name">
                     <div class="flex items-center flex-wrap gap-2">

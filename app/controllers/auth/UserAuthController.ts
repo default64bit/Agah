@@ -39,13 +39,13 @@ class AuthController {
         html = html.replace(/{{url}}/g, req.headers.origin);
         html = html.replace("{{code}}", code.toString());
 
-        await Email(`کد ورود ${code} | گروه وکلای آگه`, username, html)
-            .then(async () => {
-                await User.model.updateOne({ email: username }, { verficationCodeSentAt: new Date(Date.now()) }).exec();
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+        // await Email(`کد ورود ${code} | گروه وکلای آگه`, username, html)
+        //     .then(async () => {
+        //         await User.model.updateOne({ email: username }, { verficationCodeSentAt: new Date(Date.now()) }).exec();
+        //     })
+        //     .catch((e) => {
+        //         console.log(e);
+        //     });
 
         return res.json({ expireIn: this.verficationCodeExpireTime });
     }

@@ -102,10 +102,10 @@ export default {
     created() {},
     mounted() {},
     computed: {
-        ...mapGetters(["makeToast", "adminInfo", "sideMenuOpen"]),
+        ...mapGetters(["adminInfo", "sideMenuOpen"]),
     },
     methods: {
-        ...mapActions(["changeSideMenuOpen"]),
+        ...mapActions(["makeToast","changeSideMenuOpen"]),
 
         toggleProfile(state) {
             this.isProfileOpen = state;

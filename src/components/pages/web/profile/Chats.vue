@@ -62,7 +62,7 @@
                     </li>
                     <transition name="slideleft" appear>
                         <li v-if="selectedMessageBoard.typing">
-                            <div class="message_bubble received bg-gray-500 text-primary-500 text-xs"><b>Typing...</b></div>
+                            <div class="message_bubble received typing bg-gray-500 text-primary-500 text-xs"><b class="far fa-ellipsis-h text-xl"></b></div>
                         </li>
                     </transition>
                 </ul>
@@ -103,7 +103,7 @@
                         v-if="!selectedMessageBoard.canSendMessage && !selectedMessageBoard.bookedSchedule.date"
                     >
                         <i class="far fa-info-circle"></i>
-                        <p class="mb-1 text-sm">زمان مشاوره شما به پایان رسیده! برای ادامه مشاوره لطفا یک زمان رزرو کنید.</p>
+                        <p class="text-sm">زمان مشاوره شما به پایان رسیده! برای ادامه مشاوره لطفا یک زمان رزرو کنید.</p>
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
@@ -135,11 +135,6 @@ export default {
             showMessages: false,
             messageBoard: {},
             selectedMessageBoard: {},
-
-            peoples: [],
-            peoplesEnded: false,
-            loadingPeople: false,
-            peoplePageNumber: 1,
         };
     },
     created() {
@@ -162,9 +157,11 @@ export default {
         this.$refs.message_ul.removeEventListener("scroll", this.onMessagesScroll);
     },
     computed: {
-        ...mapGetters(["makeToast", "userInfo"]),
+        ...mapGetters(["userInfo"]),
     },
     methods: {
+        ...mapActions(['makeToast']),
+
         defaultSelectedMessageBoard() {
             return {
                 chatId: "",

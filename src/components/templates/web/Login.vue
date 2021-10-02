@@ -24,14 +24,14 @@
                 <p class="max-w-xs text-sm my-4">کد ارسال شده برای ایمیل '{{ username }}' را وارد کنید</p>
                 <div ref="code" class="flex flex-row-reverse items-center gap-1 my-4">
                     <input
-                        class="w-10 h-10 p-2 text-center text-3xl bg-transparent border-b-2 border-solid border-gold-500"
+                        class="w-64 p-1 text-center text-3xl bg-transparent border-2 border-solid border-gold-500"
                         type="number"
-                        v-for="(input, i) in codeInputs"
-                        :key="i"
-                        :ref="`code_${i}`"
+                        dir="ltr"
+                        ref="code"
+                        maxlength="6"
+                        v-model="code"
                         @keydown="codeKeydown($event, i)"
-                        @input="codeInput($event, i)"
-                        @focus="codeFocus($event, i)"
+                        @keyup="codeKeydown($event, i)"
                     />
                 </div>
                 <div v-if="codeError" class="flex gap-1 items-center rounded bg-red-100 text-red-700 p-1 mb-1 text-xs">
@@ -49,11 +49,7 @@
                     </button>
                     <button class="text-sm text-primary-600 hover:underline" @click="page = 'stage1'">ورود با ایمیل دیگر</button>
                 </div>
-                <button
-                    class="btn disabled:opacity-50 w-full"
-                    :disabled="submitingVerficationForm"
-                    @click="verify()"
-                >
+                <button class="btn disabled:opacity-50 w-full" :disabled="submitingVerficationForm" @click="verify()">
                     <b class="font-normal text-xl" v-if="!submitingVerficationForm">ادامه</b>
                     <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                 </button>
@@ -76,11 +72,7 @@
                     :error="mobileError"
                 />
 
-                <button
-                    class="btn disabled:opacity-50 w-full"
-                    :disabled="submitingRegisterForm"
-                    @click="register()"
-                >
+                <button class="btn disabled:opacity-50 w-full" :disabled="submitingRegisterForm" @click="register()">
                     <b class="font-normal text-xl" v-if="!submitingRegisterForm">تایید</b>
                     <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                 </button>
@@ -163,9 +155,6 @@ export default {
 
             this.usernameError = this.codeError = this.nameError = this.familyError = this.mobileError = "";
 
-            this.code = "";
-            this.codeInputs.forEach((item, index) => (this.code += this.$refs[`code_${index}`].value));
-
             axios
                 .post(`${this.getBaseUrl()}/api/v1/web/auth/verfication`, {
                     username: this.username,
@@ -223,19 +212,11 @@ export default {
         },
 
         codeKeydown(event, index) {
-            if (event.keyCode === 8 && event.target.value === "") this.$refs[`code_${Math.max(0, index - 1)}`].focus();
-        },
-        codeInput(event, index) {
-            const [first, ...rest] = event.target.value;
-            event.target.value = first ? first : "";
-            if (parseInt(index) !== this.codeInputs.length - 1 && first !== undefined) {
-                if (!this.$refs[`code_${parseInt(index) + 1}`]) return;
-                this.$refs[`code_${parseInt(index) + 1}`].focus();
-                this.$refs[`code_${parseInt(index) + 1}`].dispatchEvent(new Event("input"));
+            if (event.keyCode === 13) this.verify();
+            this.code = this.$refs.code.value = event.target.value.substr(0, 6);
+            if (event.target.value.length > 6) {
+                event.preventDefault();
             }
-        },
-        codeFocus(event, index) {
-            event.target.select();
         },
 
         startTimer(duration) {

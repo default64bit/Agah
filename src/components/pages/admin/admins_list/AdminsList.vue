@@ -75,8 +75,8 @@
                 <td>{{ record.email }}</td>
                 <td>{{ record.role.name }}</td>
                 <td>
-                    <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="record.status == 'active'"><b>Active</b></span>
-                    <span class="p-1 px-2 text-sm rounded-md bg-rose-100 text-rose-700" v-if="record.status == 'deactive'"><b>Deactive</b></span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="record.status == 'active'">Active</span>
+                    <span class="p-1 px-2 text-sm rounded-md bg-rose-100 text-rose-700" v-if="record.status == 'deactive'">Deactive</span>
                 </td>
                 <td>{{ new Date(record.createdAt).toLocaleString("en") }}</td>
                 <td>

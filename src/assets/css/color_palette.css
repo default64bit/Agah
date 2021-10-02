@@ -255,7 +255,7 @@
     --message-board-chat-ul-border-color: #3a3a3a;
     --message-board-chat-avatar-shadow-color: rgb(0, 0, 0, 0.15);
     --message-board-message-bubble-sent-bg-color: theme("colors.secondary.300");
-    --message-board-message-bubble-received-bg-color: #464646;
+    --message-board-message-bubble-received-bg-color: #fff;
     --message-board-new-chat-color: #000;
 
     --dashboard-body-bg-color: #f8f8f8;

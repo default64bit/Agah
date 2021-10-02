@@ -6,7 +6,11 @@
                 <span class="text-2xl">گروه آگه</span>
             </router-link>
 
-            <button class="nav_toggle md:hidden" @click="open = !open">
+            <button class="nav_toggle flex items-center gap-2 md:hidden" @click="open = !open">
+                <transition name="fade" mode="out-in" appear="">
+                    <span v-if="!open">Menu</span>
+                    <span v-else>Close</span>
+                </transition>
                 <span class="far fa-bars text-2xl" :class="open ? 'fa-times' : 'fa-bars'"></span>
             </button>
 
@@ -33,6 +37,7 @@
                         <router-link
                             to="/profile/chat"
                             class="avatar flex items-center gap-2 p-2 py-1 rounded-full border border-solid border-primary-400 border-opacity-40"
+                            @click="open = false"
                             v-else
                         >
                             <img class="h-8 w-8 rounded-full" :src="userInfo.avatar" alt="" />
@@ -83,7 +88,7 @@ export default {
     methods: {
         ...mapActions(["changeLoginDialogState"]),
 
-        updateLoginDialogState(value){
+        updateLoginDialogState(value) {
             this.changeLoginDialogState(value);
         },
 
