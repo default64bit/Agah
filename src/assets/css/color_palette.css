@@ -1,4 +1,6 @@
-:root {
+:root,
+::after,
+::before {
     --selection-bg-color: theme("colors.primary.500");
     --selection-color: #fffff0;
     --scroll-thumb-bg-color: theme("colors.secondary.400");
@@ -145,7 +147,7 @@
     --profile-menu-li-bg-color: #383838;
     --profile-messages-bg-color: #242424;
     --profile-messages-bubble-sent-bg-color: #efefef;
-    --profile-messages-bubble-sent-color:#121212;
+    --profile-messages-bubble-sent-color: #121212;
     --profile-messages-bubble-received-bg-color: #434343;
     --profile-messages-bubble-received-color: #f9f9f9;
 }
@@ -154,7 +156,9 @@
     /* default theme is dark */
 }
 
-[theme="default_light"] {
+[theme="default_light"],
+[theme="default_light"]::after,
+[theme="default_light"]::before {
     --selection-bg-color: theme("colors.primary.500");
     --selection-color: #fffff0;
     --scroll-thumb-bg-color: theme("colors.secondary.400");
@@ -301,7 +305,7 @@
     --profile-menu-li-bg-color: #f1f1f1;
     --profile-messages-bg-color: #fff;
     --profile-messages-bubble-sent-bg-color: #efefef;
-    --profile-messages-bubble-sent-color:#121212;
+    --profile-messages-bubble-sent-color: #121212;
     --profile-messages-bubble-received-bg-color: #434343;
     --profile-messages-bubble-received-color: #f9f9f9;
 }

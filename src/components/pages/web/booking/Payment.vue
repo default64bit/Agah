@@ -21,12 +21,13 @@
                 <div class="flex flex-wrap justify-between items-start gap-4">
                     <div class="flex flex-col items-start gap-2">
                         <span class="text-lg">
+                            <i class="far fa-calendar-alt text-sm"></i>
                             {{ new Date(date).toLocaleDateString("fa", { weekday: "long" }) }}
                             {{ new Date(date).toLocaleDateString("fa", { day: "2-digit" }) }}
                             {{ new Date(date).toLocaleDateString("fa", { month: "long" }) }}
                             {{ new Date(date).toLocaleDateString("fa", { year: "numeric" }) }}
                         </span>
-                        <span class="text-lg">ساعت {{ time }}</span>
+                        <span class="text-lg"> <i class="far fa-clock text-sm"></i> ساعت {{ time }} </span>
 
                         <div class="flex flex-wrap gap-1">
                             <span class="py-1 px-2 rounded-sm bg-gray-200 text-black text-xs">به مدت 1 ساعت</span>
@@ -117,7 +118,7 @@ export default {
                 })
                 .then((response) => {
                     // then rediect to gateway
-                    window.location.href = `https://pay.ir/pg/${response.data.identifier}`;
+                    window.location.href = response.data.url;
                 })
                 .catch((error) => {
                     this.redirectingToGateway = false;

@@ -9,6 +9,7 @@ import TimeOffSchedule from "../../models/TimeOffSchedule";
 import BookedSchedule from "../../models/BookedSchedule";
 import UserChat from "../../models/UserChat";
 import UserChatMessages from "../../models/UserChatMessages";
+import { PaymentGateway } from "../../payments/paymentGateway";
 
 class Controller {
     public async bookConsultationSession(req: AuthenticatedRequest, res: Response) {
@@ -60,24 +61,15 @@ class Controller {
         // check if this user has any unpayed booked session and make them canceled
         await BookedSchedule.model.updateMany({ user: req.user._id, status: "waiting-for-payment" }, { status: "canceled" }).exec();
 
-        // send a request to pay.ir and get the identifier
-        let identifier = "";
-        await axios
-            .post("https://pay.ir/pg/send", {
-                api: process.env.PAY_IR_KEY,
-                amount: consulter.consultPricePerHour * 10,
-                redirect: `${process.env.PROTOCOL}://${process.env.DOMAIN}/api/v1/web/book/callback`,
-                description: "هزینه مشاوره",
-                mobile: user.mobile,
-            })
-            .then((response) => {
-                if (response.data.status == 1 && response.data.token) {
-                    identifier = response.data.token;
-                }
-            })
-            .catch((error) => {
-                // TODO : log the error in logger
-            });
+        // send a request to gateway and get the identifier
+        const paymentGateway = new PaymentGateway("pay_ir");
+        let identifier = await paymentGateway.getIdentifier(
+            paymentGateway.getApiKey(),
+            consulter.consultPricePerHour,
+            `${process.env.PROTOCOL}://${process.env.DOMAIN}/api/v1/web/book/callback`,
+            "هزینه مشاوره",
+            user.mobile
+        );
 
         if (identifier != "") {
             // create a booking record
@@ -93,47 +85,46 @@ class Controller {
                     amount: consulter.consultPricePerHour,
                     payedAmount: 0,
                     identifier: identifier,
+                    method: paymentGateway.getMethod(),
                     ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress || null,
                 },
             });
             // send back the identifier
-            return res.json({ identifier });
+            return res.json({ url: paymentGateway.getGatewayUrl(identifier) });
         } else return res.status(422).json({ error: "خطا در ارتباط با درگاه پرداخت" });
     }
 
     public async bookConsultationSessionCallback(req: Request, res: Response) {
-        const status = req.query.status;
-        const token = req.query.token;
-
         let paymentStatus = 0;
         let message = "";
 
-        if (status == "1") {
+        const paymentGateway = new PaymentGateway("pay_ir");
+        const transactionResponse = paymentGateway.getTransactionResponse(req);
+
+        const bookedSchedule = await BookedSchedule.model.findOne({ "transaction.identifier": transactionResponse.identifier }).exec();
+
+        if (transactionResponse.status == "OK") {
             // send a request to pay.ir to verify the transaction
-            await axios
-                .post("https://pay.ir/pg/verify", {
-                    api: process.env.PAY_IR_KEY,
-                    token: token,
-                })
+            await paymentGateway
+                .verify(paymentGateway.getApiKey(), transactionResponse.identifier, { amount: bookedSchedule.transaction.amount })
                 .then(async (response) => {
                     // if transaction verified correctly then you will get a transactionCode
-                    const transactionCode = response.data.transId;
+                    const transactionCode = response.transactionCode;
                     // check if there is no transactionCode same as this new one
                     const doesTransactionCodeExists = await BookedSchedule.model.exists({ "transaction.transactionCode": transactionCode });
                     if (!doesTransactionCodeExists) {
                         // if there is none then update the booked schedule record status and transaction data
                         await BookedSchedule.model.updateOne(
-                            { "transaction.identifier": token },
+                            { "transaction.identifier": transactionResponse.identifier },
                             {
                                 status: "payed",
-                                "transaction.payedAmount": response.data.amount,
-                                "transaction.transactionCode": response.data.transId,
+                                "transaction.payedAmount": bookedSchedule.transaction.amount * 10,
+                                "transaction.transactionCode": response.transactionCode,
                                 "transaction.status": "ok",
                             }
                         );
 
                         // also make a chat record from the consulter to user so that user can see the consulter in their chat page
-                        const bookedSchedule = await BookedSchedule.model.findOne({ "transaction.identifier": token }).exec();
                         if (bookedSchedule.type == "online") {
                             const doesChatExists = await UserChat.model.exists({ user: bookedSchedule.user, consulter: bookedSchedule.consulter });
                             if (!doesChatExists) {
@@ -167,7 +158,7 @@ class Controller {
                     message = "تراکنش به درستی انجام نشد. مبلغ پرداخت شده تا چند ساعت دیگر به حساب شما واریز میشود.";
                     // change the booked record status and save error
                     await BookedSchedule.model.updateOne(
-                        { "transaction.identifier": token },
+                        { "transaction.identifier": transactionResponse.identifier },
                         { status: "canceled", "transaction.status": "failed", "transaction.error": error.response || null }
                     );
                 });
@@ -177,7 +168,10 @@ class Controller {
             paymentStatus = -3;
             message = "تراکنش لغو شد.";
             // cancel the booked record and change its status and save the error
-            await BookedSchedule.model.updateOne({ "transaction.identifier": token }, { status: "canceled", "transaction.status": "canceled" });
+            await BookedSchedule.model.updateOne(
+                { "transaction.identifier": transactionResponse.identifier },
+                { status: "canceled", "transaction.status": "canceled" }
+            );
         }
 
         // redirect to users profile page and Toast or print the result of payment and errors if any

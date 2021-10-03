@@ -40,7 +40,7 @@ const _schema: mongoose.Schema = new mongoose.Schema({
             required: true,
         },
         payedAmount: {
-            type: Number, // in Toman
+            type: Number, // in Rial
         },
         transactionCode: { type: String },
         identifier: { type: String },
@@ -48,6 +48,10 @@ const _schema: mongoose.Schema = new mongoose.Schema({
             type: String,
             enum: ["pending", "ok", "failed", "canceled"],
             default: "pending",
+        },
+        method: {
+            type: String,
+            enum: ["zarinpal", "pay_ir"],
         },
         error: { type: String },
         ip: {
@@ -85,6 +89,7 @@ export interface ITransaction {
     transactionCode: string;
     identifier: string;
     status: string;
+    method: string;
     error: string;
     ip: string;
 }
