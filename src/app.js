@@ -6,9 +6,8 @@ import "./assets/css/app.css";
 
 export default (args) => {
     const isServer = typeof window === "undefined";
-    const app = isServer ? createSSRApp(App) : createApp(App);
-    // const app = createSSRApp(App);
 
+    const app = isServer ? createSSRApp(App) : createApp(App);
     const router = createRouter();
     const store = createStore();
 

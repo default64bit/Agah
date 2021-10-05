@@ -26,20 +26,30 @@ interface Person {
     email: string;
 }
 
-let ISC_users: Object = {};
-let ISC_admins: Object = {};
-router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
-    // TODO
+let ISC_sockets: Object = {};
+router.ws("/ISC", async (socket: WebSocket, req: AuthenticatedRequest) => {
+    let person: Person;
+    let personType = "";
+
+    let userID = getPayload(req, "UserAuthToken", process.env.JWT_SECRET);
+    let adminID = getPayload(req, "AdminAuthToken", process.env.JWT_SECRET);
+
     // check if req.user or req.admin exists
-    // if not then do nothing
+    if (!!adminID) {
+        person = await Admin.model.findById(adminID);
+        personType = "admins";
+    } else if (!!userID) {
+        person = await User.model.findById(userID);
+        personType = "users";
+    } else return;
 
-    console.log(`ISC connect: ${req.user._id.toHexString()}`);
+    console.log(`ISC connect: ${personType} - ${person._id.toHexString()}`);
 
-    ISC_users[req.user._id.toHexString()] = socket;
+    ISC_sockets[person._id.toHexString()] = { personType, socket };
     socket.send(
         JSON.stringify({
-            event: "userUniqueId",
-            id: req.user._id.toHexString(),
+            event: "uniqueId",
+            id: person._id.toHexString(),
         })
     );
 
@@ -47,20 +57,32 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
         let msg: msgObj = JSON.parse(ws.toString());
         switch (msg.event) {
             case "makeCall":
-                if (!ISC_users.hasOwnProperty(msg.data.userToCall)) {
+                // TODO #OPTIONAL
+                // can check than only users can call admins and admins can call users
+
+                // TODO
+                // users should only able to call when they are in booked session period
+
+                if (!ISC_sockets.hasOwnProperty(msg.data.userToCall)) {
                     socket.send(JSON.stringify({ event: "userNotOnline" }));
                     return;
                 }
                 // make call record and save offerCandidates
                 let newCall = await Call.model
-                    .create({ offer: msg.data.offer, callerType: "users", caller: req.user._id, calleeType: "users", callee: msg.data.userToCall })
+                    .create({
+                        offer: msg.data.offer,
+                        callerType: personType,
+                        caller: person._id,
+                        calleeType: ISC_sockets[msg.data.userToCall].personType,
+                        callee: msg.data.userToCall,
+                    })
                     .then((call) => call);
 
-                ISC_users[msg.data.userToCall].send(
+                ISC_sockets[msg.data.userToCall].socket.send(
                     JSON.stringify({
                         event: "calleeOfferUpdate",
                         callId: newCall._id,
-                        callerId: req.user._id,
+                        callerId: person._id,
                         offer: msg.data.offer,
                         offerCandidates: msg.data.offerCandidates,
                     })
@@ -71,45 +93,47 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
             case "updateCallOfferCandidates":
                 // update offerCandidate in DB
                 await Call.model.updateOne({ _id: msg.data.callId }, { offerCandidate: msg.data.offerCandidates }).exec();
-                if (ISC_users.hasOwnProperty(msg.data.userToCall)) {
-                    ISC_users[msg.data.userToCall].send(
+                if (ISC_sockets.hasOwnProperty(msg.data.userToCall)) {
+                    ISC_sockets[msg.data.userToCall].socket.send(
                         JSON.stringify({
                             event: "calleeOfferCandidateUpdate",
                             callId: msg.data.callId,
-                            callerId: req.user._id,
+                            callerId: person._id,
                             offerCandidates: msg.data.offerCandidates,
                         })
                     );
                 }
                 break;
             case "answerCall":
-                if (!ISC_users.hasOwnProperty(msg.data.callerId)) return;
+                if (!ISC_sockets.hasOwnProperty(msg.data.callerId)) return;
                 // update answer in DB
                 await Call.model.updateOne({ _id: msg.data.callId }, { answer: msg.data.answer, startedAt: new Date(Date.now()) }).exec();
-                ISC_users[msg.data.callerId].send(JSON.stringify({ event: "callerAnswerUpdate", callId: msg.data.callId, answer: msg.data.answer }));
+                ISC_sockets[msg.data.callerId].socket.send(JSON.stringify({ event: "callerAnswerUpdate", callId: msg.data.callId, answer: msg.data.answer }));
                 break;
             case "updateCallAnswerCandidates":
                 // update answerCandidate in DB
                 await Call.model.updateOne({ _id: msg.data.callId }, { answerCandidate: msg.data.answerCandidates }).exec();
-                ISC_users[msg.data.callerId].send(
+                ISC_sockets[msg.data.callerId].socket.send(
                     JSON.stringify({ event: "callerAnswerCandidateUpdate", callId: msg.data.callId, answerCandidates: msg.data.answerCandidates })
                 );
                 break;
 
             case "calleeIsBusy":
-                if (!ISC_users.hasOwnProperty(msg.data.callerId)) return;
-                ISC_users[msg.data.callerId].send(JSON.stringify({ event: "calleeIsBusy" }));
+                if (!ISC_sockets.hasOwnProperty(msg.data.callerId)) return;
+                ISC_sockets[msg.data.callerId].socket.send(JSON.stringify({ event: "calleeIsBusy" }));
                 break;
             case "callRejected":
-                if (ISC_users.hasOwnProperty(msg.data.callerId)) ISC_users[msg.data.callerId].send(JSON.stringify({ event: "callRejected" }));
+                if (ISC_sockets.hasOwnProperty(msg.data.callerId)) ISC_sockets[msg.data.callerId].socket.send(JSON.stringify({ event: "callRejected" }));
                 break;
             case "hungupCall":
                 // get call from db and send caller and callee the hungupCall msg
                 if (!msg.data.callId) return;
                 let call = await Call.model.findOne({ _id: msg.data.callId }).exec();
                 if (call) {
-                    if (ISC_users.hasOwnProperty(call.caller.toHexString())) ISC_users[call.caller.toHexString()].send(JSON.stringify({ event: "hungupCall" }));
-                    if (ISC_users.hasOwnProperty(call.callee.toHexString())) ISC_users[call.callee.toHexString()].send(JSON.stringify({ event: "hungupCall" }));
+                    if (ISC_sockets.hasOwnProperty(call.caller.toHexString()))
+                        ISC_sockets[call.caller.toHexString()].socket.send(JSON.stringify({ event: "hungupCall" }));
+                    if (ISC_sockets.hasOwnProperty(call.callee.toHexString()))
+                        ISC_sockets[call.callee.toHexString()].socket.send(JSON.stringify({ event: "hungupCall" }));
                     // record the call duration
                     let startedAt = moment(call.startedAt);
                     let endedAt = moment(new Date());
@@ -121,9 +145,9 @@ router.ws("/ISC", (socket: WebSocket, req: AuthenticatedRequest) => {
     });
 
     socket.on("close", (ws) => {
-        if (ISC_users.hasOwnProperty(req.user._id.toHexString())) {
-            delete ISC_users[req.user._id.toHexString()];
-            console.log(`ISC disconnected: ${req.user._id.toHexString()}`);
+        if (ISC_sockets.hasOwnProperty(person._id.toHexString())) {
+            delete ISC_sockets[person._id.toHexString()];
+            console.log(`ISC disconnected: ${person._id.toHexString()}`);
         }
     });
 });
@@ -132,8 +156,6 @@ let ISM_sockets = {
     users: {},
     admins: {},
 };
-// let ISM_users: Object = {};
-// let ISM_admins: Object = {};
 router.ws("/ISM", async (socket: WebSocket, req: Request) => {
     let person: Person;
     let senderType = "";
@@ -234,8 +256,8 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                             ],
                         },
                         {
-                            user: senderType=='users' ? person._id : msg.data.receiverId,
-                            consulter: senderType=='users' ? msg.data.receiverId : person._id,
+                            user: senderType == "users" ? person._id : msg.data.receiverId,
+                            consulter: senderType == "users" ? msg.data.receiverId : person._id,
                             lastMessage: message,
                             lastMessageDate: message.createdAt,
                         },
@@ -246,7 +268,7 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                 // send the message to sender and reciver if he/she is online
                 if (ISM_sockets[receiverType][msg.data.receiverId]) {
                     ISM_sockets[receiverType][msg.data.receiverId].send(JSON.stringify({ event: "messageCB", chatId: msg.data.chatId, message }));
-                }else{
+                } else {
                     // TODO
                     // if receiver was not online then make it a notification for receiver
                     // keep count of notification and send it per connection connect

@@ -16,7 +16,7 @@
                 <div class="skeleton h-4 w-full"></div>
                 <div class="skeleton h-4 w-full"></div>
                 <div class="skeleton h-4 w-7/12"></div>
-                <br>
+                <br />
                 <div class="skeleton h-4 w-full"></div>
                 <div class="skeleton h-4 w-full"></div>
                 <div class="skeleton h-4 w-3/12"></div>
@@ -46,13 +46,37 @@
                             <meta itemprop="datePublished" :content="article.publishedAt" />
                         </div>
                         <div class="flex items-center gap-4 text-lg">
-                            <a :href="`https://twitter.com/share?text=${article.title}&url=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title" rel="nofollow" target="_blank">
+                            <a
+                                :href="
+                                    `https://twitter.com/share?text=${article.title}&url=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(
+                                        / /g,
+                                        '-'
+                                    )}`
+                                "
+                                :title="article.title"
+                                rel="nofollow"
+                                target="_blank"
+                            >
                                 <span class="fab fa-twitter"></span>
                             </a>
-                            <a :href="`whatsapp://send?text=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title" rel="nofollow" target="_blank">
+                            <a
+                                :href="`whatsapp://send?text=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(/ /g, '-')}`"
+                                :title="article.title"
+                                rel="nofollow"
+                                target="_blank"
+                            >
                                 <span class="fab fa-whatsapp"></span>
                             </a>
-                            <a :href="`https://telegram.me/share/url?text=${article.title}&url=${getBaseUrl()}/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title" rel="nofollow" target="_blank">
+                            <a
+                                :href="
+                                    `https://telegram.me/share/url?text=${article.title}&url=${getBaseUrl()}/article/${
+                                        article.url_code
+                                    }/${article.title.replace(/ /g, '-')}`
+                                "
+                                :title="article.title"
+                                rel="nofollow"
+                                target="_blank"
+                            >
                                 <span class="fab fa-telegram"></span>
                             </a>
                         </div>
@@ -102,7 +126,7 @@ import axios from "axios";
 import ArticleRender from "../../templates/web/ArticleRender";
 
 export default {
-    name: "Blog",
+    name: "Article",
     components: {
         "article-render": ArticleRender,
     },
@@ -117,7 +141,6 @@ export default {
     async serverPrefetch() {
         await this.getArticle();
     },
-    created() {},
     async mounted() {
         await this.getArticle();
     },
@@ -136,7 +159,7 @@ export default {
                 .get(`${this.getBaseUrl()}/api/v1/web/article?url_code=${this.$route.params.url_code}`)
                 .then((response) => {
                     this.article = response.data.article;
-                    this.similarArticles = response.data.similarArticles;
+                    this.similarArticles = response.data.similarArticles; // TODO : similarArticles not working correctly
                 })
                 .catch((error) => {
                     if (error.response.data && error.response.data.error) {
@@ -146,7 +169,17 @@ export default {
                         // TODO
                         // send request to get some random articles and show it in also read
                     }
-                }).finally(()=> (this.loading = false));
+                })
+                .finally(() => (this.loading = false));
+
+            if (!!this.updateMetaData) {
+                this.updateMetaData(
+                    `${this.article.metadata.title} - گروه وکلای آگه`,
+                    this.article.metadata.description,
+                    this.article.metadata.author,
+                    this.article.metadata.thumbnail
+                );
+            }
         },
     },
 };

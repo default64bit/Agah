@@ -16,11 +16,12 @@ module.exports = {
         //     swSrc: "sw.js",
         // },
     },
-
     css: {
         extract: true,
         // requireModuleExtension: false,
     },
+    transpileDependencies: ["vue-meta"],
+
     chainWebpack: (webpackConfig) => {
         // We need to disable cache loader, otherwise the client build
         // will used cached components from the server build
@@ -32,6 +33,7 @@ module.exports = {
         // adding a temprary title
         webpackConfig.plugin("html").tap((args) => {
             args[0].title = "Admin Panel Template";
+            console.log(args);
             return args;
         });
 

@@ -57,6 +57,8 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
 // SSR setup ==================================================================
 {
     const { renderToString } = require("@vue/server-renderer");
+    const { generateMetaData } = require("./app/MetaDataHandler");
+
     // const file_manifest = require("../vue/client/file-manifest.json");
     // const ssr_manifest = require("../vue/server/ssr-manifest.json");
     const file_manifest = require("./dist/vue/client/file-manifest.json");
@@ -94,17 +96,19 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
         res.cookie("XSRF-TOKEN", req.csrfToken(), { secure: true });
         const context = { url: req.url, req: req, state: null };
         const { app, router } = createApp(context);
+
         router.push(context.url);
-        router.isReady().then(() => {
+        router.isReady().then(async () => {
             renderToString(app, context).then((appContent) => {
                 // fs.readFile(path.join(__dirname, "..", "vue", "client", "index.html"), "utf-8", (err, html) => {
-                fs.readFile(path.join(__dirname, "dist", "vue", "client", "index.html"), "utf-8", (err, html) => {
+                fs.readFile(path.join(__dirname, "dist", "vue", "client", "index.html"), "utf-8", async (err, html) => {
                     if (err) {
                         console.error(err);
                         return;
                     }
                     html = html.toString().replace('<div id="app">', `<div id="app">${appContent}`);
-                    html = html.replace("<title>Vue App", `<title>AdminPanel`);
+                    html = html.replace(`html lang=""`, `html lang="fa" amp`);
+                    html = html.replace("<title>Vue App</title>", await generateMetaData(context.url));
                     html = html.replace("<body", `<body dir="rtl" theme="default_light" lang="fa"`);
                     res.setHeader("Content-Type", "text/html");
                     res.send(html);

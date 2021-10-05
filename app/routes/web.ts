@@ -39,6 +39,7 @@ router.get("/faqs", faqsController.getFaqs.bind(faqsController));
 router.get("/random_articles", articlesController.getRandomArticles.bind(articlesController));
 router.get("/articles", articlesController.getArticles.bind(articlesController));
 router.get("/article", articlesController.getArticle.bind(articlesController));
+router.get("/article/meta", articlesController.getArticleMeta.bind(articlesController));
 
 router.get("/book/callback", bookingController.bookConsultationSessionCallback.bind(bookingController));
 

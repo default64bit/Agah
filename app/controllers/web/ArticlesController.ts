@@ -93,6 +93,26 @@ class Controller {
             similarArticles: similarArticles,
         });
     }
+
+    public async getArticleMeta(req: Request, res: Response) {
+        let url_code = 0;
+        try {
+            url_code = parseInt(req.query.url_code.toString());
+        } catch (e) {}
+
+        const article = await Article.model
+            .findOne({ url_code: url_code })
+            .select("metadata")
+            .exec();
+
+        res.json({
+            thumbnail: article.metadata.thumbnail,
+            title: article.metadata.title,
+            description: article.metadata.description,
+            author: article.metadata.author,
+            keywords: article.metadata.keywords,
+        });
+    }
 }
 
 export default Controller;
