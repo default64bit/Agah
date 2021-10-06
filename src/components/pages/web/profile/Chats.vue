@@ -36,9 +36,13 @@
             <div class="flex flex-col gap-2 min-h-full flex-grow pr-2 lg:w-full" :class="showMessages ? 'w-full' : 'hidden lg:flex'">
                 <div class="flex flex-wrap items-center gap-2 w-full" v-show="!!selectedMessageBoard.chatId">
                     <button class="btn p-1 w-max text-rose-500 lg:hidden" @click="showMessages = false"><i class="far fa-times"></i></button>
-                    <button class="btn p-1 w-max bg-emerald-400 hover:bg-emerald-500 text-white" @click="call()" title="تماس">
-                        <i class="fas fa-phone"></i>
-                    </button>
+                    <call-controller>
+                        <template v-slot:callBtn="{ call }">
+                            <button class="btn p-1 w-max bg-emerald-400 hover:bg-emerald-500 text-white" @click="call" title="تماس">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                        </template>
+                    </call-controller>
                     <span class="far fa-horizontal-rule fa-rotate-90 text-gray-400 opacity-25"></span>
                     <strong v-if="!!selectedMessageBoard.timeRemained">
                         <i class="fad fa-hourglass-half fa-spin"></i>
@@ -115,8 +119,13 @@
 import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
+import CallController from "../../../templates/layouts/CallController";
+
 export default {
     name: "UserChats",
+    components: {
+        "call-controller": CallController,
+    },
     data() {
         return {
             connection: null,
@@ -160,7 +169,7 @@ export default {
         ...mapGetters(["userInfo"]),
     },
     methods: {
-        ...mapActions(['makeToast']),
+        ...mapActions(["makeToast"]),
 
         defaultSelectedMessageBoard() {
             return {

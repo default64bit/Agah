@@ -67,8 +67,8 @@
                 <td>{{ record.question }}</td>
                 <td>{{ `${record.author[0].name} ${record.author[0].family}` }}</td>
                 <td>
-                    <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="record.status == 'published'">منتشر شده</span>
-                    <span class="p-1 px-2 text-sm rounded-md bg-indigo-100 text-indigo-700" v-if="record.status == 'pending'">منتظر انتشار</span>
+                    <span class="p-1 px-2 text-xs rounded-md bg-emerald-100 text-emerald-700" v-if="record.status == 'published'">منتشر شده</span>
+                    <span class="p-1 px-2 text-xs rounded-md bg-indigo-100 text-indigo-700" v-if="record.status == 'pending'">منتظر انتشار</span>
                 </td>
                 <td>{{ new Date(record.createdAt).toLocaleString("fa") }}</td>
                 <td>

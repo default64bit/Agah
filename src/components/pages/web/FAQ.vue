@@ -37,7 +37,7 @@
                     </transition>
                 </header>
                 <transition name="slidedown" mode="out-in">
-                    <p v-show="faq.open">{{ faq.answer }}</p>
+                    <p class="text-sm" v-show="faq.open">{{ faq.answer }}</p>
                 </transition>
             </div>
             <ul class="flex items-center justify-center md:justify-start gap-2 mt-4 mb-12">

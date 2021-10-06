@@ -64,12 +64,26 @@
             @update:table="getTableData()"
         >
             <template v-slot:tbody="{ record, index }">
-                <td>{{ record.title }}</td>
-                <td>{{ `${record.author[0].name} ${record.author[0].family}` }}</td>
-                <td>{{ record.views }}</td>
                 <td>
-                    <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="record.status == 'published'">منتشر شده</span>
-                    <span class="p-1 px-2 text-sm rounded-md bg-indigo-100 text-indigo-700" v-if="record.status == 'pending'">منتظر انتشار</span>
+                    <div class="flex items-center gap-2">
+                        <img class="h-10 max-w-xs object-contain" :src="record.metadata.thumbnail" alt="" />
+                        <span>{{ record.title }}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="flex items-center gap-2">
+                        <img class="avatar" :src="record.author[0].image" v-if="record.author[0].image" alt="" />
+                        <img class="avatar" src="http://localhost:3000/img/avatars/admin.png" v-else alt="" />
+                        <span>{{ `${record.author[0].name} ${record.author[0].family}` }}</span>
+                    </div>
+                </td>
+                <td>
+                    <span class="title">بازدیدها:</span>
+                    <span>{{ record.views }}</span>
+                </td>
+                <td>
+                    <span class="p-1 px-2 text-xs rounded-md bg-emerald-100 text-emerald-700" v-if="record.status == 'published'">منتشر شده</span>
+                    <span class="p-1 px-2 text-xs rounded-md bg-indigo-100 text-indigo-700" v-if="record.status == 'pending'">منتظر انتشار</span>
                 </td>
                 <td>{{ new Date(record.publishedAt).toLocaleString("fa") }}</td>
                 <td>{{ new Date(record.createdAt).toLocaleString("fa") }}</td>

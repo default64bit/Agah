@@ -59,8 +59,11 @@
         >
             <template v-slot:tbody="{ record, index }" :index="index">
                 <td>
-                    <span class="title">کاربر:</span>
-                    <span>{{ `${record.user[0].name} ${record.user[0].family}` }}</span>
+                    <div class="flex items-center gap-2">
+                        <img class="avatar" :src="record.user[0].image" v-if="record.user[0].image" alt="" />
+                        <img class="avatar" src="http://localhost:3000/img/avatars/admin.png" v-else alt="" />
+                        <span>{{ `${record.user[0].name} ${record.user[0].family}` }}</span>
+                    </div>
                 </td>
                 <td>
                     <span class="title">مبلغ:</span>
@@ -76,10 +79,10 @@
                 </td>
                 <td>
                     <span class="title">وضعیت:</span>
-                    <span class="p-1 px-2 text-sm rounded-md bg-indigo-100 text-indigo-700" v-if="record.transaction.status == 'pending'">درحال پرداخت</span>
-                    <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="record.transaction.status == 'ok'">پرداخت شده</span>
-                    <span class="p-1 px-2 text-sm rounded-md bg-red-100 text-red-700" v-if="record.transaction.status == 'failed'">خطا</span>
-                    <span class="p-1 px-2 text-sm rounded-md bg-rose-100 text-rose-700" v-if="record.transaction.status == 'canceled'">لغو شده</span>
+                    <span class="p-1 px-2 text-xs rounded-md bg-indigo-100 text-indigo-700" v-if="record.transaction.status == 'pending'">درحال پرداخت</span>
+                    <span class="p-1 px-2 text-xs rounded-md bg-emerald-100 text-emerald-700" v-if="record.transaction.status == 'ok'">پرداخت شده</span>
+                    <span class="p-1 px-2 text-xs rounded-md bg-red-100 text-red-700" v-if="record.transaction.status == 'failed'">خطا</span>
+                    <span class="p-1 px-2 text-xs rounded-md bg-rose-100 text-rose-700" v-if="record.transaction.status == 'canceled'">لغو شده</span>
                 </td>
                 <td>
                     <span class="title">ip:</span>

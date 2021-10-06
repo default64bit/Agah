@@ -79,7 +79,7 @@ class TransactionsController {
             })
             .match(query)
             .project(
-                "user.name user.family transaction.amount transaction.payedAmount transaction.transactionCode transaction.status transaction.ip createdAt"
+                "user.name user.family user.image transaction.amount transaction.payedAmount transaction.transactionCode transaction.status transaction.ip createdAt"
             );
 
         // sorting

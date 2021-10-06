@@ -435,6 +435,17 @@ h6.ce-header{ font-size: .75rem; }
 }
 /* Progress Bar ======================================== */
 
+/* Call Controls ======================================== */
+.call_controls{
+    position: absolute; top: 5rem; left: 1rem;
+    border-radius: 5px; z-index: 100; user-select: none;
+    box-shadow: 0px 10px 10px -6px var(--article-box-shadow-color);
+}
+.call_controls button.end_call > i{
+    transform: rotate(225deg) !important;
+}
+/* Call Controls ======================================== */
+
 /* Icon Flip ======================================== */
 [dir="rtl"] .fad, [dir="rtl"] .fal, [dir="rtl"] .far, [dir="rtl"] .fas{ transform: rotateY(180deg) !important; }
 
@@ -472,11 +483,20 @@ h6.ce-header{ font-size: .75rem; }
 .fade-enter-to,.fade-leave-from{ opacity: 1; }
 
 @keyframes jiggle {
-    0% { transform: rotate(10deg) }
-    100% { transform: rotate(-10deg) }
+    /* 0% { transform: rotate(15deg) }
+    40% { transform: rotate(-15deg) }
+    100% { transform: rotate(0deg) } */
+    
+    0%, 100% { transform: rotate(0deg); transform-origin: 50% 50%; }
+    10% { transform: rotate(8deg); }
+    20%, 40%, 60% { transform: rotate(-10deg); }
+    30%, 50%, 70% { transform: rotate(10deg); }
+    80% { transform: rotate(-8deg); }
+    90% { transform: rotate(8deg); }
 }
 .jiggle{
-    animation: jiggle ease-in-out .1s infinite;
+    /* animation: jiggle ease-out 1s infinite; */
+    animation: jiggle 2s ease-out 0s infinite normal none;
 }
 
 @keyframes call_flash {

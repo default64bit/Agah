@@ -36,7 +36,13 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button class="t_button text-white bg-emerald-400 hover:bg-emerald-500"><i class="fas fa-phone-alt"></i></button>
+                        <call-controller>
+                            <template v-slot:callBtn="{ call }">
+                                <button class="t_button text-white bg-emerald-400 hover:bg-emerald-500" @click="call">
+                                    <i class="fas fa-phone-alt"></i>
+                                </button>
+                            </template>
+                        </call-controller>
                     </div>
                 </div>
                 <ul class="t_tabs flex-shrink-0 mt-0">
@@ -70,11 +76,13 @@ import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
 import Input from "../../../templates/layouts/Input";
+import CallController from "../../../templates/layouts/CallController";
 
 export default {
     name: "Users",
     components: {
         "t-input": Input,
+        "call-controller": CallController,
     },
     data() {
         return {

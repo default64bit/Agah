@@ -1,4 +1,5 @@
 import { createApp, createSSRApp } from "vue";
+import { DraggablePlugin } from "@braks/revue-draggable";
 import createRouter from "./router";
 import createStore from "./store";
 import App from "./components/App.vue";
@@ -13,6 +14,8 @@ export default (args) => {
 
     app.use(router);
     app.use(store);
+
+    app.use(DraggablePlugin);
 
     app.mixin({
         methods: {

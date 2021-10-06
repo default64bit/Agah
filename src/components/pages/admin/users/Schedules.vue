@@ -14,10 +14,10 @@
                         <span class="p-1 px-2 rounded-sm bg-gray-700 text-primary-100" v-if="data.type == 'online'">آنلاین</span>
                     </td>
                     <td class="p-4">
-                        <span class="p-1 px-2 text-sm rounded-md bg-indigo-100 text-indigo-700" v-if="data.status == 'waiting-for-payment'">منتظر پرداخت</span>
-                        <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="data.status == 'payed'">پرداخت شده</span>
-                        <span class="p-1 px-2 text-sm rounded-md bg-red-100 text-red-700" v-if="data.status == 'finished'">انجام شده</span>
-                        <span class="p-1 px-2 text-sm rounded-md bg-rose-100 text-rose-700" v-if="data.status == 'canceled'">لغو شده</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-indigo-100 text-indigo-700" v-if="data.status == 'waiting-for-payment'">منتظر پرداخت</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-emerald-100 text-emerald-700" v-if="data.status == 'payed'">پرداخت شده</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-red-100 text-red-700" v-if="data.status == 'finished'">انجام شده</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-rose-100 text-rose-700" v-if="data.status == 'canceled'">لغو شده</span>
                     </td>
                     <td class="p-4">
                         <router-link

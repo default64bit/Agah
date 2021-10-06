@@ -80,7 +80,7 @@ class BookedSchedulesController {
                 as: "consulter",
             })
             .match(query)
-            .project("user.name user.family consulter.name consulter.family date time type status createdAt");
+            .project("user.name user.family user.image consulter.name consulter.family consulter.image date time type status createdAt");
 
         // sorting
         if (sort) {

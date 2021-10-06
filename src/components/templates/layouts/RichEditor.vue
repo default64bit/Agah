@@ -39,23 +39,27 @@ export default {
     },
     created() {},
     async mounted() {
-        await this.setEditor().then(() => (this.loading = false));
+        await this.setEditor("mounted").then(() => (this.loading = false));
 
         this.$emit("update:temp", this.getRandomName());
     },
+    unmounted() {
+        window.editor = undefined;
+    },
     watch: {
         async text(value) {
-            if (typeof window.editor !== "undefined") {
+            // if (typeof window.editor !== "undefined") {
+            if (typeof window.editor === "undefined") {
                 this.loading = true;
-                this.setEditor().then(() => (this.loading = false));
+                this.setEditor("watcher").then(() => (this.loading = false));
             }
         },
     },
     methods: {
-        async setEditor() {
-            if(this.isEditorSet) return;
+        async setEditor(src) {
+            if (this.isEditorSet || !this.text) return;
+            this.isEditorSet = true;
 
-            console.log(1);
             const EditorJS = await import("@editorjs/editorjs");
             const EditorHeader = await import("@editorjs/header");
             const EditorList = await import("@editorjs/list");
@@ -114,8 +118,6 @@ export default {
                     },
                 },
             });
-
-            this.isEditorSet = true;
         },
 
         focus() {

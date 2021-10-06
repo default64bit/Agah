@@ -17,10 +17,10 @@
                         <span v-else>----</span>
                     </td>
                     <td class="p-4">
-                        <span class="p-1 px-2 text-sm rounded-md bg-indigo-100 text-indigo-700" v-if="data.transaction.status == 'pending'">درحال پرداخت</span>
-                        <span class="p-1 px-2 text-sm rounded-md bg-emerald-100 text-emerald-700" v-if="data.transaction.status == 'ok'">پرداخت شده</span>
-                        <span class="p-1 px-2 text-sm rounded-md bg-red-100 text-red-700" v-if="data.transaction.status == 'failed'">خطا</span>
-                        <span class="p-1 px-2 text-sm rounded-md bg-rose-100 text-rose-700" v-if="data.transaction.status == 'canceled'">لغو شده</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-indigo-100 text-indigo-700" v-if="data.transaction.status == 'pending'">درحال پرداخت</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-emerald-100 text-emerald-700" v-if="data.transaction.status == 'ok'">پرداخت شده</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-red-100 text-red-700" v-if="data.transaction.status == 'failed'">خطا</span>
+                        <span class="p-1 px-2 text-xs rounded-md bg-rose-100 text-rose-700" v-if="data.transaction.status == 'canceled'">لغو شده</span>
                     </td>
                     <td class="p-4">
                         <span dir="ltr">{{ new Date(data.createdAt).toLocaleString("fa") }}</span>

@@ -69,7 +69,7 @@ class AdminRolesController {
                     { status: { $regex: new RegExp(`.*${search}.*`, "i") } },
                 ],
             });
-        data = data.project("author.name author.family image title desc views status publishedAt createdAt");
+        data = data.project("author.name author.family author.image image title desc views status metadata publishedAt createdAt");
 
         // sorting
         if (sort) {

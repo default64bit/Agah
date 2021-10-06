@@ -16,7 +16,7 @@
                 <t-spacer class="my-2 opacity-50" text="OR" />
                 <t-input class="mb-4" name="username" type="text" label="پست الکترونیک خود را وارد کنید" v-model:value="username" :error="usernameError" />
                 <button class="btn disabled:opacity-50 w-full" :disabled="submitingLoginForm" @click="login()">
-                    <b class="font-normal text-xl" v-if="!submitingLoginForm">ادامه</b>
+                    <b class="font-normal" v-if="!submitingLoginForm">ادامه</b>
                     <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                 </button>
             </div>
@@ -50,7 +50,7 @@
                     <button class="text-sm text-primary-600 hover:underline" @click="page = 'stage1'">ورود با ایمیل دیگر</button>
                 </div>
                 <button class="btn disabled:opacity-50 w-full" :disabled="submitingVerficationForm" @click="verify()">
-                    <b class="font-normal text-xl" v-if="!submitingVerficationForm">ادامه</b>
+                    <b class="font-normal" v-if="!submitingVerficationForm">ادامه</b>
                     <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                 </button>
             </div>
@@ -73,7 +73,7 @@
                 />
 
                 <button class="btn disabled:opacity-50 w-full" :disabled="submitingRegisterForm" @click="register()">
-                    <b class="font-normal text-xl" v-if="!submitingRegisterForm">تایید</b>
+                    <b class="font-normal" v-if="!submitingRegisterForm">تایید</b>
                     <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                 </button>
             </div>
