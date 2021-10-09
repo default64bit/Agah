@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import randStr from "../../helpers/randStr";
+import { randStr } from "../../helpers/stringHelpers";
 import adminPermissionCheck from "../../helpers/adminPermissionCheck";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import Admin from "../../models/Admin";
@@ -247,7 +247,7 @@ class AdminsController {
             updateQuery["socialMedias"] = [];
             const socialMedias = JSON.parse(req.body.socialMedias);
             socialMedias.forEach((socialMedia) => {
-                if(socialMedia.name && socialMedia.value){
+                if (socialMedia.name && socialMedia.value) {
                     updateQuery["socialMedias"].push({
                         name: socialMedia.name.value,
                         link: socialMedia.value,

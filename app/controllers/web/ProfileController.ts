@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import { Request, Response } from "express";
-import randStr from "../../helpers/randStr";
+import { randStr } from "../../helpers/stringHelpers";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import User from "../../models/User";
 

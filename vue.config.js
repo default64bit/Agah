@@ -4,17 +4,18 @@ const webpack = require("webpack");
 
 module.exports = {
     pwa: {
-        name: "Admin Panel",
-        themeColor: "#a78bfa",
-        msTileColor: "#000000",
+        name: "گروه آگه",
+        themeColor: "#f5f5f5",
+        msTileColor: "#f5f5f5",
         appleMobileWebAppCapable: "yes",
         appleMobileWebAppStatusBarStyle: "black",
 
-        // workboxPluginMode: "InjectManifest",
-        workboxPluginMode: "GenerateSW",
-        // workboxOptions: {
-        //     swSrc: "sw.js",
-        // },
+        // workboxPluginMode: "GenerateSW",
+        workboxPluginMode: "InjectManifest",
+        workboxOptions: {
+            swSrc: "sw.js",
+        },
+
     },
     css: {
         extract: true,
@@ -31,11 +32,10 @@ module.exports = {
         webpackConfig.module.rule("tsx").uses.delete("cache-loader");
 
         // adding a temprary title
-        webpackConfig.plugin("html").tap((args) => {
-            args[0].title = "Admin Panel Template";
-            console.log(args);
-            return args;
-        });
+        // webpackConfig.plugin("html").tap((args) => {
+        //     args[0].title = "Admin Panel Template";
+        //     return args;
+        // });
 
         if (!process.env.SSR) {
             // Point entry to your app's client entry file

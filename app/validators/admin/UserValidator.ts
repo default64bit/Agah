@@ -88,6 +88,16 @@ class Validator extends BaseValidator {
 
         return await super.validate(validationChain, req, res, next);
     }
+
+    public static async uploadAttachment(req: Request, res: Response, next) {
+        const validationChain = [
+            param("chatId").exists().withMessage("برای آپلود باید یک گروه پیام انتخاب کرده باشید"),
+            param("chatId").notEmpty().withMessage("برای آپلود باید یک گروه پیام انتخاب کرده باشید"),
+            param("chatId").isMongoId().withMessage("برای آپلود باید یک گروه پیام انتخاب کرده باشید"),
+        ];
+
+        return await super.validate(validationChain, req, res, next);
+    }
 }
 
 export default Validator;

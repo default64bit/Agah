@@ -36,18 +36,29 @@
             <div class="flex flex-col gap-2 min-h-full flex-grow pr-2 lg:w-full" :class="showMessages ? 'w-full' : 'hidden lg:flex'">
                 <div class="flex flex-wrap items-center gap-2 w-full" v-show="!!selectedMessageBoard.chatId">
                     <button class="btn p-1 w-max text-rose-500 lg:hidden" @click="showMessages = false"><i class="far fa-times"></i></button>
-                    <call-controller>
+                    <call-controller v-show="!!selectedMessageBoard.canSendMessage">
                         <template v-slot:callBtn="{ call }">
-                            <button class="btn p-1 w-max bg-emerald-400 hover:bg-emerald-500 text-white" @click="call" title="تماس">
+                            <button
+                                class="btn p-1 w-max bg-emerald-400 hover:bg-emerald-500 text-white"
+                                @click="call(selectedMessageBoard.receiverId, selectedChat.fullName, selectedChat.image)"
+                                title="تماس"
+                            >
                                 <i class="fas fa-phone"></i>
                             </button>
                         </template>
                     </call-controller>
-                    <span class="far fa-horizontal-rule fa-rotate-90 text-gray-400 opacity-25"></span>
+                    <span class="far fa-horizontal-rule fa-rotate-90 text-gray-400 opacity-25" v-if="!!selectedMessageBoard.canSendMessage"></span>
                     <strong v-if="!!selectedMessageBoard.timeRemained">
-                        <i class="fad fa-hourglass-half fa-spin"></i>
+                        <i class="fad fa-hourglass-half fa-spin font-normal"></i>
                         {{ new Date(selectedMessageBoard.timeRemained * 1000).toISOString().substr(11, 8) }}
                     </strong>
+                    <span class="far fa-horizontal-rule fa-rotate-90 text-gray-400 opacity-25" v-if="!!selectedMessageBoard.canSendMessage"></span>
+                    <div class="flex items-center gap-1">
+                        <span class="far fa-file-alt"></span>
+                        <strong dir="ltr">
+                            {{ `${selectedMessageBoard.bookedSchedule.uploadedFileCount || 0} / ${selectedMessageBoard.maxUploadCount}` }}
+                        </strong>
+                    </div>
                 </div>
                 <ul class="pl-2 pt-2 border-t-2 border-solid border-gray-300 border-opacity-20" ref="message_ul" name="message_ul">
                     <div class="flex items-center justify-center" v-if="selectedMessageBoard.loading">
@@ -56,6 +67,16 @@
                     <li v-for="(message, i) in selectedMessageBoard.messages" :key="i">
                         <transition :name="message.sender == userInfo._id ? 'slideleft' : 'slideright'" appear>
                             <div class="message_bubble" :class="message.sender == userInfo._id ? 'sent' : 'received'">
+                                <a
+                                    class="flex items-center flex-wrap gap-1 mb-2 bg-gray-50 p-1 rounded-sm w-max text-gray-700"
+                                    v-for="(file, f) in message.files"
+                                    :key="f"
+                                    :href="`/file/${file._id}`"
+                                    :download="file.name"
+                                >
+                                    <i class="fad fa-file text-xl"></i>
+                                    <span class="text-sm">{{ file.name }}</span>
+                                </a>
                                 <p class="text-sm">{{ message.message }}</p>
                                 <div class="flex items-center mt-2 gap-2">
                                     <span class="text-xs opacity-60">{{ new Date(message.createdAt).toLocaleString("fa") }}</span>
@@ -71,10 +92,26 @@
                     </transition>
                 </ul>
                 <hr class="w-full border-b-2 border-solid border-gray-300 border-opacity-30" />
-                <div class="flex flex-col w-full" v-show="!!selectedMessageBoard.chatId">
-                    <!-- TODO : upload attachment -->
+                <div class="flex flex-col w-full gap-2" v-show="!!selectedMessageBoard.chatId">
+                    <ul class="flex items-center flex-wrap gap-2" :class="{ 'opacity-50 cursor-wait': uploadingFiles }" v-show="!!files.length">
+                        <li class="flex items-start flex-wrap gap-2 p-2 bg-gray-400 bg-opacity-25 rounded-sm" v-for="(file, i) in files" :key="i">
+                            <div class="flex flex-col">
+                                <span class="max-w-screen-2xs overflow-hidden overflow-ellipsis">{{ file.name }}</span>
+                                <small class="opacity-75" dir="ltr">{{ parseFloat(file.size / 1048576).toFixed(2) }} MB</small>
+                            </div>
+                            <button class="btn p-1" @click="removeFile(i)"><i class="far fa-trash-alt text-red-300 opacity-75"></i></button>
+                        </li>
+                    </ul>
+                    <div class="flex items-center flex-wrap gap-2" v-show="uploadingFiles">
+                        <small class="opacity-75">درحال آپلود فایل</small>
+                        <div class="t_progress_bar bg-gray-600 w-40 h-2 rounded-full shadow">
+                            <div class="h-2 bg-secondary-400 rounded-full" :style="`width:${uploadingFilesPercentage}%`"></div>
+                        </div>
+                    </div>
                     <div class="flex items-center gap-2 p-2 rounded-sm bg-gray-300 bg-opacity-20" v-if="!!selectedMessageBoard.canSendMessage">
-                        <button class="far fa-paperclip p-2 text-lg"></button>
+                        <input class="opacity-0 hidden" ref="file_input" type="file" multiple @change="selectFiles()" />
+                        <button class="far fa-paperclip p-2 text-lg" @click="openFileSelector()" v-if="!uploadingFiles"></button>
+                        <span class="far fa-spinner fa-spin p-2 text-lg" v-else></span>
                         <input
                             class="flex-grow w-full h-full bg-transparent"
                             type="text"
@@ -144,6 +181,10 @@ export default {
             showMessages: false,
             messageBoard: {},
             selectedMessageBoard: {},
+
+            files: [],
+            uploadingFiles: false,
+            uploadingFilesPercentage: 0,
         };
     },
     created() {
@@ -184,6 +225,7 @@ export default {
                 canSendMessage: false,
                 bookedSchedule: {},
                 timeRemained: 0,
+                maxUploadCount: 0,
             };
         },
 
@@ -271,6 +313,8 @@ export default {
                     newMessages = newMessages.concat(this.selectedMessageBoard.messages);
                     this.selectedMessageBoard.messages = newMessages;
 
+                    this.selectedMessageBoard.maxUploadCount = parseInt(response.data.maxUploadCount);
+
                     this.selectedMessageBoard.page++;
                 })
                 .catch((error) => {
@@ -286,13 +330,19 @@ export default {
         onMessagesScroll(e) {
             if (e.target.scrollTop <= 15) this.loadMessages();
         },
-        sendMessage() {
+        async sendMessage() {
             if (this.connection.readyState != 1) return;
+
+            let uploadedFiles = await this.uploadFiles();
+
+            // message eather should contain some text or some file
+            if (!this.selectedMessageBoard.draftText && !uploadedFiles.length) return;
 
             this.connection.send(
                 JSON.stringify({
                     event: "message",
                     data: {
+                        files: JSON.stringify(uploadedFiles),
                         message: this.selectedMessageBoard.draftText,
                         chatId: this.selectedMessageBoard.chatId,
                         receiverId: this.selectedMessageBoard.receiverId,
@@ -344,6 +394,70 @@ export default {
             }, 2000);
         },
         // messages section ===========================================
+
+        // file upload section ===========================================
+        openFileSelector() {
+            if (this.uploadingFiles) return;
+            this.$refs.file_input.click();
+        },
+        selectFiles() {
+            if (this.uploadingFiles) return;
+
+            const avaliableUploads = this.selectedMessageBoard.maxUploadCount - (this.selectedMessageBoard.bookedSchedule.uploadedFileCount || 0);
+            if (this.$refs.file_input.files.length > avaliableUploads) {
+                this.makeToast({ message: "تعداد فایل انتخابی بیشتر از حد مجاز است", type: "warning" });
+                return;
+            }
+
+            for (let i = 0; i < this.$refs.file_input.files.length; i++) {
+                if (this.$refs.file_input.files[i].size > 1048576) {
+                    this.makeToast({ message: "حداکثر حجم فایل برای آپلود 1MB", type: "warning" });
+                    continue;
+                }
+                // TODO
+                // check the file format
+                this.files.push(this.$refs.file_input.files[i]);
+            }
+        },
+        removeFile(index) {
+            this.files.splice(index, 1);
+        },
+        async uploadFiles() {
+            let uploadedFiles = [];
+            if (this.uploadingFiles) return uploadedFiles;
+
+            if (!!this.files.length) {
+                this.uploadingFiles = true;
+
+                const formData = new FormData();
+                for (let i = 0; i < this.files.length; i++) formData.append("files", this.files[i]);
+                formData.append("bookedScheduleId", this.selectedMessageBoard.bookedSchedule._id);
+
+                await axios
+                    .post(`/api/v1/web/chat/${this.selectedMessageBoard.chatId}/upload`, formData, {
+                        onUploadProgress: (e) => (this.uploadingFilesPercentage = parseInt(Math.round((e.loaded / e.total) * 100))),
+                    })
+                    .then((response) => {
+                        uploadedFiles = response.data.fileObjects;
+                        this.files = [];
+                        try {
+                            // update the uploaded_file_count in selectedMessageBoard.bookedSchedule
+                            this.selectedMessageBoard.bookedSchedule.uploadedFileCount = response.data.newUploadedFileCount;
+                        } catch (e) {}
+                    })
+                    .catch((error) => {
+                        if (error.response.data) {
+                            this.makeToast({ message: error.response.data.error, type: "danger" });
+                        }
+                    })
+                    .finally(() => {
+                        this.uploadingFiles = false;
+                    });
+            }
+
+            return uploadedFiles;
+        },
+        // file upload section ===========================================
 
         // socket managment section ===========================================
         openSocket() {
@@ -471,12 +585,6 @@ export default {
             }
         },
         // socket managment section ===========================================
-
-        // webRTC call section ===========================================
-        call() {
-            // TODO
-        },
-        // webRTC call section ===========================================
     },
 };
 </script>

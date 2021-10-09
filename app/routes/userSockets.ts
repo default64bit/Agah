@@ -43,7 +43,7 @@ router.ws("/ISC", async (socket: WebSocket, req: AuthenticatedRequest) => {
         personType = "users";
     } else return;
 
-    console.log(`ISC connect: ${personType} - ${person._id.toHexString()}`);
+    // console.log(`ISC new connection: ${personType} - ${person._id.toHexString()}`);
 
     ISC_sockets[person._id.toHexString()] = { personType, socket };
     socket.send(
@@ -59,9 +59,6 @@ router.ws("/ISC", async (socket: WebSocket, req: AuthenticatedRequest) => {
             case "makeCall":
                 // TODO #OPTIONAL
                 // can check than only users can call admins and admins can call users
-
-                // TODO
-                // users should only able to call when they are in booked session period
 
                 if (!ISC_sockets.hasOwnProperty(msg.data.userToCall)) {
                     socket.send(JSON.stringify({ event: "userNotOnline" }));
@@ -83,6 +80,7 @@ router.ws("/ISC", async (socket: WebSocket, req: AuthenticatedRequest) => {
                         event: "calleeOfferUpdate",
                         callId: newCall._id,
                         callerId: person._id,
+                        caller: { name: person.name, family: person.family, image: person.image },
                         offer: msg.data.offer,
                         offerCandidates: msg.data.offerCandidates,
                     })
@@ -147,7 +145,7 @@ router.ws("/ISC", async (socket: WebSocket, req: AuthenticatedRequest) => {
     socket.on("close", (ws) => {
         if (ISC_sockets.hasOwnProperty(person._id.toHexString())) {
             delete ISC_sockets[person._id.toHexString()];
-            console.log(`ISC disconnected: ${person._id.toHexString()}`);
+            // console.log(`ISC disconnected: ${personType} - ${person._id.toHexString()}`);
         }
     });
 });
@@ -205,7 +203,11 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                 }
                 break;
             case "message":
-                if (!msg.data.chatId || !msg.data.receiverId || !msg.data.message) break;
+                if (!msg.data.chatId || !msg.data.receiverId) break;
+
+                // message eather should contain some text or some file
+                const files = !!msg.data.files ? JSON.parse(msg.data.files) : [];
+                if (!msg.data.message && !files.length) break;
 
                 // check that user is in it's booked time with this consulter/receiver
                 if (senderType == "users") {
@@ -239,11 +241,12 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                     senderType: senderType,
                     receiver: msg.data.receiverId,
                     receiverType: receiverType,
-                    message: msg.data.message,
+                    message: msg.data.message || null,
+                    files: files,
                 });
                 message = await UserChatMessages.model
                     .findById(message.id)
-                    .select("sender receiver message file readAt createdAt")
+                    .select("sender receiver message files readAt createdAt")
                     .exec();
 
                 // update the lastMessage and lastMessageDate in chat

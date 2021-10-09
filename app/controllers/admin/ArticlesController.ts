@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import sharp from "sharp";
-import randStr from "../../helpers/randStr";
+import { randStr } from "../../helpers/stringHelpers";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import adminPermissionCheck from "../../helpers/adminPermissionCheck";
 import Article from "../../models/Article";
@@ -207,7 +207,10 @@ class AdminRolesController {
         const metaTags = req.body.metaTags;
         const text = req.body.text;
 
-        const lastArticle = await Article.model.findOne().sort({url_code:'desc'}).exec();
+        const lastArticle = await Article.model
+            .findOne()
+            .sort({ url_code: "desc" })
+            .exec();
         const url_code = parseInt(lastArticle.url_code) + 1;
 
         const article = await Article.model
@@ -339,13 +342,13 @@ class AdminRolesController {
             if (block.type == "imageTool") existingImages.push(block.data.file.url.split("/").pop());
         });
 
-        try{
+        try {
             // remove any unused image in article folder
             const articleImages = await fs.readdir(`public/articles/${article._id}`);
             articleImages.forEach(async (image) => {
                 if (!existingImages.includes(image)) await fs.unlink(`public/articles/${article._id}/${image}`);
             });
-        }catch(e){}
+        } catch (e) {}
 
         return res.end();
     }

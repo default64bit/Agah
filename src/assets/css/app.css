@@ -430,7 +430,7 @@ h6.ce-header{ font-size: .75rem; }
 .t_progress_bar{}
 .t_progress_bar > div{
     background: linear-gradient(135deg, var(--progress-bar-gradient-color-1) 0%, var(--progress-bar-gradient-color-2) 100%);
-	background-size: 200% 200%;
+	background-size: 200% 200%; margin-inline-start: -1px;
 	animation: progress_bar_gradient 2s ease infinite;
 }
 /* Progress Bar ======================================== */

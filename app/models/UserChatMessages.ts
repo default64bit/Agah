@@ -9,7 +9,13 @@ const _schema: mongoose.Schema = new mongoose.Schema({
     receiver: { type: mongoose.Schema.Types.ObjectId, refPath: "receiver_type" },
 
     message: { type: String },
-    file: { type: String },
+    files: [
+        new mongoose.Schema({
+            name: { type: String },
+            extension: { type: String },
+            link: { type: String },
+        }),
+    ],
     readAt: { type: Date },
     deletedAt: { type: Date },
     createdAt: { type: Date, default: Date.now() },
@@ -22,10 +28,16 @@ export interface IUserChatMessages {
     receiverType: string;
     receiver: mongodb.ObjectId;
     message: string;
-    file: string;
+    files: Array<IFile>;
     readAt: Date;
     deletedAt: Date;
     createdAt: Date;
+}
+export interface IFile {
+    _id: mongodb.ObjectId;
+    name: string;
+    extension: string;
+    link: string;
 }
 
 class UserChatMessages {

@@ -1,12 +1,14 @@
 import fs from "fs/promises";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import randStr from "../../helpers/randStr";
+import moment from "moment";
+import { randStr } from "../../helpers/stringHelpers";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import adminPermissionCheck from "../../helpers/adminPermissionCheck";
 import User from "../../models/User";
 import UserChat from "../../models/UserChat";
 import UserChatMessages from "../../models/UserChatMessages";
+import BookedSchedule from "../../models/BookedSchedule";
 
 class CallsController {
     public async getUsers(req: AuthenticatedRequest, res: Response) {
@@ -135,14 +137,62 @@ class CallsController {
                     { sender: chat.consulter, receiver: chat.user },
                 ],
             })
-            .select("sender receiver message file readAt createdAt")
+            .select("sender receiver message files readAt createdAt")
             .sort({ createdAt: "desc" })
             .limit(pp)
             .skip((page - 1) * pp)
             .exec();
         messages.reverse();
 
-        return res.json({ messages });
+        return res.json({ messages, maxUploadCount: process.env.CHAT_MAX_UPLOAD_COUNT });
+    }
+
+    public async uploadAttachment(req: AuthenticatedRequest, res: Response) {
+        const chatId = req.params.chatId;
+        const files = req.files["files"];
+        const validMimeTypes = process.env.CHAT_FILE_UPLOAD_FORMATS.split(",");
+
+        if (!files) return res.status(422).json({ error: "فایل ای انتخاب نشده" });
+
+        // get the chatId : get the current user and consulter
+        const chat = await UserChat.model.findOne({ _id: chatId }).exec();
+        if (!chat) {
+            for (let i = 0; i < files.length; i++) await fs.unlink(files[i].path);
+            return res.status(404).json({ error: "پیامی وجود ندارد" });
+        }
+
+        const fileObjects = [];
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const ogName = file.originalname;
+            const extension = ogName.slice(((ogName.lastIndexOf(".") - 1) >>> 0) + 2);
+
+            // each uploaded file must be under the max file size limit in .env
+            if (file.size > process.env.CHAT_MAX_UPLOAD_SIZE) {
+                await fs.unlink(file.path);
+                continue;
+            }
+
+            if (!validMimeTypes.includes(extension)) {
+                await fs.unlink(file.path);
+                continue;
+            }
+
+            // upload the files
+            const fileName = randStr(30);
+            const address = `public/user_files/${fileName}.${extension}`;
+            await fs.copyFile(file.path, address).then(async () => {
+                fileObjects.push({
+                    name: ogName,
+                    extension: extension,
+                    link: address,
+                });
+            });
+            await fs.unlink(file.path);
+        }
+
+        // the returned array should follow te structure of the files array in db
+        return res.json({ fileObjects });
     }
 
     public async editUser(req: AuthenticatedRequest, res: Response) {

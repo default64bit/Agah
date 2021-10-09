@@ -47,6 +47,7 @@ expressApp.use(function(err, req, res, next) {
 
 // assign routes
 expressApp.use("/api/v1", require("./app/routes/index").default);
+expressApp.use("/file/:fileId", require("./app/controllers/FileController").default);
 
 expressApp.use("/sock/v1", require("./app/routes/adminSockets").default);
 expressApp.use("/sock/v2", require("./app/routes/userSockets").default);

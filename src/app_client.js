@@ -23,11 +23,12 @@ router.isReady().then(() => {
         },
     });
 
-    if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-            navigator.serviceWorker.register("/sw.js");
-        });
-    }
+    // TODO : activate this and make a propper PWA than can handle push notifs and can get calls and such
+    // if ("serviceWorker" in navigator) {
+    //     window.addEventListener("load", () => {
+    //         navigator.serviceWorker.register("/sw.js");
+    //     });
+    // }
 
     app.mount("#app");
 });

@@ -37,9 +37,6 @@ import { mapGetters, mapActions } from "vuex";
 
 import Input from "../../templates/layouts/Input";
 
-// TODO
-// make this a layout component with custom call button and a call controller that teleports and is a absoulte element
-
 export default {
     name: "Room",
     components: {

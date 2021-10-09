@@ -64,6 +64,7 @@ const _schema: mongoose.Schema = new mongoose.Schema({
         enum: ["waiting-for-payment", "payed", "finished", "canceled"],
         default: "waiting-for-payment",
     },
+    uploadedFileCount: { type: Number, default: 0 },
     createdAt: {
         type: Date,
         default: Date.now(),
@@ -81,6 +82,7 @@ export interface IBookedSchedule {
     type: string;
     transaction: ITransaction;
     status: string;
+    uploadedFileCount: number,
     createdAt: Date;
 }
 export interface ITransaction {

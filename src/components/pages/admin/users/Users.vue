@@ -38,7 +38,10 @@
                     <div class="flex items-center gap-2">
                         <call-controller>
                             <template v-slot:callBtn="{ call }">
-                                <button class="t_button text-white bg-emerald-400 hover:bg-emerald-500" @click="call">
+                                <button
+                                    class="t_button text-white bg-emerald-400 hover:bg-emerald-500"
+                                    @click="call(selected_user._id, `${selected_user.name} ${selected_user.family}`, selected_user.image)"
+                                >
                                     <i class="fas fa-phone-alt"></i>
                                 </button>
                             </template>

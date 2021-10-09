@@ -62,7 +62,7 @@
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.25);
 
     --progress-bar-gradient-color-1: theme("colors.primary.500");
-    --progress-bar-gradient-color-2: theme("colors.primary.300");
+    --progress-bar-gradient-color-2: theme("colors.primary.100");
 
     --call-flash-color: #2ee674;
 
@@ -220,7 +220,7 @@
     --dialog-box-shadow-color: rgba(0, 0, 0, 0.05);
 
     --progress-bar-gradient-color-1: theme("colors.primary.500");
-    --progress-bar-gradient-color-2: theme("colors.primary.300");
+    --progress-bar-gradient-color-2: theme("colors.primary.100");
 
     --call-flash-color: #2ee674;
 

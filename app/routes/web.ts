@@ -17,6 +17,7 @@ import BookingValidator from "../validators/user/BookingValidator";
 import BookedSchedulesController from "../controllers/web/BookedSchedulesController";
 
 import ChatController from "../controllers/web/ChatController";
+import ChatValidator from "../validators/user/ChatValidator";
 
 const router = Router();
 const profileController = new ProfileController();
@@ -61,6 +62,11 @@ router.delete("/notifications", notificationController.clearNotifs);
 
 router.get("/chats", chatController.getChats.bind(chatController));
 router.get("/chat/:id/messages", chatController.getChatMessages.bind(chatController));
-router.post("/chat/:id/upload", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("file"), chatController.uploadAttachment.bind(chatController));
+router.post(
+    "/chat/:id/upload",
+    multer({ dest: process.env.TEMP_FILE_UPLOAD }).fields([{ name: "files", maxCount: parseInt(process.env.CHAT_MAX_UPLOAD_COUNT) }]),
+    ChatValidator.uploadAttachment,
+    chatController.uploadAttachment.bind(chatController)
+);
 
 export default router;

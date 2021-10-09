@@ -102,6 +102,12 @@ router.get("/users", UserValidator.getUsers, userController.getUsers.bind(userCo
 router.get("/user/:id/info", UserValidator.getUser, userController.getUserInfo.bind(userController));
 router.get("/user/:id/chat", UserValidator.getUser, userController.getChat.bind(userController));
 router.get("/user/:id/messages", UserValidator.getUser, userController.getUserMessages.bind(userController));
+router.post(
+    "/user/:id/chat/:chatId/upload",
+    multer({ dest: process.env.TEMP_FILE_UPLOAD }).fields([{ name: "files", maxCount: parseInt(process.env.CHAT_MAX_UPLOAD_COUNT) }]),
+    UserValidator.uploadAttachment,
+    userController.uploadAttachment.bind(userController)
+);
 router.put("/user/:id", multer({ dest: process.env.TEMP_FILE_UPLOAD }).single("avatar"), UserValidator.editUser, userController.editUser.bind(userController));
 router.delete("/user/:id", UserValidator.deleteUser, userController.deleteUser.bind(userController));
 

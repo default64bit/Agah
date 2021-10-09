@@ -81,7 +81,7 @@
                         <span class="text-lg">ساعت {{ selectedSchedule.time }}</span>
                     </div>
                     <hr class="w-10/12 mx-auto border-solid border-gray-500 border-opacity-50" />
-                    <ul class="flex flex-col gap-4 bg-white text-black p-2 rounded-sm">
+                    <ul class="flex flex-col gap-4 border-2 border-gray-300 border-opacity-50 p-2 rounded-sm">
                         <li class="flex items-center justify-between gap-1">
                             <label>هزینه مشاوره:</label>
                             <b>{{ new Intl.NumberFormat("fa").format(selectedSchedule.transaction.amount * 10) }} <small>ریال</small></b>
