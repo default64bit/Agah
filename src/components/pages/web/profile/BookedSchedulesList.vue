@@ -214,7 +214,6 @@ export default {
         },
 
         loadMore() {
-            console.log(this.page, this.pageTotal);
             if (this.page < this.pageTotal) {
                 this.page = parseInt(this.page) + 1;
                 this.getBookedSchedules();

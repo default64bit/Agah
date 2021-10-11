@@ -49,7 +49,7 @@
                     </call-controller>
                     <span class="far fa-horizontal-rule fa-rotate-90 text-gray-400 opacity-25" v-if="!!selectedMessageBoard.canSendMessage"></span>
                     <strong v-if="!!selectedMessageBoard.timeRemained">
-                        <i class="fad fa-hourglass-half fa-spin font-normal"></i>
+                        <i class="fad fa-hourglass-half fa-spin font-normal" style="padding-top:2px;"></i>
                         {{ new Date(selectedMessageBoard.timeRemained * 1000).toISOString().substr(11, 8) }}
                     </strong>
                     <span class="far fa-horizontal-rule fa-rotate-90 text-gray-400 opacity-25" v-if="!!selectedMessageBoard.canSendMessage"></span>

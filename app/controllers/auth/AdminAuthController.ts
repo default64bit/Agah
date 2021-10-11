@@ -10,7 +10,7 @@ class AuthController {
             const { response, AdminAuthError } = AuthController.generateToken(req, res, err, admin_id);
             if (AdminAuthError) return response.status(401).end();
 
-            NotifSender(admin_id, "admins", ["system"], "NewLogin", {
+            NotifSender([admin_id], "admins", ["system"], "NewLogin", {
                 icon: "fad fa-user-unlock",
                 title: "New Login",
                 message: `New login from ${req.ip}, with username and password`,

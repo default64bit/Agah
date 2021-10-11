@@ -43,6 +43,11 @@
                             <img class="h-8 w-8 rounded-full" :src="userInfo.avatar" alt="" />
                             <span>{{ `${userInfo.name} ${userInfo.family}` }}</span>
                             <i class="fal fa-caret-circle-right opacity-60"></i>
+                            <span
+                                class="w-3 h-3 rounded-full bg-primary-600 shadow-sm absolute"
+                                style="right:-2px; top: 2px;"
+                                v-if="userNewNotifCount > 0"
+                            ></span>
                         </router-link>
                     </nav>
                 </div>
@@ -81,12 +86,16 @@ export default {
     created() {},
     mounted() {
         this.currentTheme = localStorage.getItem("userTheme") ? localStorage.getItem("userTheme") : "default_light";
+
+        setInterval(() => {
+            this.updateUserNotifCounter({ BaseUrl: this.getBaseUrl() });
+        }, 30000);
     },
     computed: {
-        ...mapGetters(["userInfo", "isUserLoggedIn", "loginDialogState"]),
+        ...mapGetters(["userInfo", "isUserLoggedIn", "loginDialogState", "userNewMessageCount", "userNewNotifCount"]),
     },
     methods: {
-        ...mapActions(["changeLoginDialogState"]),
+        ...mapActions(["changeLoginDialogState", "updateUserNotifCounter"]),
 
         updateLoginDialogState(value) {
             this.changeLoginDialogState(value);

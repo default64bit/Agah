@@ -14,7 +14,6 @@ export default () => {
                 component: () => import("./components/templates/web/Main"),
                 children: [
                     { path: "", component: () => import("./components/pages/web/Home"), name: "Home" },
-                    { path: "room/:roomId?", component: () => import("./components/pages/web/Room"), name: "Room" },
 
                     { path: "frequently-asked-legal-questions/:page?", component: () => import("./components/pages/web/FAQ") },
                     { path: "blog/:page?", component: () => import("./components/pages/web/Blog") },

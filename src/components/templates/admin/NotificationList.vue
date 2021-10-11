@@ -12,7 +12,7 @@
                     <a class="notif_info flex flex-col" :href="notif.data.link">
                         <b class="text-xl">{{ notif.data.title }}</b>
                         <p class="text-sm text-gray-200">{{ notif.data.message }}</p>
-                        <div class="mt-2 text-xs text-gray-400">{{ new Date(notif.createdAt).toLocaleString("en") }}</div>
+                        <div class="mt-2 text-xs text-gray-400">{{ new Date(notif.createdAt).toLocaleString("fa") }}</div>
                     </a>
                     <span class="t_button p-1 text-primary-400 rounded-full hover:bg-gray-600" @click="clear(notif._id, i)">
                         <i class="far fa-trash"></i>

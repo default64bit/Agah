@@ -58,7 +58,8 @@ router.delete("/profile_avatar", profileController.deleteAvatar.bind(profileCont
 
 router.get("/notifications", notificationController.getNotifs);
 router.post("/notifications/read", notificationController.readNotifs);
-router.delete("/notifications", notificationController.clearNotifs);
+router.delete("/notification/:id", notificationController.clearNotifs);
+router.get("/notif_count", notificationController.getNotifCounts);
 
 router.get("/chats", chatController.getChats.bind(chatController));
 router.get("/chat/:id/messages", chatController.getChatMessages.bind(chatController));

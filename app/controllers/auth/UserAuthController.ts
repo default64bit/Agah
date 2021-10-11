@@ -5,11 +5,13 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import moment, { now } from "moment";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
+import Admin from "../../models/Admin";
 import User from "../../models/User";
 import Email from "../../Notifications/channels/Email";
+import NotifSender from "../../Notifications/Sender";
 
 class AuthController {
-    private verficationCodeExpireTime = 60;
+    private verficationCodeExpireTime = 120;
 
     public async login(req: Request, res: Response, next) {
         const username = req.body.username;
@@ -89,6 +91,17 @@ class AuthController {
 
         // generate token and let the front know
         const { response, UserAuthError } = this.generateToken(req, res, null, user._id.toString());
+
+        // send notif
+        const admins = await Admin.model.find({ status: "active" }).exec();
+        let admin_ids = [];
+        for (let i = 0; i < admins.length; i++) admin_ids.push(admins[i]._id);
+        NotifSender(admin_ids, "admins", ["system"], "NewUser", {
+            icon: "fad fa-user-plus",
+            title: "New User",
+            message: `کاربر ${name} ${family} عضو شد`,
+        });
+
         return res.end();
     }
 

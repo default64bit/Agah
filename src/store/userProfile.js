@@ -10,12 +10,17 @@ const state = {
         family: "",
         email: "",
     },
+
+    userNewMessageCount: 0,
+    userNewNotifCount: 0,
 };
 
 const getters = {
     loginDialogState: (state) => state.loginDialogState,
     isUserLoggedIn: (state) => state.isUserLoggedIn,
     userInfo: (state) => state.userInfo,
+    userNewMessageCount: (state) => state.userNewMessageCount,
+    userNewNotifCount: (state) => state.userNewNotifCount,
 };
 
 const actions = {
@@ -80,6 +85,18 @@ const actions = {
     async changeLoginDialogState({ commit }, state) {
         commit("setLoginDialogState", state);
     },
+
+    async updateUserNotifCounter({ commit }, Options) {
+        await axios
+            .get(`${Options.BaseUrl}/api/v1/web/notif_count`)
+            .then((response) => {
+                commit("setUserNewMessageCount", response.data.newMessageCount);
+                commit("setUserNewNotifCount", response.data.newNotifCount);
+            })
+            .catch((error) => {
+                throw error;
+            });
+    },
 };
 
 const mutations = {
@@ -87,6 +104,8 @@ const mutations = {
     setIsUserLoggedIn: (state, value) => (state.isUserLoggedIn = !!value),
     setUserInfo: (state, data) => (state.userInfo = data.userInfo),
     setUserAvatar: (state, avatar) => (state.userInfo.avatar = avatar),
+    setUserNewMessageCount: (state, count) => (state.userNewMessageCount = count),
+    setUserNewNotifCount: (state, count) => (state.userNewNotifCount = count),
 };
 
 export default {

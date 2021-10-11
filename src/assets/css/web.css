@@ -102,6 +102,9 @@ h1.f-neirizi::after{ top: -2rem; right: -5rem; }
 }
 .header_wrapper header .menu ul li a:hover::after{ width: 100%; }
 
+.header_wrapper header .avatar{
+    position: relative;
+}
 .header_wrapper header .avatar > span{
     display: inline-block; width: max-content; max-width: 0;
     transition: all 2s; overflow: hidden;

@@ -24,13 +24,26 @@
                         <router-link to="/profile/chat" class="flex items-center gap-1 w-full">
                             <i class="far fa-comments"></i>
                             تماس و پیام ها
-                            <small class="mr-auto p-1 px-2 rounded-sm bg-gray-700 text-primary-100 text-xs">0</small>
+                            <small
+                                class="mr-auto p-1 px-2 rounded-sm bg-gray-700 text-primary-100 text-xs"
+                                style="padding-bottom:2px"
+                                v-show="userNewMessageCount > 0"
+                            >
+                                {{ userNewMessageCount }}
+                            </small>
                         </router-link>
                     </li>
                     <li class="p-2 rounded-sm" :class="{ active: $route.name == 'notifications' }">
                         <router-link to="/profile/notifications" class="flex items-center gap-1 w-full">
                             <i class="far fa-bell"></i>
                             اعلانیه ها
+                            <small
+                                class="mr-auto p-1 px-2 rounded-sm bg-gray-700 text-primary-100 text-xs"
+                                style="padding-bottom:2px"
+                                v-show="userNewNotifCount > 0"
+                            >
+                                {{ userNewNotifCount }}
+                            </small>
                         </router-link>
                     </li>
                     <hr class="w-10/12 border-solid border-gray-500 border-opacity-30 my-4 mx-auto" />
@@ -79,7 +92,7 @@ export default {
         // get user's unread message count and notif count
     },
     computed: {
-        ...mapGetters(["userInfo", "isUserLoggedIn"]),
+        ...mapGetters(["userInfo", "isUserLoggedIn", "userNewMessageCount", "userNewNotifCount"]),
     },
     methods: {
         ...mapActions(["getUserInfo"]),
