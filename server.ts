@@ -99,7 +99,7 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
         const { app, router } = createApp(context);
 
         router.push(context.url);
-        router.isReady().then(async () => {
+        router.isReady().then(async (t) => {
             renderToString(app, context).then((appContent) => {
                 // fs.readFile(path.join(__dirname, "..", "vue", "client", "index.html"), "utf-8", (err, html) => {
                 fs.readFile(path.join(__dirname, "dist", "vue", "client", "index.html"), "utf-8", async (err, html) => {
@@ -112,6 +112,7 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
                     html = html.replace("<title>Vue App</title>", await generateMetaData(context.url));
                     html = html.replace("<body", `<body dir="rtl" theme="default_light" lang="fa"`);
                     res.setHeader("Content-Type", "text/html");
+                    if (router.currentRoute._value.name == "404") res.status(404);
                     res.send(html);
                 });
             });

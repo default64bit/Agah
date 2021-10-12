@@ -88,7 +88,7 @@ export default {
         this.currentTheme = localStorage.getItem("userTheme") ? localStorage.getItem("userTheme") : "default_light";
 
         setInterval(() => {
-            this.updateUserNotifCounter({ BaseUrl: this.getBaseUrl() });
+            if (this.isUserLoggedIn) this.updateUserNotifCounter({ BaseUrl: this.getBaseUrl() });
         }, 30000);
     },
     computed: {

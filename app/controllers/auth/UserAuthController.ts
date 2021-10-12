@@ -92,7 +92,7 @@ class AuthController {
         // generate token and let the front know
         const { response, UserAuthError } = this.generateToken(req, res, null, user._id.toString());
 
-        // send notif
+        // notify admins
         const admins = await Admin.model.find({ status: "active" }).exec();
         let admin_ids = [];
         for (let i = 0; i < admins.length; i++) admin_ids.push(admins[i]._id);

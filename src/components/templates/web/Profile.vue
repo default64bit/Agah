@@ -87,9 +87,6 @@ export default {
         await this.getUserInfo({ BaseUrl: this.getBaseUrl() })
             .then((response) => (this.loading = false))
             .catch((e) => this.$router.push("/"));
-
-        // TODO
-        // get user's unread message count and notif count
     },
     computed: {
         ...mapGetters(["userInfo", "isUserLoggedIn", "userNewMessageCount", "userNewNotifCount"]),

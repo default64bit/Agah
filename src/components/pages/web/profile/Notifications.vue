@@ -16,7 +16,7 @@
             </li>
         </ul>
         <ul class="flex flex-col gap-6 w-full" v-else>
-            <li class="flex flex-wrap gap-4 p-4 rounded-sm w-full base_shadow relative" v-for="(notif, i) in notifications" :key="i">
+            <li class="flex gap-4 p-4 rounded-sm w-full base_shadow relative" v-for="(notif, i) in notifications" :key="i">
                 <i class="flex w-4 h-4 rounded-full bg-primary-500 opacity-60 absolute -right-2 top-0" v-if="!notif.readAt"></i>
                 <a :href="notif.data.link" class="flex flex-col gap-2 flex-grow" v-if="!!notif.data">
                     <div class="flex flex-wrap items-center justify-between gap-4">

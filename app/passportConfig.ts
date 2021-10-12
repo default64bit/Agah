@@ -5,6 +5,7 @@ import passportJWT from "passport-jwt";
 import TokenObj from "./interfaces/TokenObj";
 import Admin from "./models/Admin";
 import User from "./models/User";
+import NotifSender from "./Notifications/Sender";
 
 export default () => {
     // =====================================================================
@@ -116,6 +117,16 @@ export default () => {
                         family: profile.name.familyName,
                         password: await User.hash(profile.id),
                         status: "active",
+                    });
+
+                    // notify admins
+                    const admins = await Admin.model.find({ status: "active" }).exec();
+                    let admin_ids = [];
+                    for (let i = 0; i < admins.length; i++) admin_ids.push(admins[i]._id);
+                    NotifSender(admin_ids, "admins", ["system"], "NewUser", {
+                        icon: "fad fa-user-plus",
+                        title: "New User",
+                        message: `کاربر ${user.name} ${user.family} عضو شد`,
                     });
 
                     callback(null, user.id);

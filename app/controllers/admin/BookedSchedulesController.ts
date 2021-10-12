@@ -1,9 +1,12 @@
+import fs from "fs/promises";
+import path from "path";
 import { Request, Response } from "express";
 import moment from "moment";
 import mongoose from "mongoose";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import adminPermissionCheck from "../../helpers/adminPermissionCheck";
 import BookedSchedule from "../../models/BookedSchedule";
+import NotifSender from "../../Notifications/Sender";
 
 class BookedSchedulesController {
     public async getBookedSchedules(req: AuthenticatedRequest, res: Response) {
@@ -157,6 +160,35 @@ class BookedSchedulesController {
             )
             .exec();
         if (!bookedScheduleUpdated) return res.status(500).end();
+
+        if (
+            bookedSchedule.status == "payed" &&
+            (bookedSchedule.dateRaw != new Date(moment(dateRaw).format("yyyy-MM-DD")) ||
+                bookedSchedule.date != moment(dateRaw).format("yyyy-MM-DD") ||
+                bookedSchedule.time != time ||
+                bookedSchedule.duration != duration ||
+                bookedSchedule.type != type ||
+                bookedSchedule.status != status)
+        ) {
+            // notify user
+            let html = await fs
+                .readFile(path.join(__dirname, "..", "..", "Notifications", "templates", "updateBookedScheduleEmail.html"))
+                .then((buffer) => buffer.toString());
+            html = html.replace(/{{url}}/g, req.headers.origin);
+            html = html.replace("{{type}}", type.toString());
+            NotifSender(
+                [bookedSchedule.user],
+                "users",
+                ["system", "email"],
+                "UpdateBookedSchedule",
+                {
+                    icon: "fad fa-calendar-edit",
+                    title: "تغییر در مشاوره رزرو شده",
+                    message: `مشاوره رزرو شده شما تغییر پیدا کرده. لطفا برای صحت از تاریخ و زمان و نوع مشاوره به بخش لیست مشاوره ها در حساب کاربری خود مراجعه کنید`,
+                },
+                html
+            );
+        }
 
         return res.end();
     }

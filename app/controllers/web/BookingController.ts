@@ -1,15 +1,19 @@
+import fs from "fs/promises";
+import path from "path";
 import { Request, Response } from "express";
 import axios from "axios";
 import moment from "moment";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import User from "../../models/User";
 import Admin from "../../models/Admin";
+import AdminRole from "../../models/AdminRole";
 import Schedule from "../../models/Schedule";
 import TimeOffSchedule from "../../models/TimeOffSchedule";
 import BookedSchedule from "../../models/BookedSchedule";
 import UserChat from "../../models/UserChat";
 import UserChatMessages from "../../models/UserChatMessages";
 import { PaymentGateway } from "../../payments/paymentGateway";
+import NotifSender from "../../Notifications/Sender";
 
 class Controller {
     public async bookConsultationSession(req: AuthenticatedRequest, res: Response) {
@@ -89,6 +93,32 @@ class Controller {
                     ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress || null,
                 },
             });
+
+            // notify superAdmins
+            const adminRole = await AdminRole.model.findOne({ name: "SuperAdmin" }).exec();
+            const admins = await Admin.model.find({ status: "active", role: adminRole._id }).exec();
+            let admin_ids = [];
+            for (let i = 0; i < admins.length; i++) admin_ids.push(admins[i]._id);
+            let html = await fs
+                .readFile(path.join(__dirname, "..", "..", "Notifications", "templates", "newBookedScheduleEmail.html"))
+                .then((buffer) => buffer.toString());
+            html = html.replace(/{{url}}/g, req.headers.origin);
+            html = html.replace("{{type}}", type.toString());
+            html = html.replace("{{user}}", `${user.name} ${user.family}`.toString());
+            html = html.replace("{{date}}", new Date(moment(date).format("yyyy-MM-DD")).toLocaleDateString("fa"));
+            NotifSender(
+                admin_ids,
+                "admins",
+                ["system", "email"],
+                "NewBookedSchedule",
+                {
+                    icon: "fad fa-calendar-plus",
+                    title: "New Booked Schedule",
+                    message: `مشاوره جدید توسط کاربر ${user.name} ${user.family} ثبت شد`,
+                },
+                html
+            );
+
             // send back the identifier
             return res.json({ url: paymentGateway.getGatewayUrl(identifier) });
         } else return res.status(422).json({ error: "خطا در ارتباط با درگاه پرداخت" });
@@ -143,6 +173,28 @@ class Controller {
                                 });
                             }
                         }
+
+                        // notify the consulter admin
+                        const user = await User.model.findById(bookedSchedule.user).exec();
+                        let html = await fs
+                            .readFile(path.join(__dirname, "..", "..", "Notifications", "templates", "newBookedScheduleEmail.html"))
+                            .then((buffer) => buffer.toString());
+                        html = html.replace(/{{url}}/g, req.headers.origin);
+                        html = html.replace("{{type}}", bookedSchedule.type.toString());
+                        html = html.replace("{{user}}", `${user.name} ${user.family}`.toString());
+                        html = html.replace("{{date}}", new Date(bookedSchedule.date.toString()).toLocaleDateString("fa"));
+                        NotifSender(
+                            [bookedSchedule.consulter],
+                            "admins",
+                            ["system", "email"],
+                            "NewBookedSchedule",
+                            {
+                                icon: "fad fa-calendar-plus",
+                                title: "New Booked Schedule",
+                                message: `مشاوره جدید توسط کاربر ${user.name} ${user.family} ثبت شد`,
+                            },
+                            html
+                        );
 
                         paymentStatus = 1;
                         message = "مشاوره در تاریخ و زمان مورد نظر برای شما رزرو شد.";

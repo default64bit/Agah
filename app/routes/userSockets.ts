@@ -1,3 +1,5 @@
+import fs from "fs/promises";
+import path from "path";
 import { Router, Request } from "express";
 import moment from "moment";
 import mongodb from "mongodb";
@@ -10,6 +12,8 @@ import UserChat from "../models/UserChat";
 import User from "../models/User";
 import Admin from "../models/Admin";
 import BookedSchedule from "../models/BookedSchedule";
+import Notification from "../models/Notification";
+import NotifSender from "../Notifications/Sender";
 
 const router = Router();
 
@@ -61,6 +65,8 @@ router.ws("/ISC", async (socket: WebSocket, req: AuthenticatedRequest) => {
                 // can check than only users can call admins and admins can call users
 
                 if (!ISC_sockets.hasOwnProperty(msg.data.userToCall)) {
+                    // check the last notif of this kind for that user|admin if its passed 1 hour send a new one
+                    notify(msg.data.userToCall, person, personType, req.headers.origin, "MissedCall");
                     socket.send(JSON.stringify({ event: "userNotOnline" }));
                     return;
                 }
@@ -272,10 +278,8 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                 if (ISM_sockets[receiverType][msg.data.receiverId]) {
                     ISM_sockets[receiverType][msg.data.receiverId].send(JSON.stringify({ event: "messageCB", chatId: msg.data.chatId, message }));
                 } else {
-                    // TODO
                     // if receiver was not online then make it a notification for receiver
-                    // keep count of notification and send it per connection connect
-                    // so that if a sender is connected and doesnt send a notif to a receiver send the notif but if that sneder already sent a notif to a receiver dont send a new notif
+                    notify(msg.data.receiverId, person, senderType, req.headers.origin, "NewMessage");
                 }
 
                 if (ISM_sockets[senderType][person._id]) {
@@ -322,5 +326,46 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
         delete ISM_sockets[senderType][person._id];
     });
 });
+
+const notify = async (userToNotify, person, personType, url, template) => {
+    let emailFile = template == "MissedCall" ? "missedCallEmail.html" : "newMessageEmail.html";
+    // check the last notif of this kind for that user|admin if its passed 1 hour send a new one
+    const lastNotif = await Notification.model
+        .findOne({ model: userToNotify, template: template })
+        .sort({ createdAt: "desc" })
+        .exec();
+    if (!lastNotif || (!!lastNotif && moment.duration(moment(Date.now()).diff(lastNotif.createdAt)).asMinutes() > 60)) {
+        let personToNotify = null;
+        let personToNotifyType = personType == "users" ? "admins" : "users";
+        if (personType == "users") {
+            personToNotify = await Admin.model.findById(userToNotify).exec();
+        } else if (personType == "admins") {
+            personToNotify = await User.model.findById(userToNotify).exec();
+        }
+
+        let notifTime = new Date(Date.now()).toLocaleDateString("fa");
+        let message =
+            template == "MissedCall"
+                ? `شما در تاریخ ${notifTime} تماس از کاربر ${person.name} ${person.family} داشته اید.`
+                : `پیام جدید توسط کاربر ${person.name} ${person.family} برای شما ارسال شد.`;
+
+        let html = await fs.readFile(path.join(__dirname, "..", "Notifications", "templates", emailFile)).then((buffer) => buffer.toString());
+        html = html.replace(/{{url}}/g, url);
+        html = html.replace("{{user}}", `${person.name} ${person.family}`.toString());
+        html = html.replace("{{date}}", notifTime);
+        NotifSender(
+            [personToNotify._id],
+            personToNotifyType,
+            ["system", "email"],
+            template,
+            {
+                icon: template == "MissedCall" ? "fad fa-phone-slash" : "fad fa-comment-alt-lines",
+                title: template == "MissedCall" ? "تماس از دست رفته" : "پیام جدید",
+                message: message,
+            },
+            html
+        );
+    }
+};
 
 export default router;

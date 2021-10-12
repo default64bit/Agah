@@ -2,10 +2,6 @@ import Article from "./models/Article";
 
 const baseUrl = `${process.env.PROTOCOL}://${process.env.DOMAIN}`;
 
-// TODO
-// fill up the base metaData info then for each route update the dynamic values
-// then complete the client side function and place it on route replace functions (onRouteUpdate, onMount, getter function)
-
 let metaData = {
     title: "گروه وکلای آگه",
     description: "گروه وکلای آگه، ارائه دهنده انواع خدمات حقوقی در زمینه های مختلف - مشاوره حقوقی آنلاین و حضوری - وبلاگ مطالب و سوالات حقوقی",

@@ -26,11 +26,15 @@ export default (
                 let peoples = [];
                 let receivers_list = [];
                 switch (ModelType) {
-                    case "users": peoples = await User.model.find({ status: "active" }).exec(); break;
-                    case "admins": peoples = await Admin.model.find({ status: "active" }).exec(); break;
+                    case "users":
+                        peoples = await User.model.find({ _id: { $in: ModelIDs }, status: "active" }).exec();
+                        break;
+                    case "admins":
+                        peoples = await Admin.model.find({ _id: { $in: ModelIDs }, status: "active" }).exec();
+                        break;
                 }
                 for (let i = 0; i < peoples.length; i++) receivers_list.push(peoples[i].email);
-                if(!!EmailHtml) Email(data.title, receivers_list.join(","), EmailHtml);
+                if (!!EmailHtml) Email(data.title, receivers_list.join(","), EmailHtml);
                 break;
             case "sms":
                 Sms();
