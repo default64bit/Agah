@@ -1,0 +1,26 @@
+FROM node:latest
+
+# make a working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# install node_modules
+COPY package.json /usr/src/app
+RUN npm install
+
+# build the back-end and front-end
+RUN npm run build-prod
+RUN tsc
+
+# copy the build to the workdir
+COPY /dist/express /usr/src/app
+COPY /dist/vue /usr/src/app
+# copy the public to the workdir
+COPY /public /usr/src/app
+# make an upload forlder
+RUN mkdir /usr/src/app/uploads
+
+EXPOSE 7500
+
+#command to run within the container
+CMD ["cross-env", "NODE_ENV=production", "node", "server.js"]

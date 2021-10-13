@@ -10,14 +10,14 @@ import csurf from "csurf";
 
 import mongodbConnector from "./app/database/mongodbConnector";
 import passportConfig from "./app/passportConfig";
+import scheduler from "./app/scheduler/handler";
 
 // set up config file
 dotenv.config({
     path: "app.env",
 });
 
-// database connection
-mongodbConnector();
+// TODO : set the timezone to Asia/Tehran
 
 // make expressApp
 const expressApp = express();
@@ -122,4 +122,10 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
 // SSR setup end ==================================================================
 
 // start server
-expressApp.listen(process.env.PORT);
+expressApp.listen(process.env.PORT, async () => {
+    // database connection
+    await mongodbConnector();
+
+    // setup scheduler
+    scheduler();
+});

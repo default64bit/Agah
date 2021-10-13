@@ -334,7 +334,7 @@ const notify = async (userToNotify, person, personType, url, template) => {
         .findOne({ model: userToNotify, template: template })
         .sort({ createdAt: "desc" })
         .exec();
-    if (!lastNotif || (!!lastNotif && moment.duration(moment(Date.now()).diff(lastNotif.createdAt)).asMinutes() > 60)) {
+    if (!lastNotif || (!!lastNotif && moment.duration(moment(Date.now()).diff(lastNotif.createdAt)).asMinutes() > 30)) {
         let personToNotify = null;
         let personToNotifyType = personType == "users" ? "admins" : "users";
         if (personType == "users") {
