@@ -5,6 +5,9 @@ const { app, router } = createApp();
 router.isReady().then(() => {
     app.mixin({
         methods: {
+            getBaseUrl() {
+                return window.location.origin;
+            },
             getCookie(name) {
                 return cookies.get(name);
             },

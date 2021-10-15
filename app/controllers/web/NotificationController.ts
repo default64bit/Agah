@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Jmoment from "jalali-moment";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import Notification from "../../models/Notification";
+import UserChatMessages from "../../models/UserChatMessages";
 
 class Controller {
     public async getNotifs(req: AuthenticatedRequest, res: Response) {
@@ -64,13 +65,9 @@ class Controller {
     }
 
     public async getNotifCounts(req: AuthenticatedRequest, res: Response) {
-        // TODO
-        // get unread Message count
-        // get unread Notif count
-        return res.json({
-            newMessageCount: 0,
-            newNotifCount: 0,
-        });
+        const newMessageCount = await UserChatMessages.model.countDocuments({ receiverType: "users", receiver: req.user._id, readAt: null }).exec();
+        const newNotifCount = await Notification.model.countDocuments({ model: req.user._id, readAt: null }).exec();
+        return res.json({ newMessageCount, newNotifCount });
     }
 }
 

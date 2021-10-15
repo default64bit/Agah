@@ -50,8 +50,9 @@ class Controller {
         // TODO
         // check if the time is not holiday
 
-        // TODO
         // limit user to max 2 active consultation resserves only
+        const activeBookedCount = await BookedSchedule.model.countDocuments({ user: req.user._id, status: "payed", type: type }).exec();
+        if (activeBookedCount >= 2) return res.status(422).json({ error: "امکان رزرو بیش از 2 مشاوره همزمان وجود ندارد" });
 
         // check if anyone is booked this time before or not
         const isBookedBefore = await BookedSchedule.model.exists({
