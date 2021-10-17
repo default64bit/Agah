@@ -57,31 +57,27 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
     const { renderToString } = require("@vue/server-renderer");
     const { generateMetaData } = require("./app/MetaDataHandler");
 
-    // const file_manifest = require("../vue/client/file-manifest.json");
-    // const ssr_manifest = require("../vue/server/ssr-manifest.json");
-    const file_manifest = require("./dist/vue/client/file-manifest.json");
-    const ssr_manifest = require("./dist/vue/server/ssr-manifest.json");
+    let basePath = "./dist/";
+    if (process.env.BUILD_STATE == "prod") basePath = "../";
+    const file_manifest = require(`${basePath}vue/client/file-manifest.json`);
+    const ssr_manifest = require(`${basePath}vue/server/ssr-manifest.json`);
 
-    const appPath = path.join(__dirname, "dist", "vue", "server", ssr_manifest["app.js"]);
-    // const appPath = path.join(__dirname, "..", "vue", "server", ssr_manifest["app.js"]);
+    basePath = path.join(__dirname, "dist");
+    if (process.env.BUILD_STATE == "prod") basePath = path.join(__dirname, "..");
+
+    const appPath = path.join(basePath, "vue", "server", ssr_manifest["app.js"]);
     const createApp = require(appPath).default;
 
-    // expressApp.use(file_manifest['precache-manifest.js'], express.static(path.join(__dirname, "dist", "vue", "client", file_manifest['precache-manifest.js'])));
-    // expressApp.use("/service-worker.js", express.static(path.join(__dirname, "dist", "vue", "client", "service-worker.js")));
-    // expressApp.use("/sw.js", express.static(path.join(__dirname, "dist", "vue", "client", "service-worker.js")));
+    // expressApp.use(file_manifest['precache-manifest.js'], express.static(path.join(basePath, "vue", "client", file_manifest['precache-manifest.js'])));
+    // expressApp.use("/service-worker.js", express.static(path.join(basePath, "vue", "client", "service-worker.js")));
+    // expressApp.use("/sw.js", express.static(path.join(basePath, "vue", "client", "service-worker.js")));
 
-    // expressApp.use("/manifest.json", express.static(path.join(__dirname, "..", "vue", "client", "manifest.json")));
-    // expressApp.use("/img", express.static(path.join(__dirname, "..", "vue", "client", "img")));
-    // expressApp.use("/js", express.static(path.join(__dirname, "..", "vue", "client", "js")));
-    // expressApp.use("/css", express.static(path.join(__dirname, "..", "vue", "client", "css")));
-    // expressApp.use("/fonts", express.static(path.join(__dirname, "..", "vue", "client", "fonts")));
-    // expressApp.use("/media", express.static(path.join(__dirname, "..", "vue", "client", "media")));
-    expressApp.use("/manifest.json", express.static(path.join(__dirname, "dist", "vue", "client", "manifest.json")));
-    expressApp.use("/img", express.static(path.join(__dirname, "dist", "vue", "client", "img")));
-    expressApp.use("/js", express.static(path.join(__dirname, "dist", "vue", "client", "js")));
-    expressApp.use("/css", express.static(path.join(__dirname, "dist", "vue", "client", "css")));
-    expressApp.use("/fonts", express.static(path.join(__dirname, "dist", "vue", "client", "fonts")));
-    expressApp.use("/media", express.static(path.join(__dirname, "dist", "vue", "client", "media")));
+    expressApp.use("/manifest.json", express.static(path.join(basePath, "vue", "client", "manifest.json")));
+    expressApp.use("/img", express.static(path.join(basePath, "vue", "client", "img")));
+    expressApp.use("/js", express.static(path.join(basePath, "vue", "client", "js")));
+    expressApp.use("/css", express.static(path.join(basePath, "vue", "client", "css")));
+    expressApp.use("/fonts", express.static(path.join(basePath, "vue", "client", "fonts")));
+    expressApp.use("/media", express.static(path.join(basePath, "vue", "client", "media")));
 
     expressApp.use("/img/avatars", express.static(path.join(__dirname, "public", "avatars")));
     expressApp.use("/img/icons", express.static(path.join(__dirname, "public", "icons")));
