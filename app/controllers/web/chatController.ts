@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { Request, Response } from "express";
+import { Response } from "express";
 import moment from "moment";
 import AuthenticatedRequest from "../../interfaces/AuthenticatedRequest";
 import UserChat from "../../models/UserChat";

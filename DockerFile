@@ -8,18 +8,17 @@ WORKDIR /usr/src/agah
 # install node_modules
 COPY package.json .
 RUN npm install
+# RUN npm install -g tsc
+RUN npm install -g cross-env
 
 # copy the rest of files
 COPY . .
 
 # build the back-end and front-end
+RUN ./node_modules/typescript/bin/tsc
 RUN npm run build-prod
-RUN tsc
-
-# copy .env files
-COPY app.env /usr/src/agah/express
 
 EXPOSE 3000
 
 #command to run within the container
-CMD ["cross-env", "NODE_ENV=production", "node", "./dist/express/server.js"]
+# CMD ["cross-env", "NODE_ENV=production", "node", "./dist/express/server.js"]

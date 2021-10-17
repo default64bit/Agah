@@ -79,12 +79,14 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
     expressApp.use("/fonts", express.static(path.join(basePath, "vue", "client", "fonts")));
     expressApp.use("/media", express.static(path.join(basePath, "vue", "client", "media")));
 
-    expressApp.use("/img/avatars", express.static(path.join(__dirname, "public", "avatars")));
-    expressApp.use("/img/icons", express.static(path.join(__dirname, "public", "icons")));
-    expressApp.use("/img/articles", express.static(path.join(__dirname, "public", "articles")));
-    expressApp.use("/audio", express.static(path.join(__dirname, "public", "audio")));
-    expressApp.use("/favicon.ico", express.static(path.join(__dirname, "public", "favicon.ico")));
-    expressApp.use("/fontawsome", express.static(path.join(__dirname, "public", "fontawsome")));
+    let publicPath = "";
+    if (process.env.BUILD_STATE == "prod") publicPath = "../../";
+    expressApp.use("/img/avatars", express.static(path.join(__dirname, publicPath, "public", "avatars")));
+    expressApp.use("/img/icons", express.static(path.join(__dirname, publicPath, "public", "icons")));
+    expressApp.use("/img/articles", express.static(path.join(__dirname, publicPath, "public", "articles")));
+    expressApp.use("/audio", express.static(path.join(__dirname, publicPath, "public", "audio")));
+    expressApp.use("/favicon.ico", express.static(path.join(__dirname, publicPath, "public", "favicon.ico")));
+    expressApp.use("/fontawsome", express.static(path.join(__dirname, publicPath, "public", "fontawsome")));
 
     expressApp.get("*", csrfProtection, async (req, res) => {
         res.cookie("XSRF-TOKEN", req.csrfToken(), { secure: true });
@@ -95,7 +97,7 @@ expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissio
         router.isReady().then(async (t) => {
             renderToString(app, context).then((appContent) => {
                 // fs.readFile(path.join(__dirname, "..", "vue", "client", "index.html"), "utf-8", (err, html) => {
-                fs.readFile(path.join(__dirname, "dist", "vue", "client", "index.html"), "utf-8", async (err, html) => {
+                fs.readFile(path.join(basePath, "vue", "client", "index.html"), "utf-8", async (err, html) => {
                     if (err) {
                         console.error(err);
                         return;
