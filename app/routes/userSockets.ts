@@ -31,7 +31,7 @@ interface Person {
 }
 
 let ISC_sockets: Object = {};
-router.ws("/ISC", async (socket: WebSocket, req: AuthenticatedRequest) => {
+router.ws("/ISC", async (socket: WebSocket, req: Request) => {
     let person: Person;
     let personType = "";
 

@@ -1,3 +1,4 @@
+# build : docker build -t agah-image .
 FROM node:14
 
 # make a working directory
@@ -21,4 +22,4 @@ RUN npm run build-prod
 EXPOSE 3000
 
 #command to run within the container
-# CMD ["cross-env", "NODE_ENV=production", "node", "./dist/express/server.js"]
+CMD ["cross-env", "NODE_ENV=production", "node", "./dist/express/server.js"]

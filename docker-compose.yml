@@ -1,8 +1,34 @@
 version: "3"
 services:
-    mongo:
-        image: mongo
-        volumes:
-            - ./data:/data/db
+    app:
+        build: .
+        container_name: agah.app
+        restart: always
         ports:
-            - "27017:27017"
+            - 3000:3000
+        env_file:
+            - ./app.env
+
+    mongodb:
+        image: mongo
+        container_name: agah.mongodb
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: d123321b
+        volumes:
+            - mongodb-data:/data/db
+
+    mongo-express:
+        image: mongo-express
+        restart: always
+        ports:
+            - 8081:8081
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            ME_CONFIG_MONGODB_ADMINPASSWORD: d123321b
+            ME_CONFIG_MONGODB_URL: mongodb://root:d123321b@mongodb:27017/
+
+volumes:
+    mongodb-data:
+        driver: "local"

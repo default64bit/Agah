@@ -50,7 +50,9 @@ expressApp.use("/sock/v1", require("./app/routes/adminSockets").default);
 expressApp.use("/sock/v2", require("./app/routes/userSockets").default);
 
 // expressApp.use("/seed", require("./app/database/seeder/seed").default);
-expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissions").default);
+// expressApp.use("/seed/permissions", require("./app/database/seeder/seedPermissions").default);
+
+expressApp.use("/import/:filename", require("./app/helpers/importer").default);
 
 // SSR setup ==================================================================
 {
