@@ -83,7 +83,7 @@
                     </div>
                 </header>
                 <div itemprop="image" itemtype="https://schema.org/ImageObject">
-                    <img class="w-full rounded-md" :src="article.image" :alt="article.title" width="1024" />
+                    <img class="w-full rounded-md object-cover" :src="article.image" :alt="article.title" width="1024" style="max-height:520px;" />
                     <meta itemprop="url" :content="article.image" />
                 </div>
 

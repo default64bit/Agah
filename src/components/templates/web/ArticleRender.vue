@@ -15,10 +15,10 @@
             <hr class="border-dashed border-2 border-primary-400 border-opacity-50 w-8/12 my-6 mx-auto" v-if="block.type == 'delimiter'" />
 
             <div v-if="block.type == 'list'">
-                <ul v-if="block.data.style == 'unordered'">
+                <ul class="flex flex-col gap-3" v-if="block.data.style == 'unordered'">
                     <li v-for="(item, i) in block.data.items" :key="i" v-html="item"></li>
                 </ul>
-                <ol v-if="block.data.style == 'ordered'">
+                <ol class="flex flex-col gap-3" v-if="block.data.style == 'ordered'">
                     <li v-for="(item, i) in block.data.items" :key="i" v-html="item"></li>
                 </ol>
             </div>

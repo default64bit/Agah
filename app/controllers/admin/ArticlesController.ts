@@ -157,7 +157,8 @@ class AdminRolesController {
         });
         if (!isCopied) return res.status(500).end();
 
-        const url = `${req.headers.origin}/img/articles/${tempName}/${name}.${extension}`;
+        // const url = `${req.headers.origin}/img/articles/${tempName}/${name}.${extension}`;
+        const url = `/img/articles/${tempName}/${name}.${extension}`;
 
         return res.json({
             success: 1,
@@ -196,8 +197,10 @@ class AdminRolesController {
         const isCopiedThumnail = await sharpifiedImageThumbnail.toFile(`public/articles/${imageName}_thumbnail.${extension}`).catch(() => false);
         fs.unlink(req.file.path);
         if (!isCopied || !isCopiedThumnail) return res.status(500).end();
-        const imageUrl = `${req.headers.origin}/img/articles/${imageName}.${extension}`;
-        const imageThumbnailUrl = `${req.headers.origin}/img/articles/${imageName}_thumbnail.${extension}`;
+        // const imageUrl = `${req.headers.origin}/img/articles/${imageName}.${extension}`;
+        // const imageThumbnailUrl = `${req.headers.origin}/img/articles/${imageName}_thumbnail.${extension}`;
+        const imageUrl = `/img/articles/${imageName}.${extension}`;
+        const imageThumbnailUrl = `/img/articles/${imageName}_thumbnail.${extension}`;
 
         const title = req.body.title;
         const desc = req.body.desc;
@@ -300,8 +303,10 @@ class AdminRolesController {
             const isCopiedThumnail = await sharpifiedImageThumbnail.toFile(`public/articles/${imageName}_thumbnail.${extension}`).catch(() => false);
             fs.unlink(req.file.path);
             if (!isCopied || !isCopiedThumnail) return res.status(500).end();
-            imageUrl = `${req.headers.origin}/img/articles/${imageName}.${extension}`;
-            imageThumbnailUrl = `${req.headers.origin}/img/articles/${imageName}_thumbnail.${extension}`;
+            // imageUrl = `${req.headers.origin}/img/articles/${imageName}.${extension}`;
+            // imageThumbnailUrl = `${req.headers.origin}/img/articles/${imageName}_thumbnail.${extension}`;
+            imageUrl = `/img/articles/${imageName}.${extension}`;
+            imageThumbnailUrl = `/img/articles/${imageName}_thumbnail.${extension}`;
         }
 
         const title = req.body.title;

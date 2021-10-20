@@ -20,7 +20,7 @@
         <div class="flex flex-wrap items-start justify-center md:justify-between gap-4 w-full">
             <div class="flex flex-col gap-4 w-full max-w-screen-lg">
                 <div class="flex flex-col gap-4 w-full" v-if="loadingArticles">
-                    <div class="article_box_skeleton flex flex-col sm:flex-row gap-4 justify-center p-4" v-for="(article, i) in skeletonArticles" :key="i">
+                    <div class="article_box_skeleton flex flex-col sm:flex-row gap-8 justify-center p-4" v-for="(article, i) in skeletonArticles" :key="i">
                         <div class="flex-shrink-0 rounded-sm h-48 sm:h-32 w-full sm:w-48 object-cover" name="skeleton"></div>
                         <div class="flex flex-col items-start gap-2 w-full">
                             <div class="w-10/12 h-8 mb-4" name="skeleton"></div>
@@ -31,13 +31,13 @@
                     </div>
                 </div>
                 <div
-                    class="article_box flex flex-col sm:flex-row gap-4 justify-center p-4 rounded-sm max-w-screen-lg"
+                    class="article_box flex flex-col sm:flex-row gap-8 justify-start p-4 rounded-sm max-w-screen-lg"
                     v-for="(article, i) in articles"
                     :key="i"
                 >
                     <router-link class="flex-shrink-0" :to="`/article/${article.url_code}/${article.title.replace(/ /g, '-')}`" :title="article.title">
                         <img
-                            class="rounded-sm h-auto sm:h-28 w-full sm:w-auto object-cover"
+                            class="rounded-sm h-auto sm:h-28 w-full sm:w-52 object-cover"
                             width="200"
                             :src="article.metadata.thumbnail"
                             :alt="article.title"

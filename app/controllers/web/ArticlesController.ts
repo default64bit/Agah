@@ -3,7 +3,7 @@ import Article from "../../models/Article";
 
 class Controller {
     public async getRandomArticles(req: Request, res: Response) {
-        const articlesCount = await Article.model.countDocuments().exec();
+        const articlesCount = await Article.model.countDocuments({ status: "published" }).exec();
 
         const randomArticles = [];
         for (let i = 0; i < 5; i++) {
@@ -14,7 +14,7 @@ class Controller {
                 .select("author image title desc url_code publishedAt metadata")
                 .populate("author", "image name family -_id")
                 .exec();
-            randomArticles.push(article);
+            if(article) randomArticles.push(article);
         }
 
         res.json(randomArticles);

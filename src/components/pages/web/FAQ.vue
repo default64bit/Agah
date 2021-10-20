@@ -17,7 +17,7 @@
 
         <hr class="w-full border-solid opacity-60 mx-auto my-2" />
 
-        <div class="flex flex-col items-center justify-center gap-4 w-full" v-if="loadingFaqs">
+        <div class="flex flex-col items-center justify-center gap-16 w-full" v-if="loadingFaqs">
             <div class="faq_box flex flex-col gap-1 max-w-screen-md w-full" v-for="(faq, i) in skeletonFaqs" :key="i">
                 <div class="skeleton h-8 w-9/12 mb-8"></div>
                 <div class="skeleton h-4 w-full"></div>
@@ -27,7 +27,7 @@
                 <div class="skeleton h-4 w-7/12"></div>
             </div>
         </div>
-        <div class="flex flex-col items-center justify-center gap-4 w-full" v-if="!loadingFaqs">
+        <div class="flex flex-col items-center justify-center gap-16 w-full" v-if="!loadingFaqs">
             <div class="faq_box flex flex-col gap-2 max-w-screen-md w-full" v-for="(faq, i) in faqs" :key="i">
                 <header class="flex items-start gap-4 cursor-pointer" @click="faq.open = !faq.open">
                     <h3 class="f-nazanin font-bold text-2xl">{{ faq.question }}</h3>

@@ -3,6 +3,7 @@ const nodeExternals = require("webpack-node-externals");
 const webpack = require("webpack");
 
 module.exports = {
+    productionSourceMap: false,
     pwa: {
         name: "گروه آگه",
         themeColor: "#f5f5f5",

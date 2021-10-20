@@ -24,13 +24,13 @@ async function import_articles(json) {
         const image = json[i].metadatas.image.replace("_thumbnail", "");
         articles.push({
             author: json[i].lawyer_id == "1" ? admins[0] : admins[1],
-            image: `${process.env.PROTOCOL}://${process.env.DOMAIN}/img/articles/${image}`,
+            image: `/img/articles/${image}`,
             title: json[i].title,
             desc: json[i].sub_text,
             text: json[i].text,
             tags: json[i].tags,
             metadata: {
-                thumbnail: `${process.env.PROTOCOL}://${process.env.DOMAIN}/img/articles/${json[i].metadatas.image}`,
+                thumbnail: `/img/articles/${json[i].metadatas.image}`,
                 title: json[i].metadatas.title,
                 description: json[i].metadatas.description,
                 author: json[i].metadatas.author,

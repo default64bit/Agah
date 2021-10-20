@@ -404,7 +404,10 @@ input[type=number] { -moz-appearance: textfield; }
     transition: all .25s ease-out;
 }
 
-.ce-delimiter:before{ content: "------------------" !important; overflow: hidden; }
+.ce-delimiter:before{
+    content: "------------------" !important; overflow: hidden;
+    line-height: 3rem; font-size: 2rem;
+}
 [dir="rtl"] .ce-toolbar__content, [dir="rtl"] .ce-block__content{ width: calc(100% - 100px); max-width: initial; }
 [dir="rtl"] .ce-toolbar__settings-btn{ display: flex; justify-content: center; align-items: center; }
 [dir="rtl"] .ce-toolbar__plus{ position: relative; float: left; }
