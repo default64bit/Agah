@@ -19,6 +19,10 @@ COPY . .
 RUN ./node_modules/typescript/bin/tsc
 RUN npm run build-prod
 
+# relocate non ts files
+RUN mkdir -p ./dist/express/app/Notifications/templates
+COPY app/Notifications/templates ./dist/express/app/Notifications/templates
+
 EXPOSE 3000
 
 #command to run within the container

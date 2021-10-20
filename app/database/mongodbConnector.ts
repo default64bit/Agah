@@ -9,18 +9,20 @@ export default async () => {
         }
         uri += "@";
     }
-    uri += `${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE}`;
+    // uri += `${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE}/?authSource=admin`;
+    uri += `${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}?authSource=admin`;
 
-    try{
+    try {
         await mongoose.connect(uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: true,
-            useCreateIndex:true,
+            useCreateIndex: true,
+            dbName: process.env.MONGODB_DATABASE,
         });
 
-        console.log('connected to mongodb...');
-    }catch(error){
+        console.log("connected to mongodb...");
+    } catch (error) {
         console.log(error);
         process.exit(1);
     }

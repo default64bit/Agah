@@ -6,9 +6,7 @@ import AuthenticatedRequest from "../interfaces/AuthenticatedRequest";
 export default {
     ensureAuth(req: AuthenticatedRequest, res: Response, next) {
         passport.authenticate("adminAuthCheck", async (err, admin_id) => {
-            if (err) {
-                res.status(500).json({ error: err });
-            }
+            if (err) return res.status(500).json({ error: err });
 
             if (admin_id) {
                 req.admin = await Admin.model
@@ -17,22 +15,15 @@ export default {
                     .exec();
 
                 next();
-            } else {
-                res.status(401).json({ error: "unauthorized" });
-            }
+            } else return res.status(401).json({ error: "unauthorized" });
         })(req, res, next);
     },
     ensureGuest(req: Request, res: Response, next) {
         passport.authenticate("adminAuthCheck", (err, admin_id) => {
-            if (err) {
-                res.status(500).json({ error: err });
-            }
+            if (err) return res.status(500).json({ error: err });
 
-            if (!admin_id) {
-                next();
-            } else {
-                res.status(403).json({ error: "you are already logged in as admin" });
-            }
+            if (!admin_id) next();
+            else return res.status(403).json({ error: "you are already logged in as admin" });
         })(req, res, next);
     },
 };

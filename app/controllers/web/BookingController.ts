@@ -72,7 +72,7 @@ class Controller {
             paymentGateway.getApiKey(),
             consulter.consultPricePerHour,
             `${process.env.PROTOCOL}://${process.env.DOMAIN}/api/v1/web/book/callback`,
-            "هزینه مشاوره",
+            "رزرو مشاوره از گروه آگه",
             user.mobile
         );
 

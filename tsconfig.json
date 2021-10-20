@@ -21,7 +21,7 @@
     "include": [
         "server.ts",
         "app/**/*.ts",
-        "public/**/*.*"
+        "app/**/*.html"
     ],
     "exclude": ["node_modules", "dist", "__tests__"]
 }
