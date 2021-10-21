@@ -42,6 +42,8 @@ expressApp.use(function(err, req, res, next) {
     res.status(403).end();
 });
 
+expressApp.enable("trust proxy");
+
 // assign routes
 expressApp.use("/api/v1", require("./app/routes/index").default);
 expressApp.use("/file/:fileId", require("./app/controllers/FileController").default);
