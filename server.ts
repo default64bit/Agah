@@ -17,7 +17,8 @@ dotenv.config({
     path: "app.env",
 });
 
-// TODO : set the timezone to Asia/Tehran
+// set the timezone to Asia/Tehran
+process.env.TZ = "Asia/Tehran";
 
 // make expressApp
 const expressApp = express();

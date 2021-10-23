@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node ./dist/express/server.js",
+    "start": "cross-env TZ=Asia/Tehran NODE_ENV=production node ./dist/express/server.js",
     "dev": "nodemon server.ts",
     "watch:client": "cross-env NODE_ENV=development vue-cli-service build --dest dist/vue/client --mode development --watch",
     "watch:server": "cross-env NODE_ENV=development SSR=1 vue-cli-service build --dest dist/vue/server --mode development --watch",

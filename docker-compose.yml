@@ -17,14 +17,22 @@ services:
             - ./app.env
         depends_on:
             - mongodb
+        deploy:
+            replicas: 4
+            restart_policy:
+                condition: any
+            update_config:
+                parallelism: 2
+                delay: 10s
+                failure_action: rollback
 
     mongodb:
         image: mongo
         container_name: agah.mongodb
         restart: always
         environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: d123321b
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
         volumes:
             - mongodb-data:/data/db
 
@@ -34,9 +42,9 @@ services:
         ports:
             - 8081:8081
         environment:
-            ME_CONFIG_MONGODB_ADMINUSERNAME: root
-            ME_CONFIG_MONGODB_ADMINPASSWORD: d123321b
-            ME_CONFIG_MONGODB_URL: mongodb://root:d123321b@mongodb:27017/?authSource=admin
+            ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_CONFIG_MONGODB_ADMINUSERNAME}
+            ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD}
+            ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
         depends_on:
             - mongodb
 

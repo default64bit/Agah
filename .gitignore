@@ -7,4 +7,5 @@
 /DOCUMENTS
 /public/*.db.json
 app.env
+DC.env
 TODO
