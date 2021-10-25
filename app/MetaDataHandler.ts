@@ -70,7 +70,7 @@ export async function generateMetaData(url) {
 
             metaData["title"] = metaData["og:title"] = metaData["twitter:title"] = `${article.metadata.title} - گروه وکلای آگه`;
             metaData["description"] = metaData["og:description"] = metaData["twitter:description"] = article.metadata.description;
-            metaData["og:image"] = metaData["twitter:image"] = article.metadata.thumbnail;
+            metaData["og:image"] = metaData["twitter:image"] = `${baseUrl}${article.metadata.thumbnail}`;
             metaData["keywords"] = article.metadata.keywords;
 
             metaData["author"] = article.metadata.author;
