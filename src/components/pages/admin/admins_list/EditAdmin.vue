@@ -11,7 +11,7 @@
                         <div class="flex flex-col gap-4">
                             <div class="flex gap-4">
                                 <input class="hidden" type="file" accept=".jpg,.png,.gif" ref="avatarFile" @change="avatarFileChange()" />
-                                <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">تغغیر عکس</button>
+                                <button class="t_button t_button_min text-white bg-gray-500 hover:bg-primary-400" @click="selectAvatar()">تغییر عکس</button>
                                 <button
                                     class="t_button t_button_min bg-gray-500 hover:bg-gray-600"
                                     @click="avatarFileDelete()"
