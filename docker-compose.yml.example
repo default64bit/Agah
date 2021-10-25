@@ -19,6 +19,8 @@ services:
         #     - 3000:3000
         env_file:
             - ./app.env
+        volumes:
+            - public-data:/usr/src/agah/public
         depends_on:
             - mongodb
         deploy:
