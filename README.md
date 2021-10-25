@@ -8,6 +8,8 @@
 - move images for articles
 - move json files for article and faqs
 
+- create docker-compose.yml file with docker-compose.yml.example
+
 - create default.conf in nginx folder
 - add ssl path into docker-compose.yml
 
