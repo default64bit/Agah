@@ -45,9 +45,10 @@ class ProfileValidator extends BaseValidator {
             body("family").notEmpty().withMessage("نام خانوادگی خود را وارد کنید"),
             body("family").isLength({ max: 30 }).withMessage("حداکثر 30 کاراکتر"),
 
-            body("mobile").exists().withMessage("mobile can't be empty"),
-            body("mobile").notEmpty().withMessage("mobile can't be empty"),
+            body("mobile").exists().withMessage("شماره موبایل معتبر نیست"),
+            body("mobile").notEmpty().withMessage("شماره موبایل معتبر نیست"),
             body("mobile").trim().custom((value)=>{
+                value = value.split(' ').join('');
                 var regex = new RegExp('^(\\+98|0)?9\\d{9}$');
                 if (!regex.test(value)) throw new Error('شماره موبایل معتبر نیست');
                 return true;
