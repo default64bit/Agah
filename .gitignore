@@ -8,4 +8,5 @@
 /public/*.db.json
 app.env
 DC.env
+docker-compose.yml
 TODO
