@@ -5,7 +5,7 @@ const state = {
     isUserLoggedIn: false,
     userInfo: {
         id: "",
-        avatar: "http://localhost:3000/img/avatars/user.svg",
+        avatar: "/img/avatars/user.svg",
         name: "",
         family: "",
         email: "",

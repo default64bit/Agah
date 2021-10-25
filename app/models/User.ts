@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 const _schema: mongoose.Schema = new mongoose.Schema({
     image: {
         type: String,
+        default: "/img/avatars/user.svg",
     },
     name: {
         type: String,
