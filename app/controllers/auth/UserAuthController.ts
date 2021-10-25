@@ -87,7 +87,7 @@ class AuthController {
         if (!user) return res.status(422).json({ error: "کاربر پیدا نشد" });
 
         // update user's info and set status to active
-        await User.model.updateOne({ email: username, password: code }, { name: name, family: family, mobile: mobile }).exec();
+        await User.model.updateOne({ email: username, password: code }, { name: name, family: family, mobile: mobile, status: "active" }).exec();
 
         // generate token and let the front know
         const { response, UserAuthError } = this.generateToken(req, res, null, user._id.toString());
