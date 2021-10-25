@@ -14,10 +14,10 @@ server {
     # }
 }
 
-upstream app {
-    server app:3000;
-    keepalive 4;
-}
+# upstream app {
+#     server app:3000;
+#     keepalive 4;
+# }
 
 server {
     listen 443 ssl;
