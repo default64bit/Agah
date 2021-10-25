@@ -8,6 +8,9 @@
 - move images for articles
 - move json files for article and faqs
 
+- create default.conf in nginx folder
+- add ssl path into docker-compose.yml
+
 - build docker image and deply with ```docker-compose up -d --build```, we can add ```--scale app=2``` at the end for multi-instance
 - or use docker swarm with ```docker stack deploy -c docker-compose.yml <AppName>```
 
