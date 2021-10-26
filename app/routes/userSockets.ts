@@ -249,6 +249,7 @@ router.ws("/ISM", async (socket: WebSocket, req: Request) => {
                     receiverType: receiverType,
                     message: msg.data.message || null,
                     files: files,
+                    createdAt: new Date(Date.now()),
                 });
                 message = await UserChatMessages.model
                     .findById(message.id)

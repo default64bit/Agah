@@ -53,6 +53,7 @@ router.ws("/ISM", (socket, req: AuthenticatedRequest) => {
                     sender: req.admin._id,
                     receiver: msg.data.userId,
                     message: msg.data.message,
+                    createdAt: new Date(Date.now()),
                 });
                 message = await AdminChatMessages.model
                     .findById(message.id)
