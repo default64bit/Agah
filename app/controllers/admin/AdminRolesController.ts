@@ -116,6 +116,7 @@ class AdminRolesController {
                 name: roleName,
                 model: "Admin",
                 permissions: selectedPermissions,
+                createdAt: new Date(Date.now()),
             })
             .catch((e) => {
                 error = true;

@@ -26,7 +26,9 @@ class AdminsController {
         const startDate = req.body.startDate.toString();
         const endDate = req.body.endDate.toString();
 
-        const schedules = await TimeOffSchedule.model.create({ admin: admin, startDate: startDate, endDate: endDate }).then((docs) => docs);
+        const schedules = await TimeOffSchedule.model
+            .create({ admin: admin, startDate: startDate, endDate: endDate, createdAt: new Date(Date.now()) })
+            .then((docs) => docs);
 
         return res.json(schedules);
     }

@@ -34,8 +34,12 @@ class AdminsController {
         const day = req.body.day.toString();
 
         let inserts = [];
-        if (typeOnline) inserts.push({ admin: admin, dayName: day, startTime: startTime, endTime: endTime, type: "online" });
-        if (typeInPerson) inserts.push({ admin: admin, dayName: day, startTime: startTime, endTime: endTime, type: "in-person" });
+        if (typeOnline) {
+            inserts.push({ admin: admin, dayName: day, startTime: startTime, endTime: endTime, type: "online", createdAt: new Date(Date.now()) });
+        }
+        if (typeInPerson) {
+            inserts.push({ admin: admin, dayName: day, startTime: startTime, endTime: endTime, type: "in-person", createdAt: new Date(Date.now()) });
+        }
 
         const schedules = await Schedule.model.insertMany(inserts).then((docs) => docs);
 

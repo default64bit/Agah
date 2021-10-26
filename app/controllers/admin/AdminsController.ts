@@ -155,6 +155,7 @@ class AdminsController {
                 password: await Admin.hash(req.body.password.toString()),
                 status: req.body.status.toString(),
                 role: roleId,
+                createdAt: new Date(Date.now()),
             })
             .then((doc) => doc)
             .catch((e) => false);

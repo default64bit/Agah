@@ -78,6 +78,7 @@ router.ws("/ISC", async (socket: WebSocket, req: Request) => {
                         caller: person._id,
                         calleeType: ISC_sockets[msg.data.userToCall].personType,
                         callee: msg.data.userToCall,
+                        createdAt: new Date(Date.now()),
                     })
                     .then((call) => call);
 

@@ -19,6 +19,7 @@ export default async () => {
                 email: "kasrakeshvardoost@gmail.com",
                 password: await Admin.hash('12345678'),
                 role: role.id,
+                createdAt: new Date(Date.now()),
             })
             .then((doc) => {
                 console.log("Admin Seed Successfully");

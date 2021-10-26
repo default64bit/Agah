@@ -234,6 +234,7 @@ class AdminRolesController {
                 status: status,
                 url_code: url_code,
                 publishedAt: status == "published" ? new Date(Date.now()) : null,
+                createdAt: new Date(Date.now()),
             })
             .then((doc) => doc)
             .catch((e) => {

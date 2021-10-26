@@ -10,6 +10,7 @@ export default async (template: string, modelType: string, models: Array<mongoos
                 modelType: modelType,
                 model: models[i],
                 data: data,
+                createdAt: new Date(Date.now()),
             });
         }
         await Notification.model.insertMany(notifs);

@@ -93,6 +93,7 @@ class Controller {
                     method: paymentGateway.getMethod(),
                     ip: req.headers["x-forwarded-for"] || req.socket.remoteAddress || null,
                 },
+                createdAt: new Date(Date.now()),
             });
 
             // notify superAdmins
@@ -164,6 +165,7 @@ class Controller {
                                     consulter: bookedSchedule.consulter,
                                     lastMessageDate: new Date(Date.now()),
                                     newMessage: 1,
+                                    createdAt: new Date(Date.now()),
                                 });
                                 await UserChatMessages.model.create({
                                     senderType: "admins",
@@ -171,6 +173,7 @@ class Controller {
                                     receiverType: "users",
                                     receiver: bookedSchedule.user,
                                     message: "سلام، با تشکر از رزرو وقت مشاوره، لطفا در تاریخ و ساعت مشخص شده به همین قسمت مراجعه کنید.",
+                                    createdAt: new Date(Date.now()),
                                 });
                             }
                         }

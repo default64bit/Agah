@@ -111,7 +111,7 @@ class AdminRolesController {
         const status = req.body.status;
 
         const faq = await Faq.model
-            .create({ author: req.admin._id, question: question, answer: answer, status: status })
+            .create({ author: req.admin._id, question: question, answer: answer, status: status, createdAt: new Date(Date.now()) })
             .then((doc) => doc)
             .catch((e) => {
                 console.log(e);

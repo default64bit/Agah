@@ -117,6 +117,7 @@ export default () => {
                         family: profile.name.familyName,
                         password: await User.hash(profile.id),
                         status: "active",
+                        createdAt: new Date(Date.now()),
                     });
 
                     // notify admins
