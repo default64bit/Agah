@@ -13,7 +13,7 @@ export const UnpaidConsultationCleaner = new CronJob("0 */1 * * * *", async () =
                 {
                     status: "waiting-for-payment",
                     "transaction.status": { $ne: "ok" },
-                    createdAt: { $gt: time },
+                    createdAt: { $lte: new Date(time) },
                 },
                 { status: "canceled" }
             )
