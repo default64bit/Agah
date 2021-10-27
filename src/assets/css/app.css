@@ -248,6 +248,7 @@ input[type=number] { -moz-appearance: textfield; }
 }
 .t_table table.card tbody tr{
     display: flex; flex-direction: column; overflow: initial;
+    width: 240px; flex-grow: 1;
     border-radius: 5px; box-shadow: 0px 2px 15px var(--table-card-tr-shadow-color);
     padding: .5rem; margin: .25rem;
 }
