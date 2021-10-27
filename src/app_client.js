@@ -1,5 +1,6 @@
 import createApp from "./app";
 import cookies from "js-cookie";
+import VueGtag, { trackRouter } from "vue-gtag-next";
 
 const { app, router } = createApp();
 router.isReady().then(() => {
@@ -25,6 +26,13 @@ router.isReady().then(() => {
             },
         },
     });
+
+    app.use(VueGtag, {
+        property: {
+            id: "UA-125899565-1",
+        },
+    });
+    trackRouter(router);
 
     // TODO : activate this and make a propper PWA than can handle push notifs and can get calls and such
     // if ("serviceWorker" in navigator) {

@@ -10,3 +10,5 @@ app.env
 DC.env
 docker-compose.yml
 TODO
+
+/app/routes/analytics.ts
