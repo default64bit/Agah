@@ -14,13 +14,9 @@ server {
     # }
 }
 
-# upstream app {
-#     server app:3000;
-#     keepalive 4;
-# }
-
 server {
-    listen 443 ssl;
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
     server_name <your_subdomain.com>;
     
     ssl_certificate /ssl/<your_ssl_cert.pem>;
