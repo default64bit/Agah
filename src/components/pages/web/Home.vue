@@ -7,8 +7,12 @@
                 <h2 class="text-lg max-w-screen-sm">
                     ارائه دهنده خدمات حقوقی ازقبیل مشاوره حقوقی و تنظیم قرارداد درزمینه های ملکی، ارثی، خانواده و کیفری و...
                 </h2>
-                <div class="flex items-center flex-wrap flex-col md:flex-row gap-10 md:gap-24">
+                <!-- <div class="flex items-center flex-wrap flex-col md:flex-row gap-10 md:gap-24">
                     <router-link to="/consultation-time-booking" class="btn text-xl">رزرو وقت مشاوره</router-link>
+                    <a href="tel:02166908026" class="text-xl" dir="ltr"><span class="far fa-phone-rotary"></span> 021 66908026-27</a>
+                </div> -->
+                <div class="flex items-center flex-col gap-10">
+                    <router-link to="/consultation-time-booking" class="btn text-4xl p-4">رزرو وقت مشاوره</router-link>
                     <a href="tel:02166908026" class="text-xl" dir="ltr"><span class="far fa-phone-rotary"></span> 021 66908026-27</a>
                 </div>
             </div>

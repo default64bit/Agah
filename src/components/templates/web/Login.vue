@@ -19,6 +19,7 @@
                     <b class="font-normal" v-if="!submitingLoginForm">ادامه</b>
                     <b v-else class="fad fa-spinner fa-spin text-xl"></b>
                 </button>
+                <small class="text-xs">با ثبت نام کلیه شرایط و قوانین گروه وکلای آگه را میپذیرم</small>
             </div>
             <div ref="stage2" key="stage2" v-else-if="page == 'stage2'" class="flex items-center justify-center flex-col gap-2 px-4 pb-4">
                 <p class="max-w-xs text-sm my-4">کد ارسال شده برای ایمیل '{{ username }}' را وارد کنید</p>
