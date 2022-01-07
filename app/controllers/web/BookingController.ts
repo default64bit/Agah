@@ -67,7 +67,7 @@ class Controller {
         await BookedSchedule.model.updateMany({ user: req.user._id, status: "waiting-for-payment" }, { status: "canceled" }).exec();
 
         // send a request to gateway and get the identifier
-        const paymentGateway = new PaymentGateway("pay_ir");
+        const paymentGateway = new PaymentGateway("zarinpal");
         let identifier = await paymentGateway.getIdentifier(
             paymentGateway.getApiKey(),
             consulter.consultPricePerHour,
@@ -130,7 +130,7 @@ class Controller {
         let paymentStatus = 0;
         let message = "";
 
-        const paymentGateway = new PaymentGateway("pay_ir");
+        const paymentGateway = new PaymentGateway("zarinpal");
         const transactionResponse = paymentGateway.getTransactionResponse(req);
 
         const bookedSchedule = await BookedSchedule.model.findOne({ "transaction.identifier": transactionResponse.identifier }).exec();

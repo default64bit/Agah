@@ -239,6 +239,7 @@ class AdminsController {
             email: req.body.email.toString(),
             desc: req.body.desc.toString(),
             status: req.body.status.toString(),
+            consultPricePerHour: parseInt(req.body.consultationPrice.toString()),
             role: roleId,
         };
         if (imageLink != "") updateQuery["image"] = imageLink;

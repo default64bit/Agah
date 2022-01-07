@@ -92,6 +92,7 @@ expressApp.use("/import/:filename", require("./app/helpers/importer").default);
     expressApp.use("/audio", express.static(path.join(__dirname, publicPath, "public", "audio")));
     expressApp.use("/favicon.ico", express.static(path.join(__dirname, publicPath, "public", "favicon.ico")));
     expressApp.use("/fontawsome", express.static(path.join(__dirname, publicPath, "public", "fontawsome")));
+    expressApp.use("/sitemap.xml", express.static(path.join(__dirname, publicPath, "public", "sitemap.xml")));
 
     expressApp.get("*", csrfProtection, async (req, res) => {
         res.cookie("XSRF-TOKEN", req.csrfToken(), { secure: true });

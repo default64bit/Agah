@@ -89,6 +89,19 @@
 
             <hr class="my-4 border-solid" />
 
+            <t-input
+                class="max-w-screen-sm"
+                type="text"
+                label="هزینه مشاوره"
+                placeholder="به تومان"
+                desc="هزینه هر ساعت مشاوره به تومان"
+                :required="true"
+                v-model:value="consultationPrice"
+                :error="consultationPriceError"
+            />
+
+            <hr class="my-4 border-solid" />
+
             <t-complex title="شبکه های اجتماعی" v-model:items="socialMedias" :error="socialMediasError">
                 <template v-slot:item="{ item, i }">
                     <t-select class="max-w-screen-xs" label="شبکه اجتماعی" v-model:selectedOption="item.name" :options="socialMediaOptions">
@@ -145,6 +158,7 @@ export default {
             status: { name: "Active", value: "active" },
             role: { name: "", value: "" },
             password: "",
+            consultationPrice: "150000",
             socialMedias: [],
 
             nameError: "",
@@ -154,6 +168,7 @@ export default {
             statusError: "",
             roleError: "",
             passwordError: "",
+            consultationPriceError: "",
             socialMediasError: "",
 
             roles: {},
@@ -184,7 +199,7 @@ export default {
             if (this.updatingAdmin) return;
             this.updatingAdmin = true;
 
-            this.nameError = this.familyError = this.emailError = this.statusError = this.roleError = this.passwordError = "";
+            this.nameError = this.familyError = this.emailError = this.statusError = this.roleError = this.consultationPriceError =  this.passwordError = "";
 
             const formData = new FormData();
             formData.append("id", this.$route.params.id);
@@ -196,6 +211,7 @@ export default {
             formData.append("desc", this.desc);
             formData.append("status", this.status.value);
             formData.append("role", this.role.value);
+            formData.append("consultationPrice", this.consultationPrice);
             formData.append("password", this.password);
             if (this.socialMedias) formData.append("socialMedias", JSON.stringify(this.socialMedias));
 
@@ -237,6 +253,7 @@ export default {
                     this.family = response.data.family;
                     this.email = response.data.email;
                     this.desc = response.data.desc;
+                    this.consultationPrice = response.data.consultPricePerHour;
                     this.status = this.statusOptions[response.data.status];
                     this.role = this.roles[response.data.role._id];
                     if (response.data.socialMedias) {
