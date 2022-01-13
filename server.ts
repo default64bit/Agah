@@ -109,7 +109,7 @@ expressApp.use("/import/:filename", require("./app/helpers/importer").default);
                         return;
                     }
                     html = html.toString().replace('<div id="app">', `<div id="app">${appContent}`);
-                    html = html.replace(`html lang=""`, `html lang="fa" amp`);
+                    html = html.replace(`html lang=""`, `html lang="fa"`);
                     html = html.replace("<title>Vue App</title>", await generateMetaData(context.url));
                     html = html.replace("<body", `<body dir="rtl" theme="default_light" lang="fa"`);
                     res.setHeader("Content-Type", "text/html");
