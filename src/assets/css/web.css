@@ -1,16 +1,18 @@
 @font-face { font-family: 'B-Nazanin'; src: url('../fonts/B-Nazanin.ttf') format('truetype'); }
 @font-face { font-family: 'CopperplateGothicLight'; src: url('../fonts/CopperplateGothicLight.ttf') format('truetype'); }
 @font-face { font-family: 'Neirizi'; src: url('../fonts/Neirizi.ttf') format('truetype'); }
+@font-face { font-family: 'Maktab'; src: url('../fonts/MaktabRita-Regular.woff2') format('woff2'); }
 
 .f-nazanin{ font-family: 'B-Nazanin' !important; }
 .f-neirizi{ font-family: 'Neirizi' !important; }
 .f-copgoth{ font-family: 'CopperplateGothicLight' !important; }
+.f-maktab{ font-family: 'Maktab' !important; }
 
 section{ width: 100%; max-width: 1440px; padding: 1rem; }
 
 h1.f-neirizi::before,h1.f-neirizi::after{
     position: relative;
-    content: ""; width: 90%; height: .9rem; display: block; transform: rotate(5deg);
+    content: ""; width: 107%; height: .9rem; display: block; transform: rotate(5deg);
     background-color: var(--header-menu-li-line-bg-color); opacity: .5;
 }
 h1.f-neirizi::before{ top: 0rem; right: -2rem; }

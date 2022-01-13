@@ -3,16 +3,16 @@
         <section class="flex items-center gap-4 mx-auto my-10 sm:my-20 md:my-28 relative" name="home-1">
             <img class="absolute left-0" src="../../../assets/images/lady_justice.png" alt="lady-justice" />
             <div class="flex flex-col gap-16 p-4">
-                <h1 class="f-neirizi text-5xl sm:text-6xl md:text-7xl text-center md:text-right md:mr-8">گروه وکلای آگه</h1>
-                <h2 class="text-lg max-w-screen-sm">
-                    ارائه دهنده خدمات حقوقی ازقبیل مشاوره حقوقی و تنظیم قرارداد درزمینه های ملکی، ارثی، خانواده و کیفری و...
+                <h1 class="f-neirizi text-6xl md:text-7xl text-center md:text-right md:mr-8" style="line-height: 4rem;">گروه وکلای آگه</h1>
+                <h2 class="f-maktab text-lg text-center w-full -mt-10" style="max-width: 540px; font-size: 3rem; line-height: 2.25rem;">
+                    ارائه دهنده خدمات حقوقی از قبیل مشاوره حقوقی و تنظیم قرارداد درزمینه های ملکی، ارثی، خانواده و کیفری و...
                 </h2>
                 <!-- <div class="flex items-center flex-wrap flex-col md:flex-row gap-10 md:gap-24">
                     <router-link to="/consultation-time-booking" class="btn text-xl">رزرو وقت مشاوره</router-link>
                     <a href="tel:02166908026" class="text-xl" dir="ltr"><span class="far fa-phone-rotary"></span> 021 66908026-27</a>
                 </div> -->
-                <div class="flex items-center flex-col gap-10">
-                    <router-link to="/consultation-time-booking" class="btn text-4xl p-4">رزرو وقت مشاوره</router-link>
+                <div class="flex items-center flex-col gap-10 mt-6">
+                    <router-link to="/consultation-time-booking" class="btn text-2xl md:text-3xl p-4">رزرو وقت مشاوره</router-link>
                     <a href="tel:02166908026" class="text-xl" dir="ltr"><span class="far fa-phone-rotary"></span> 021 66908026-27</a>
                 </div>
             </div>
