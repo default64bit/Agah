@@ -313,10 +313,14 @@ class AdminRolesController {
         const title = req.body.title;
         const desc = req.body.desc;
         const status = req.body.status;
+        const urlCode = req.body.urlCode;
         const tags = JSON.parse(req.body.tags);
         const metaDesc = req.body.metaDesc;
         const metaTags = req.body.metaTags;
         const text = req.body.text;
+
+        const urlCodeExists = await Article.model.exists({ url_code: urlCode });
+        if (urlCodeExists) return res.status(422).json({ field: "urlCode", error: "urlCode already in use" });
 
         const articleUpdated = await Article.model
             .updateOne(
@@ -335,6 +339,7 @@ class AdminRolesController {
                         keywords: metaTags,
                     },
                     status: status,
+                    url_code: urlCode || article.url_code,
                     publishedAt: status == "published" && article.status == "pending" ? new Date(Date.now()) : article.publishedAt,
                 }
             )

@@ -39,6 +39,7 @@
                         <option :value="option.value">{{ option.name }}</option>
                     </template>
                 </t-select>
+                <t-input class="max-w-screen-xs" type="number" label="کد مطلب" :required="true" v-model:value="urlCode" :error="urlCodeError" />
             </div>
 
             <hr class="my-4 border-solid" />
@@ -123,6 +124,7 @@ export default {
             title: "",
             desc: "",
             status: { name: "منتشر شده", value: "published" },
+            urlCode: 0,
             tags: [],
             metaDesc: "",
             metaTags: [],
@@ -131,6 +133,7 @@ export default {
             titleError: "",
             descError: "",
             statusError: "",
+            urlCodeError: "",
             tagsError: "",
             metaDescError: "",
             metaTagsError: "",
@@ -155,7 +158,8 @@ export default {
             if (this.editingArticle) return;
             this.editingArticle = true;
 
-            this.titleError = this.descError = this.statusError = this.tagsError = this.metaDescError = this.metaTagsError = this.textError = "";
+            this.titleError = this.descError = this.statusError = this.urlCodeError = this.tagsError = this.metaDescError = this.metaTagsError = this.textError =
+                "";
 
             await window.editor.save().then((savedContent) => (this.text = JSON.stringify(savedContent)));
 
@@ -165,6 +169,7 @@ export default {
             formData.append("title", this.title);
             formData.append("desc", this.desc);
             formData.append("status", this.status.value);
+            formData.append("urlCode", this.urlCode);
             formData.append("tags", JSON.stringify(this.tags));
             formData.append("metaDesc", this.metaDesc);
             formData.append("metaTags", this.metaTags.join(","));
@@ -205,6 +210,7 @@ export default {
                     this.title = response.data.title;
                     this.desc = response.data.desc;
                     this.status = this.statusOptions[response.data.status];
+                    this.urlCode = response.data.url_code;
                     this.tags = response.data.tags;
                     this.metaDesc = response.data.metadata.description;
                     this.metaTags = response.data.metadata.keywords.split(",");

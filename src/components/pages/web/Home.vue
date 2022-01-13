@@ -5,7 +5,7 @@
             <div class="flex flex-col gap-16 p-4">
                 <h1 class="f-neirizi text-6xl md:text-7xl text-center md:text-right md:mr-8" style="line-height: 4rem;">گروه وکلای آگه</h1>
                 <h2 class="f-maktab text-lg text-center w-full -mt-10" style="max-width: 540px; font-size: 3rem; line-height: 2.25rem;">
-                    ارائه دهنده خدمات حقوقی از قبیل مشاوره حقوقی و تنظیم قرارداد درزمینه های ملکی، ارثی، خانواده و کیفری و...
+                    ارائه دهنده خدمات حقوقی از قبیل تنظیم قرارداد، قبول دعاوی و مشاوره حقوقی در زمینه های ملکی، ارثی، خانواده و کیفری و...
                 </h2>
                 <!-- <div class="flex items-center flex-wrap flex-col md:flex-row gap-10 md:gap-24">
                     <router-link to="/consultation-time-booking" class="btn text-xl">رزرو وقت مشاوره</router-link>
@@ -24,7 +24,7 @@
                     <h4 class="f-nazanin font-bold text-4xl">وکالت در دعاوی</h4>
                     <small class="f-copgoth text-xs">Representation In Lawsuits</small>
                 </span>
-                <p class="w-64">
+                <p class="w-64 text-center">
                     ما با داشتن ده ها تجربه موفق در پرونده های حقوقی مختلف در زمینه های دعاوی کیفری، خانواده و ملکی آماده قبول پرونده دعاوی شماییم
                 </p>
             </div>
@@ -33,7 +33,7 @@
                     <h4 class="f-nazanin font-bold text-4xl">تنظیم قرارداد</h4>
                     <small class="f-copgoth text-xs">Writing A Contract</small>
                 </span>
-                <p class="w-64">
+                <p class="w-64 text-center">
                     درخواست تنظیم انواع اوراق قضایی مانند قرارداد، لایحه و شکوائیه در موضوعات مختلف و دریافت مشاوره برای بهبود و تصحیح اوراق قضایی خود
                 </p>
             </div>
@@ -42,7 +42,7 @@
                     <h4 class="f-nazanin font-bold text-4xl">مشاوره حقوقی</h4>
                     <small class="f-copgoth text-xs">Legal Consultancy</small>
                 </span>
-                <p class="w-64">رزرو و دریافت مشاوره با وکلای مجرب در انواع زمینه های حقوقی به صورت تلفنی، حضوری و آنلاین</p>
+                <p class="w-64 text-center">رزرو و دریافت مشاوره با وکلای مجرب در انواع زمینه های حقوقی به صورت تلفنی، حضوری و آنلاین</p>
             </div>
         </section>
 

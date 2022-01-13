@@ -21,7 +21,7 @@
             <section class="flex w-full justify-center md:justify-between flex-wrap gap-8">
                 <div class="flex flex-col items-center justify-center md:items-start md:justify-start gap-4">
                     <router-link class="logo" to="/">
-                        <img src="../../../assets/images/logo.png" alt="گروه آگه" />
+                        <img src="../../../assets/images/logo2.png" alt="گروه آگه" />
                         <span class="text-2xl">گروه آگه</span>
                     </router-link>
                     <address class="not-italic">میدان انقلاب، کارگر شمالی، کوچه جعفرزادگان، پلاک 10، طبقه دوم، واحد 5</address>

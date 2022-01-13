@@ -2,7 +2,7 @@
     <div class="header_wrapper">
         <header class="flex items-center justify-between md:justify-start gap-8">
             <router-link class="logo" to="/">
-                <img src="../../../assets/images/logo.png" alt="گروه آگه" />
+                <img class="w-10" src="../../../assets/images/logo2.png" width="40" alt="گروه آگه" />
                 <span class="text-2xl">گروه آگه</span>
             </router-link>
 

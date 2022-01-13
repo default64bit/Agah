@@ -73,14 +73,14 @@ class Controller {
                     schedulesByDay[startDate.format("ddd").toLowerCase()]["online"].forEach((hour) => {
                         const time = moment(`2020-09-12 ${hour.startTime}`);
                         do {
-                            onlineHours.push(time.format("hh:mm"));
+                            onlineHours.push(time.format("HH:mm"));
                             time.add(1, "hour");
                         } while (time <= moment(`2020-09-12 ${hour.endTime}`));
                     });
                     schedulesByDay[startDate.format("ddd").toLowerCase()]["in-person"].forEach((hour) => {
                         const time = moment(`2020-09-12 ${hour.startTime}`);
                         do {
-                            inPersonHours.push(time.format("hh:mm"));
+                            inPersonHours.push(time.format("HH:mm"));
                             time.add(1, "hour");
                         } while (time <= moment(`2020-09-12 ${hour.endTime}`));
                     });
