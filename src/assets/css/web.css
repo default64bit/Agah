@@ -6,7 +6,7 @@
 .f-nazanin{ font-family: 'B-Nazanin' !important; }
 .f-neirizi{ font-family: 'Neirizi' !important; }
 .f-copgoth{ font-family: 'CopperplateGothicLight' !important; }
-.f-maktab{ font-family: 'Maktab' !important; }
+.f-maktab{ font-family: 'Maktab' !important; font-size: 3rem; }
 
 section{ width: 100%; max-width: 1440px; padding: 1rem; }
 

@@ -4,7 +4,7 @@
             <img class="absolute left-0" src="../../../assets/images/lady_justice.png" alt="lady-justice" />
             <div class="flex flex-col gap-16 p-4">
                 <h1 class="f-neirizi text-6xl md:text-7xl text-center md:text-right md:mr-8" style="line-height: 4rem;">گروه وکلای آگه</h1>
-                <h2 class="f-maktab text-lg text-center w-full -mt-10" style="max-width: 540px; font-size: 3rem; line-height: 2.25rem;">
+                <h2 class="f-maktab text-center w-full -mt-10" style="max-width: 540px; line-height: 2.25rem;">
                     ارائه دهنده خدمات حقوقی از قبیل تنظیم قرارداد، قبول دعاوی و مشاوره حقوقی در زمینه های ملکی، ارثی، خانواده و کیفری و...
                 </h2>
                 <!-- <div class="flex items-center flex-wrap flex-col md:flex-row gap-10 md:gap-24">

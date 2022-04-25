@@ -2,6 +2,7 @@
 /dist
 /storage
 /uploads
+/DEPLOY
 /DESIGN
 /IDEA
 /DOCUMENTS
@@ -10,6 +11,7 @@ app.env
 DC.env
 docker-compose.yml
 TODO
+.fandogh
 
 /app/routes/analytics.ts
 agah-278310-76f1ccfbcb46.json
