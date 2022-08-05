@@ -2,11 +2,13 @@
 @font-face { font-family: 'CopperplateGothicLight'; src: url('../fonts/CopperplateGothicLight.ttf') format('truetype'); }
 @font-face { font-family: 'Neirizi'; src: url('../fonts/Neirizi.ttf') format('truetype'); }
 @font-face { font-family: 'Maktab'; src: url('../fonts/MaktabRita-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Shafigh'; src: url('../fonts/Far_Shafigh.ttf') format('truetype'); }
 
 .f-nazanin{ font-family: 'B-Nazanin' !important; }
 .f-neirizi{ font-family: 'Neirizi' !important; }
 .f-copgoth{ font-family: 'CopperplateGothicLight' !important; }
 .f-maktab{ font-family: 'Maktab' !important; font-size: 3rem; }
+.f-shafigh{ font-family: 'Shafigh' !important; }
 
 section{ width: 100%; max-width: 1440px; padding: 1rem; }
 

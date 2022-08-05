@@ -39,7 +39,7 @@
                         <option :value="option.value">{{ option.name }}</option>
                     </template>
                 </t-select>
-                <t-input class="max-w-screen-xs" type="number" label="کد مطلب" :required="true" v-model:value="urlCode" :error="urlCodeError" />
+                <t-input class="max-w-screen-xs" type="text" label="کد مطلب" :required="true" v-model:value="urlCode" :error="urlCodeError" />
             </div>
 
             <hr class="my-4 border-solid" />

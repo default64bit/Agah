@@ -119,7 +119,7 @@ class AuthController {
     }
 
     public logout(req: AuthenticatedRequest, res: Response) {
-        req.logout();
+        // req.logout();
         res.clearCookie("UserAuthToken");
         req.user = undefined;
         res.status(200).end();

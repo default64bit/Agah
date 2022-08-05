@@ -210,11 +210,12 @@ class AdminRolesController {
         const metaTags = req.body.metaTags;
         const text = req.body.text;
 
-        const lastArticle = await Article.model
-            .findOne()
-            .sort({ url_code: "desc" })
-            .exec();
-        const url_code = parseInt(lastArticle.url_code) + 1;
+        const url_code = randStr(5);
+        // const lastArticle = await Article.model
+        //     .findOne()
+        //     .sort({ url_code: "desc" })
+        //     .exec();
+        // const url_code = parseInt(lastArticle.url_code) + 1;
 
         const article = await Article.model
             .create({
@@ -319,7 +320,7 @@ class AdminRolesController {
         const metaTags = req.body.metaTags;
         const text = req.body.text;
 
-        const urlCodeExists = await Article.model.exists({ url_code: urlCode });
+        const urlCodeExists = await Article.model.exists({ url_code: urlCode, _id: { $ne: article._id } });
         if (urlCodeExists) return res.status(422).json({ field: "urlCode", error: "urlCode already in use" });
 
         const articleUpdated = await Article.model

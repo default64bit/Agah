@@ -14,7 +14,7 @@ class Controller {
                 .select("author image title desc url_code publishedAt metadata")
                 .populate("author", "image name family -_id")
                 .exec();
-            if(article) randomArticles.push(article);
+            if (article) randomArticles.push(article);
         }
 
         res.json(randomArticles);
@@ -80,6 +80,8 @@ class Controller {
             .populate("author", "image name family -_id")
             .exec();
         if (!article) return res.status(404).json({ error: "مطلب پیدا نشد" });
+
+        await Article.model.updateOne({ url_code: url_code, status: "published" }, { $inc: { views: 1 } }).exec();
 
         const similarArticles = await Article.model
             .find({ status: "published", tags: { $in: article.tags }, id: { $ne: article._id } })

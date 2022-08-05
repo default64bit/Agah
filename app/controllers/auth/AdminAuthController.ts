@@ -33,7 +33,7 @@ class AuthController {
     }
 
     public logout(req: AuthenticatedRequest, res: Response) {
-        req.logout();
+        // req.logout();
         res.clearCookie("AdminAuthToken");
         req.admin = undefined;
         res.status(200).end();

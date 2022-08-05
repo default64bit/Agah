@@ -75,6 +75,7 @@
             <t-rich-editor
                 label="مطلب"
                 :imageUploadUrl="`/api/v1/admin/articles/${tempAddr}/upload_image`"
+                :text="text"
                 v-model:temp="tempAddr"
                 :error="textError"
             ></t-rich-editor>
@@ -143,7 +144,11 @@ export default {
         };
     },
     created() {},
-    async mounted() {},
+    async mounted() {
+        setTimeout(() => {
+            this.text = { time: 1596487133194, blocks: [{ type: "header", data: { text: "...", level: 4 } }] };
+        }, 1000);
+    },
     methods: {
         ...mapActions(["makeToast"]),
 
