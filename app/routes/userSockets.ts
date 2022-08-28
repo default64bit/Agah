@@ -143,7 +143,9 @@ router.ws("/ISC", async (socket: WebSocket, req: Request) => {
                     let startedAt = moment(call.startedAt);
                     let endedAt = moment(new Date());
                     let duration = moment.duration(startedAt.diff(endedAt));
-                    await Call.model.updateOne({ _id: msg.data.callId }, { endedAt: endedAt, duration: Math.ceil(Math.abs(duration.asSeconds())) }).exec();
+                    await Call.model
+                        .updateOne({ _id: msg.data.callId }, { endedAt: endedAt.toDate(), duration: Math.ceil(Math.abs(duration.asSeconds())) })
+                        .exec();
                 }
                 break;
         }

@@ -243,24 +243,34 @@ class AdminRolesController {
             });
         if (!article) return res.status(500).end();
 
-        // rename the temp folder for article
         const tempName = req.body.tempAddr;
-        await fs.rename(`public/articles/${tempName}/`, `public/articles/${article._id}`);
+        const tempFolderExists = await fs
+            .access(`public/articles/${tempName}`)
+            .then(() => true)
+            .catch(() => false);
+        try {
+            // rename the temp folder for article
+            await fs.rename(`public/articles/${tempName}/`, `public/articles/${article._id}`);
+        } catch (e) {}
+
+        const textJson = JSON.parse(req.body.text);
+        let existingImages = [];
 
         // rename the image links in article text
-        let existingImages = [];
-        const textJson = JSON.parse(req.body.text);
         await textJson.blocks.map((block) => {
             if (block.type == "imageTool") {
-                block.data.file.url = block.data.file.url.replace(tempName, article._id);
+                if (tempFolderExists) block.data.file.url = block.data.file.url.replace(tempName, article._id);
                 existingImages.push(block.data.file.url.split("/").pop());
             }
         });
-        // remove any unused image in article folder
-        const articleImages = await fs.readdir(`public/articles/${article._id}`);
-        articleImages.forEach(async (image) => {
-            if (!existingImages.includes(image)) await fs.unlink(`public/articles/${article._id}/${image}`);
-        });
+
+        if (tempFolderExists) {
+            // remove any unused image in article folder
+            const articleImages = await fs.readdir(`public/articles/${article._id}`);
+            articleImages.forEach(async (image) => {
+                if (!existingImages.includes(image)) await fs.unlink(`public/articles/${article._id}/${image}`);
+            });
+        }
 
         await Article.model.updateOne({ _id: article._id }, { text: JSON.stringify(textJson) }).exec();
 

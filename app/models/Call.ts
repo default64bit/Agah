@@ -30,8 +30,9 @@ export interface ICall {
     caller: mongodb.ObjectId;
     calleeType: string;
     callee: mongodb.ObjectId;
-    duration: number;
     startedAt: Date;
+    endedAt: Date;
+    duration: number;
     createdAt: Date;
 }
 

@@ -217,7 +217,8 @@ section[name="blog"] .article_box_skeleton div[name="skeleton"], .skeleton{
 .article_body h1, .article_body h2, .article_body h3, .article_body h4, .article_body h5, .article_body h6{ margin: 1rem 0; margin-top: 2rem; font-weight: bold; }
 .article_body p{ line-height: 1.65rem; }
 .article_body mark{ background-color: #e2dbc1; padding: 0 .5rem; }
-.article_body a{ text-decoration: underline; color: #697dc0; }
+.article_body a{ text-decoration: none; color: #cdd891; }
+[theme="default_light"] .article_body a{ color: #697dc0; }
 .article_body a:hover{ font-weight: bold; }
 .article_body ul, .article_body ol{ margin: 1rem 0; padding-right: 1rem; }
 .article_body ul li{ list-style: disc; }

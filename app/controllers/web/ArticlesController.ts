@@ -69,9 +69,10 @@ class Controller {
     }
 
     public async getArticle(req: Request, res: Response) {
-        let url_code = 0;
+        let url_code = '';
         try {
-            url_code = parseInt(req.query.url_code.toString());
+            // url_code = parseInt(req.query.url_code.toString());
+            url_code = req.query.url_code.toString();
         } catch (e) {}
 
         const article = await Article.model
